@@ -5,6 +5,7 @@
 
 int main()
 {
+
     using namespace std;
     const int Size =15;
     char name1[Size] ;
@@ -21,5 +22,6 @@ int main()
     name2[3] = '\0' ;
     cout << "Here the first 3 characters of my name: ";
     cout << name2 <<endl;
+
     return 0;
 }

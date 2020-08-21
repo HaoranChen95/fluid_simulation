@@ -29,5 +29,6 @@ int main()
     cout << "Expand your guest list with " << guest.name;
     cout << " and " << pal.name << "!\n";
 
+
     return 0;
 }
