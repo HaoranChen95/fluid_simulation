@@ -1,0 +1,16 @@
+# k_b T system temperature
+kT = 1
+# gamma friction constant
+gamma = 100
+# lx 
+lx = 10
+# ly
+ly = 10
+# lz
+lz = 10
+# density
+density = 0.1
+# epsilon
+epsilon = 1
+# sigma
+sigma = 1
