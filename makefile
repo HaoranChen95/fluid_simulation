@@ -9,7 +9,7 @@ CFLAGS = -std=c++0x -O2 -mcmodel=medium -lhdf5_cpp -lhdf5
 # CFLAGS = -std=c++17 -O2 -mcmodel=medium
 objs = main.o
 
-sf_simu: init.o algorithm.o main.o
+sf_simu: init.o algorithm.o export.o main.o
 	$(ICPC) $(CFLAGS) -o $@ $^ -I include $(LDFLAGS)
 
 %.o: %.cpp %.hpp

@@ -26,15 +26,26 @@
 #include <sstream>
 #include <vector>
 
-extern double **r0;
+extern double **dr;
 extern double **r1;
 extern double **v;
 extern double **f0;
 extern double **f1;
-extern double ***MP_f;
+// extern double ***MP_f;
+extern double **g0;
+extern double **g1;
 
 extern double set_kT;
 extern const double &kT;
+
+
+extern double set_kT_2gamma_over_m;
+extern double &kT_2gamma_over_m;
+
+extern double set_m;
+extern double &m;
+extern bool open_fluid;
+
 
 extern double set_l_b[3];
 extern const double *const l_b;
@@ -83,8 +94,28 @@ extern const double &r2_cut;
 extern double set_sig2;
 extern const double &sig2;
 
+
+extern double set_const_r_1;
+extern double set_const_r_2;
+extern double set_const_v_1;
+extern double set_const_v_2;
+extern double set_const_v_3;
+extern const double &const_r_1;
+extern const double &const_r_2;
+extern const double &const_v_1;
+extern const double &const_v_2;
+extern const double &const_v_3;
+
+extern double set_const_g0_1;
+extern double set_const_g1_1;
+extern double set_const_g1_2;
+extern const double &const_g0_1;
+extern const double &const_g1_1;
+extern const double &const_g1_2;
+
 void read_config(void);
 void init_parameter(void);
+void init_gamma(void);
 void init_position(void);
 void init_velocity(void);
 void init_system(void);

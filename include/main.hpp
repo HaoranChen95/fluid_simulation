@@ -12,7 +12,7 @@
 #ifndef MAIN_HPP_
 #define MAIN_HPP_
 
-#include "algorithm.hpp"
+#include "export.hpp"
 
 // extern int64_t MD_Steps;
 

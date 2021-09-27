@@ -11,15 +11,24 @@
 
 #include "init.hpp"
 
-double **r0;
+double **dr;
 double **r1;
 double **v;
 double **f0;
 double **f1;
-double ***MP_f;
+double **g0;
+double **g1;
 
 double set_kT;
 const double &kT = set_kT;
+
+double set_kT_2gamma_over_m;
+double &kT_2gamma_over_m = set_kT_2gamma_over_m;
+
+double set_m;
+double &m = set_m;
+
+bool open_fluid;
 
 double set_l_b[3];
 const double *const l_b = set_l_b;
@@ -68,6 +77,27 @@ int64_t *list;
 
 double E_kin, E_pot;
 
+// randem constant part
+double C_gamh;
+double G_gamh;
+double E_gamh;
+double set_const_g0_1;
+double set_const_g1_1;
+double set_const_g1_2;
+const double &const_g0_1 = set_const_g0_1;
+const double &const_g1_1 = set_const_g1_1;
+const double &const_g1_2 = set_const_g1_2;
+double set_const_r_1;
+double set_const_r_2;
+double set_const_v_1;
+double set_const_v_2;
+double set_const_v_3;
+const double &const_r_1 = set_const_r_1;
+const double &const_r_2 = set_const_r_2;
+const double &const_v_1 = set_const_v_1;
+const double &const_v_2 = set_const_v_2;
+const double &const_v_3 = set_const_v_3;
+
 void read_config() {
   std::cout << "read initial file:" << std::endl;
   std::cout << MD_Steps << std::endl;
@@ -103,6 +133,10 @@ void read_config() {
           set_sigma = std::stod(value);
         } else if (head == "epsilon") {
           set_epsilon = std::stod(value);
+        } else if (head == "m") {
+          set_m = std::stod(value);
+        } else if (head == "open_fluid") {
+          open_fluid = std::stoi(value);
         }
         // else if (head == "step length") {
         //   set_dt = std::stod(value);
@@ -125,6 +159,23 @@ void init_parameter(void) {
   set_sig2 = sig * sig;
   set_half_dt = 0.5 * dt;
   set_half_dt2 = 0.5 * dt * dt;
+
+  set_kT_2gamma_over_m = 2. * gam * kT / m;
+  double gamh = gam * dt;
+  C_gamh = 2. * gamh - 3. + 4. * exp(-gamh) - exp(-2. * gamh);
+  G_gamh = exp(gamh) - 2. * gamh - exp(-gamh);
+  E_gamh = 16. * (exp(gamh) + exp(-gamh)) -
+           4. * (exp(2. * gamh) + exp(-2. * gamh)) -
+           4. * gamh * (exp(gamh) - exp(-gamh)) +
+           2. * gamh * (exp(2. * gamh) - exp(-2. * gamh)) - 24.;
+  set_const_g0_1 = sqrt(kT / m / gam / gam * C_gamh);
+  set_const_g1_1 = sqrt(kT / m / gam / gam * E_gamh / C_gamh);
+  set_const_g1_2 = G_gamh / C_gamh;
+  set_const_r_1 = (1. - exp(-gamh)) / gam;
+  set_const_r_2 = (gamh - 1. + exp(-gamh)) / gam / gam;
+  set_const_v_1 = gam / (exp(gamh) - 1.);
+  set_const_v_2 = (gamh - 1. + exp(-gamh)) / gam / (exp(gamh) - 1.);
+  set_const_v_3 = (-gamh - 1. + exp(gamh)) / gam / (exp(gamh) - 1.);
 }
 
 void init_position(void) {
@@ -137,12 +188,9 @@ void init_position(void) {
   for (int r_z = 0; r_z < row_z; r_z++) {
     for (int r_y = 0; r_y < row_y; r_y++) {
       for (int r_x = 0; r_x < row_x; r_x++) {
-        r0[0][i] = r_x * sig;
-        r0[1][i] = r_y * sig;
-        r0[2][i] = r_z * sig;
-        r1[0][i] = r0[0][i];
-        r1[1][i] = r0[1][i];
-        r1[2][i] = r0[2][i];
+        r1[0][i] = r_x * sig;
+        r1[1][i] = r_y * sig;
+        r1[2][i] = r_z * sig;
         if (++i >= Nm) {
           goto finish;
         }
@@ -151,6 +199,19 @@ void init_position(void) {
   }
 finish:
   std::cout << "initialization of position finished" << std::endl;
+}
+
+void init_gamma(void) {
+  std::random_device rd{};
+  std::mt19937 gen{rd()};
+  std::normal_distribution<double> n_d(0.0, 1.);
+
+  for (uint64_t i = 0; i < Nm; i++) {
+    for (int ax = 0; ax < 3; ax++) {
+      g0[ax][i] = const_g0_1 * n_d(gen);
+      g1[ax][i] = const_g1_1 * n_d(gen) + const_g1_2 * g0[ax][i];
+    }
+  }
 }
 
 void init_velocity(void) {
@@ -205,26 +266,31 @@ void write_last_cfg(void) {
 
 void init_system(void) {
   init_parameter();
-  r0 = new double *[3];
+  dr = new double *[3];
   r1 = new double *[3];
   v = new double *[3];
   f0 = new double *[3];
   f1 = new double *[3];
 
+  g0 = new double *[3];
+  g1 = new double *[3];
+
   for (int ax = 0; ax < 3; ax++) {
-    r0[ax] = new double[Nm];
+    dr[ax] = new double[Nm];
     r1[ax] = new double[Nm];
     v[ax] = new double[Nm];
     f0[ax] = new double[Nm];
     f1[ax] = new double[Nm];
+    g0[ax] = new double[Nm];
+    g1[ax] = new double[Nm];
   }
-  MP_f = new double **[N_THREADS];
-  for (int th = 0; th < N_THREADS; th++) {
-    MP_f[th] = new double *[3];
-    for (int ax = 0; ax < 3; ax++) {
-      MP_f[th][ax] = new double[Nm];
-    }
-  }
+  // MP_f = new double **[N_THREADS];
+  // for (int th = 0; th < N_THREADS; th++) {
+  //   MP_f[th] = new double *[3];
+  //   for (int ax = 0; ax < 3; ax++) {
+  //     MP_f[th][ax] = new double[Nm];
+  //   }
+  // }
 
   cell = new int64_t **[Cell_N[0] + 2];
   for (int64_t cx = 0; cx < Cell_N[0] + 2; cx++) {
@@ -241,23 +307,27 @@ void init_system(void) {
 
 void close_system(void) {
   for (int ax = 0; ax < 3; ax++) {
-    delete[] r0[ax];
+    delete[] dr[ax];
     delete[] r1[ax];
     delete[] v[ax];
     delete[] f0[ax];
     delete[] f1[ax];
+    delete[] g0[ax];
+    delete[] g1[ax];
   }
-  delete[] r0;
+  delete[] dr;
   delete[] r1;
   delete[] v;
   delete[] f0;
   delete[] f1;
+  delete[] g0;
+  delete[] g1;
 
-  for (int th = 0; th < N_THREADS; th++) {
-    for (int ax = 0; ax < 3; ax++) {
-      delete[] MP_f[th][ax];
-    }
-    delete[] MP_f[th];
-  }
-  delete[] MP_f;
+  // for (int th = 0; th < N_THREADS; th++) {
+  //   for (int ax = 0; ax < 3; ax++) {
+  //     delete[] MP_f[th][ax];
+  //   }
+  //   delete[] MP_f[th];
+  // }
+  // delete[] MP_f;
 }

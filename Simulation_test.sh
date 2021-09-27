@@ -18,5 +18,6 @@ cp ./sf_simu ./temp/.
 cp ./config/config.txt ./temp/.
 
 cd temp 
+rm -rf cfg* read*
 
 ./sf_simu
