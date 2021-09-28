@@ -88,6 +88,8 @@ extern int64_t ***cell;
 extern int64_t *list;
 
 extern double E_kin, E_pot;
+extern int print_E;
+extern int FREQ_print_E;
 
 extern double set_r2_cut;
 extern const double &r2_cut;

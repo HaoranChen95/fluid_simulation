@@ -18,7 +18,9 @@ void cell_list(void);
 
 double minium_image(const uint64_t &i, const uint64_t &j, const int &ax);
 
+double LJ(uint64_t i, uint64_t j);
 void MD_Step(void);
 void calc_force(void);
+void vel_correcter(void);
 
 #endif  // ALGORITHM_HPP_

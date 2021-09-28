@@ -20,11 +20,13 @@ std::ostringstream oss;
 
 void print_cfg(void) {
   if (cfgs_in_file == 0) {
-    oss << "cfg_data_pos_aV_" << cfg_file_array_Nm << "_Nm_" << Nm  << ".txt";
+    oss << "cfg_data_pos_aV_" << cfg_file_array_Nm << "_phi_" << density
+        << "_Nm_" << Nm << ".dat";
     cfg_data_file.open(oss.str(), std::ios::app);
     oss.str("");
 
-    oss << "cfg_time_aV_" << cfg_file_array_Nm << "_Nm_" << Nm  << ".txt";
+    oss << "cfg_time_aV_" << cfg_file_array_Nm << "_phi_" << density << "_Nm_"
+        << Nm << ".dat";
     cfg_time_file.open(oss.str(), std::ios::app);
     oss.str("");
   }
@@ -37,9 +39,6 @@ void print_cfg(void) {
     cfg_time_file << step * dt << std::endl;
     cfgs_in_file++;
   } else {
-    std::cout << "set new file" << std::endl 
-    << std::endl << std::endl 
-    << std::endl << std::endl;
     cfg_file_array_Nm++;
     cfgs_in_file = 0;
     cfg_data_file.close();

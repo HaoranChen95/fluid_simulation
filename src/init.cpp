@@ -76,6 +76,8 @@ int64_t ***cell;
 int64_t *list;
 
 double E_kin, E_pot;
+int print_E;
+int FREQ_print_E = 10000;
 
 // randem constant part
 double C_gamh;
@@ -246,6 +248,7 @@ void init_velocity(void) {
 
   std::cout << "initialization of velocity finished" << std::endl;
 }
+
 
 void write_last_cfg(void) {
   std::string fn;

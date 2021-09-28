@@ -9,12 +9,12 @@ ly = 10
 # lz
 lz = 10
 # density
-density = 0.1
+density = 0.4
 # epsilon
-epsilon = 1
+epsilon = 10
 # sigma
 sigma = 1
 # mass
 m = 1
 # calculate fluid
-open_fluid = 1
+open_fluid = 0

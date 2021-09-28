@@ -13,9 +13,13 @@
 
 int main(const int argc, const char* argv[]) {
   std::cout << "Hello" << std::endl;
-
-  MD_Steps = 1000;
+  Relax_Steps = 100000;
+  MD_Steps = 10000000;
+  // Relax_Steps = 0;
+  // MD_Steps = 10;
   set_dt = 0.0001;
+
+  int FREQ_CFG_DETA = 1;
 
   read_config();
   init_system();
@@ -25,15 +29,35 @@ int main(const int argc, const char* argv[]) {
             << "gamma = " << gam << std::endl;
   for (step = 0; step < Relax_Steps; step++) {
     MD_Step();
+    if (open_fluid) {
+      vel_correcter();
+    }
   }
   for (step = 0; step < MD_Steps; step++) {
     MD_Step();
-    print_cfg();
+
+    if (step == 100) {
+      FREQ_CFG_DETA = 10;
+    }
+    if (step == 1000) {
+      FREQ_CFG_DETA = 100;
+    }
+    if (step == 10000) {
+      FREQ_CFG_DETA = 1000;
+    }
+    if (step == 100000) {
+      FREQ_CFG_DETA = 10000;
+    }
+    if (step == 1000000) {
+      FREQ_CFG_DETA = 100000;
+    }
+
+    if (step % FREQ_CFG_DETA == 0) {
+      print_cfg();
+    }
   }
 
   std::cout << "kT 2 gamma over m " << kT_2gamma_over_m << std::endl;
-  // r1[0][0] = 0;
-  // r1[0][1] = 151;
   std::cout << "const 1 = " << const_r_1 << std::endl;
   std::cout << "const 2 = " << const_r_2 << std::endl;
   std::cout << "const 3 = " << const_v_1 << std::endl;
@@ -42,8 +66,16 @@ int main(const int argc, const char* argv[]) {
   std::cout << "const 6 = " << const_g0_1 << std::endl;
   std::cout << "const 7 = " << const_g1_1 << std::endl;
   std::cout << "const 8 = " << const_g1_2 << std::endl;
+  r1[0][0] = 0;
+  r1[1][0] = 0;
+  r1[2][0] = 0;
+  r1[0][1] = 0.5;
+  r1[1][1] = 0;
+  r1[2][1] = 0;
+  LJ(0, 1);
+  std::cout << "LJ = " << f1[0][0] << std::endl;
+
   // r1[0][1] = 101;
-  // std::cout << "r ij 2 = " << minium_image(0, 1, 0) << std::endl;
   // r1[0][1] = 51;
   // std::cout << "r ij 3 = " << minium_image(0, 1, 0) << std::endl;
   // r1[0][1] = 1;

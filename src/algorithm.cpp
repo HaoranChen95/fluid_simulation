@@ -201,11 +201,26 @@ void MD_Step(void) {
     calc_vel();
   }
 
+  if (print_E == 0) {
+    calc_E_kin();
+    std::cout << " E_kin " << E_kin / static_cast<double>(Nm) << " E_pot "
+              << E_pot / static_cast<double>(Nm) << " E "
+              << (E_kin + E_pot) / static_cast<double>(Nm) << " half dt "
+              << half_dt
+              // << " v_all " << calc_f_all()
+              << std::endl;
+  }
+  if (++print_E == FREQ_print_E) {
+    print_E = 0;
+  }
+}
+
+void vel_correcter(void) {
   calc_E_kin();
-  std::cout << " E_kin " << E_kin / static_cast<double>(Nm) << " E_pot "
-            << E_pot / static_cast<double>(Nm) << " E "
-            << (E_kin + E_pot) / static_cast<double>(Nm) << " half dt "
-            << half_dt
-            // << " v_all " << calc_f_all()
-            << std::endl;
+  double a = sqrt(1.5 * kT * Nm / E_kin);
+  for (uint64_t i = 0; i < Nm; i++) {
+    for (int ax = 0; ax < 3; ax++) {
+      v[ax][i] *= a;
+    }
+  }
 }
