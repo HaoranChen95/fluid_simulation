@@ -11,7 +11,7 @@ lz = 10
 # density
 density = 0.4
 # epsilon
-epsilon = 10
+epsilon = 1.5
 # sigma
 sigma = 1
 # mass

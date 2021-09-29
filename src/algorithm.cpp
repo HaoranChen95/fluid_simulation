@@ -45,6 +45,7 @@ double LJ(uint64_t i, uint64_t j) {
   for (int ax = 0; ax < 3; ax++) {
     r_ij[ax] = minium_image(i, j, ax);
     r2 += r_ij[ax] * r_ij[ax];
+    std::cout << " i " << i << " j " << j << " r2 " << r2 << std::endl;
   }
   if (r2 < r2_cut) {
     r_inv2 = 1. / r2;
@@ -63,54 +64,58 @@ double LJ(uint64_t i, uint64_t j) {
 }
 
 void calc_force(void) {
-  uint64_t i, j, counter{0};
-  int ax, th;
-  for (i = 0; i < Nm; i++) {
-    for (ax = 0; ax < 3; ax++) {
+#pragma omp parallel for
+  for (uint64_t i = 0; i < Nm; i++) {
+    for (int ax = 0; ax < 3; ax++) {
       f0[ax][i] = f1[ax][i];
       f1[ax][i] = 0;
     }
   }
   cell_list();
 
-  // #pragma omp parallel private(i, j, th)
+  uint64_t counter{0};
 
-  // th = omp_get_thread_num();
-  // #pragma omp for
-  for (i = 0; i < Nm; i++) {
-    for (j = i + 1; j < Nm; j++) {
+  for (uint64_t i = 0; i < Nm; i++) {
+    for (uint64_t j = i + 1; j < Nm; j++) {
       E_pot += LJ(i, j);
+      counter++;
     }
   }
+  struct ij_paar {
+    uint64_t i;
+    uint64_t j;
+  };
+
+  std::vector<const ij_paar> ij_list;
+  // for (uint64_t i = 0; i < Nm; i++) {
+  //   for (uint64_t j = i + 1; j < Nm; j++) {
+  //     // ij_list.push_front({i, j});
+  //     counter++;
+  //   }
+  // }
+  // std::cout << "counter1 " << counter << std::endl;
+  counter = 0;
+
+  // // #pragma omp parallel
+  // // {
+  // //   // #pragma omp for reduction(+ : E_pot)
+  // for (ij_paar const &ij : ij_list) {
+  //   // std::cout << "i " << ij.i << " j " << ij.j << std::endl;
+  //   E_pot += LJ(ij.i, ij.j);
+  //   counter++;
+  // }
+  // // }
+
+  // std::cout << "counter2 " << counter << std::endl;
 }
 
-// void calc_fluid_force(void) {
-//   calc_force();
-//   uint64_t i;
-//   int ax;
-//   std::random_device rd{};
-//   std::mt19937 gen{rd()};
-//   std::normal_distribution<double> n_d(0.0, kT_2gamma_over_m);
-//   for (i = 0; i < Nm; i++) {
-//     for (ax = 0; ax < 3; ax++) {
-//       f1[ax][i] += n_d(gen);
-//     }
-//   }
-// }
-
 void calc_vel(void) {
-  uint64_t i;
-  int ax;
-  for (i = 0; i < Nm; i++) {
-    for (ax = 0; ax < 3; ax++) {
+#pragma omp parallel for
+  for (uint64_t i = 0; i < Nm; i++) {
+    for (int ax = 0; ax < 3; ax++) {
       v[ax][i] += (f0[ax][i] + f1[ax][i]) * half_dt;
     }
   }
-  // for (ax = 0; ax < 3; ax++) {
-  //   std::cout << " a" << ax << " " << (f0[ax][0] + f1[ax][0]) * half_dt;
-  //   std::cout << " v" << ax << " " << (v[ax][0] + v[ax][0]) * half_dt;
-  // }
-  // std::cout << std::endl;
 }
 
 void calc_fluid_vel(void) {
@@ -126,34 +131,18 @@ void calc_fluid_vel(void) {
 }
 
 void calc_pos(void) {
-  uint64_t i;
-  int ax;
-  // #ifdef _OPENMP
-  // #pragma omp for
-  // #endif  // _OPENMP
-
-  for (i = 0; i < Nm; i++) {
-    for (ax = 0; ax < 3; ax++) {
+#pragma omp parallel for
+  for (uint64_t i = 0; i < Nm; i++) {
+    for (int ax = 0; ax < 3; ax++) {
       dr[ax][i] = v[ax][i] * dt + f1[ax][i] * half_dt2;
       r1[ax][i] += dr[ax][i];
     }
   }
-  // for (ax = 0; ax < 3; ax++) {
-  //   std::cout<< " r " << dr[ax][0] << " v " << v[ax][0] * dt << " f "
-  //             << f1[ax][0] * half_dt2;
-  // }
-  // std::cout << std::endl;
 }
 
 void calc_fluid_pos(void) {
-  uint64_t i;
-  int ax;
-  // #ifdef _OPENMP
-  // #pragma omp for
-  // #endif  // _OPENMP
-
-  for (i = 0; i < Nm; i++) {
-    for (ax = 0; ax < 3; ax++) {
+  for (uint64_t i = 0; i < Nm; i++) {
+    for (int ax = 0; ax < 3; ax++) {
       dr[ax][i] = v[ax][i] * const_r_1 + f0[ax][i] * const_r_2 + g0[ax][i];
       r1[ax][i] += dr[ax][i];
       dr[ax][i] += g1[ax][i];
@@ -163,33 +152,17 @@ void calc_fluid_pos(void) {
 
 void calc_E_kin(void) {
   E_kin = 0.;
-  uint64_t i;
-  int ax;
-  // th = omp_get_thread_num();
-  // #pragma omp for reduction(+ : E_kin)
-  for (i = 0; i < Nm; i++) {
-    for (ax = 0; ax < 3; ax++) {
+#pragma omp for reduction(+ : E_kin)
+  for (uint64_t i = 0; i < Nm; i++) {
+    for (int ax = 0; ax < 3; ax++) {
       E_kin += v[ax][i] * v[ax][i];
     }
   }
   E_kin *= 0.5;
 }
 
-double calc_f_all(void) {
-  double f_all = 0;
-  uint64_t i;
-  int ax;
-  // #pragma omp for reduction(+ : E_kin)
-  for (i = 0; i < Nm; i++) {
-    for (ax = 0; ax < 3; ax++) {
-      f_all += v[ax][i];
-    }
-  }
-  return f_all;
-}
-
 void MD_Step(void) {
-  E_pot = 0;
+  E_pot = 0.;
   if (open_fluid) {
     init_gamma();
     calc_fluid_pos();
@@ -203,10 +176,10 @@ void MD_Step(void) {
 
   if (print_E == 0) {
     calc_E_kin();
-    std::cout << " E_kin " << E_kin / static_cast<double>(Nm) << " E_pot "
-              << E_pot / static_cast<double>(Nm) << " E "
-              << (E_kin + E_pot) / static_cast<double>(Nm) << " half dt "
-              << half_dt
+    std::cout << "time\t" << static_cast<double>(step) * dt << "\tE_kin\t"
+              << E_kin / static_cast<double>(Nm) << "\tE_pot\t"
+              << E_pot / static_cast<double>(Nm) << "\tE\t"
+              << (E_kin + E_pot) / static_cast<double>(Nm)
               // << " v_all " << calc_f_all()
               << std::endl;
   }

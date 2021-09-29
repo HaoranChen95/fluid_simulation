@@ -13,10 +13,10 @@
 
 int main(const int argc, const char* argv[]) {
   std::cout << "Hello" << std::endl;
-  Relax_Steps = 100000;
-  MD_Steps = 10000000;
-  // Relax_Steps = 0;
-  // MD_Steps = 10;
+  // Relax_Steps = 100000;
+  // MD_Steps = 10000000;
+  Relax_Steps = 0;
+  MD_Steps = 100000;
   set_dt = 0.0001;
 
   int FREQ_CFG_DETA = 1;
@@ -29,7 +29,7 @@ int main(const int argc, const char* argv[]) {
             << "gamma = " << gam << std::endl;
   for (step = 0; step < Relax_Steps; step++) {
     MD_Step();
-    if (open_fluid) {
+    if (!open_fluid) {
       vel_correcter();
     }
   }
@@ -57,23 +57,48 @@ int main(const int argc, const char* argv[]) {
     }
   }
 
-  std::cout << "kT 2 gamma over m " << kT_2gamma_over_m << std::endl;
-  std::cout << "const 1 = " << const_r_1 << std::endl;
-  std::cout << "const 2 = " << const_r_2 << std::endl;
-  std::cout << "const 3 = " << const_v_1 << std::endl;
-  std::cout << "const 4 = " << const_v_2 << std::endl;
-  std::cout << "const 5 = " << const_v_3 << std::endl;
-  std::cout << "const 6 = " << const_g0_1 << std::endl;
-  std::cout << "const 7 = " << const_g1_1 << std::endl;
-  std::cout << "const 8 = " << const_g1_2 << std::endl;
-  r1[0][0] = 0;
-  r1[1][0] = 0;
-  r1[2][0] = 0;
-  r1[0][1] = 0.5;
-  r1[1][1] = 0;
-  r1[2][1] = 0;
-  LJ(0, 1);
-  std::cout << "LJ = " << f1[0][0] << std::endl;
+  // std::cout << "kT 2 gamma over m " << kT_2gamma_over_m << std::endl;
+  // std::cout << "sigma " << sig << std::endl;
+  // std::cout << "const 1 = " << const_r_1 << std::endl;
+  // std::cout << "const 2 = " << const_r_2 << std::endl;
+  // std::cout << "const 3 = " << const_v_1 << std::endl;
+  // std::cout << "const 4 = " << const_v_2 << std::endl;
+  // std::cout << "const 5 = " << const_v_3 << std::endl;
+  // std::cout << "const 6 = " << const_g0_1 << std::endl;
+  // std::cout << "const 7 = " << const_g1_1 << std::endl;
+  // std::cout << "const 8 = " << const_g1_2 << std::endl;
+  // for (uint64_t i = 0; i < Nm; i++) {
+  //   for (int ax = 0; ax < 3; ax++) {
+  //     r1[ax][i] = 5;
+  //   }
+  // }
+  // r1[0][0] = 0;
+  // r1[1][0] = 0;
+  // r1[2][0] = 0;
+  // r1[0][1] = 0.5;
+  // r1[1][1] = 0;
+  // r1[2][1] = 0;
+  // LJ(0, 1);
+  // calc_force();
+
+  // std::cout << "LJ0 0 = " << f0[0][0] << std::endl;
+  // std::cout << "LJ0 1 = " << f0[0][1] << std::endl;
+  // std::cout << "LJ1 0 = " << f1[0][0] << std::endl;
+  // std::cout << "LJ1 1 = " << f1[0][1] << std::endl;
+
+  // r1[0][0] = 0;
+  // r1[1][0] = 0;
+  // r1[2][0] = 0;
+  // r1[0][1] = 1;
+  // r1[1][1] = 0;
+  // r1[2][1] = 0;
+  // // LJ(0, 1);
+  // calc_force();
+
+  // std::cout << "LJ0 0 = " << f0[0][0] << std::endl;
+  // std::cout << "LJ0 1 = " << f0[0][1] << std::endl;
+  // std::cout << "LJ1 0 = " << f1[0][0] << std::endl;
+  // std::cout << "LJ1 1 = " << f1[0][1] << std::endl;
 
   // r1[0][1] = 101;
   // r1[0][1] = 51;
