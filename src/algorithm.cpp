@@ -15,6 +15,7 @@ void cell_list(void) {
   for (uint64_t i = 0; i < Nm; i++) {
     list[i] = -1;
   }
+
   for (int64_t cx = 0; cx < Cell_N[0] + 2; cx++) {
     for (int64_t cy = 0; cy < Cell_N[1] + 2; cy++) {
       for (int64_t cz = 0; cz < Cell_N[2] + 2; cz++) {
@@ -45,8 +46,8 @@ double LJ(uint64_t i, uint64_t j) {
   for (int ax = 0; ax < 3; ax++) {
     r_ij[ax] = minium_image(i, j, ax);
     r2 += r_ij[ax] * r_ij[ax];
-    std::cout << " i " << i << " j " << j << " r2 " << r2 << std::endl;
   }
+
   if (r2 < r2_cut) {
     r_inv2 = 1. / r2;
     sr_inv2 = sig2 * r_inv2;
@@ -81,12 +82,8 @@ void calc_force(void) {
       counter++;
     }
   }
-  struct ij_paar {
-    uint64_t i;
-    uint64_t j;
-  };
 
-  std::vector<const ij_paar> ij_list;
+  // std::vector<const ij_paar> ij_list;
   // for (uint64_t i = 0; i < Nm; i++) {
   //   for (uint64_t j = i + 1; j < Nm; j++) {
   //     // ij_list.push_front({i, j});
@@ -94,7 +91,6 @@ void calc_force(void) {
   //   }
   // }
   // std::cout << "counter1 " << counter << std::endl;
-  counter = 0;
 
   // // #pragma omp parallel
   // // {
@@ -106,7 +102,8 @@ void calc_force(void) {
   // }
   // // }
 
-  // std::cout << "counter2 " << counter << std::endl;
+  // std::cout << "counter " << counter << std::endl;
+  counter = 0;
 }
 
 void calc_vel(void) {

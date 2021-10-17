@@ -1,3 +1,5 @@
 *.o
 *.optrpt
 temp
+doc/latex
+doc/html

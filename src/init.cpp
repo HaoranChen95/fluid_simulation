@@ -11,13 +11,13 @@
 
 #include "init.hpp"
 
-double **dr;
-double **r1;
-double **v;
-double **f0;
-double **f1;
-double **g0;
-double **g1;
+double **dr; /** @brief difference of position */
+double **r1; /** @brief difference of position */
+double **v;  /** @brief velocity */
+double **f0; /** @brief previos force */
+double **f1; /** @brief new force */
+double **g0; /** @brief previos random number */
+double **g1; /** @brief new random number */
 
 double set_kT;
 const double &kT = set_kT;
@@ -77,7 +77,7 @@ int64_t *list;
 
 double E_kin, E_pot;
 int print_E;
-int FREQ_print_E = 10000;
+int FREQ_print_E = 10;
 
 // randem constant part
 double C_gamh;
@@ -249,7 +249,6 @@ void init_velocity(void) {
   std::cout << "initialization of velocity finished" << std::endl;
 }
 
-
 void write_last_cfg(void) {
   std::string fn;
   std::ostringstream oStrStream;
@@ -274,7 +273,6 @@ void init_system(void) {
   v = new double *[3];
   f0 = new double *[3];
   f1 = new double *[3];
-
   g0 = new double *[3];
   g1 = new double *[3];
 

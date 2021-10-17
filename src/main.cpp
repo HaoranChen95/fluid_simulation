@@ -17,7 +17,7 @@ int main(const int argc, const char* argv[]) {
   // MD_Steps = 10000000;
   Relax_Steps = 0;
   MD_Steps = 100000;
-  set_dt = 0.0001;
+  set_dt = 0.001;
 
   int FREQ_CFG_DETA = 1;
 
@@ -56,61 +56,6 @@ int main(const int argc, const char* argv[]) {
       print_cfg();
     }
   }
-
-  // std::cout << "kT 2 gamma over m " << kT_2gamma_over_m << std::endl;
-  // std::cout << "sigma " << sig << std::endl;
-  // std::cout << "const 1 = " << const_r_1 << std::endl;
-  // std::cout << "const 2 = " << const_r_2 << std::endl;
-  // std::cout << "const 3 = " << const_v_1 << std::endl;
-  // std::cout << "const 4 = " << const_v_2 << std::endl;
-  // std::cout << "const 5 = " << const_v_3 << std::endl;
-  // std::cout << "const 6 = " << const_g0_1 << std::endl;
-  // std::cout << "const 7 = " << const_g1_1 << std::endl;
-  // std::cout << "const 8 = " << const_g1_2 << std::endl;
-  // for (uint64_t i = 0; i < Nm; i++) {
-  //   for (int ax = 0; ax < 3; ax++) {
-  //     r1[ax][i] = 5;
-  //   }
-  // }
-  // r1[0][0] = 0;
-  // r1[1][0] = 0;
-  // r1[2][0] = 0;
-  // r1[0][1] = 0.5;
-  // r1[1][1] = 0;
-  // r1[2][1] = 0;
-  // LJ(0, 1);
-  // calc_force();
-
-  // std::cout << "LJ0 0 = " << f0[0][0] << std::endl;
-  // std::cout << "LJ0 1 = " << f0[0][1] << std::endl;
-  // std::cout << "LJ1 0 = " << f1[0][0] << std::endl;
-  // std::cout << "LJ1 1 = " << f1[0][1] << std::endl;
-
-  // r1[0][0] = 0;
-  // r1[1][0] = 0;
-  // r1[2][0] = 0;
-  // r1[0][1] = 1;
-  // r1[1][1] = 0;
-  // r1[2][1] = 0;
-  // // LJ(0, 1);
-  // calc_force();
-
-  // std::cout << "LJ0 0 = " << f0[0][0] << std::endl;
-  // std::cout << "LJ0 1 = " << f0[0][1] << std::endl;
-  // std::cout << "LJ1 0 = " << f1[0][0] << std::endl;
-  // std::cout << "LJ1 1 = " << f1[0][1] << std::endl;
-
-  // r1[0][1] = 101;
-  // r1[0][1] = 51;
-  // std::cout << "r ij 3 = " << minium_image(0, 1, 0) << std::endl;
-  // r1[0][1] = 1;
-  // std::cout << "r ij 4 = " << minium_image(0, 1, 0) << std::endl;
-  // r1[0][1] = -49;
-  // std::cout << "r ij 5 = " << minium_image(0, 1, 0) << std::endl;
-  // r1[0][1] = -99;
-  // std::cout << "r ij 6 = " << minium_image(0, 1, 0) << std::endl;
-  // r1[0][1] = -149;
-  // std::cout << "r ij 7 = " << minium_image(0, 1, 0) << std::endl;
 
   close_system();
 

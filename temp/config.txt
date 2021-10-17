@@ -3,11 +3,11 @@ kT = 1
 # gamma friction constant
 gamma = 100
 # lx 
-lx = 10
+lx = 20
 # ly
-ly = 10
+ly = 20
 # lz
-lz = 10
+lz = 20
 # density
 density = 0.4
 # epsilon
