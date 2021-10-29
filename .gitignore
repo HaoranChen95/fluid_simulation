@@ -3,3 +3,5 @@
 temp
 doc/latex
 doc/html
+sf_simu
+*.out

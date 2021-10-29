@@ -65,21 +65,21 @@ double LJ(uint64_t i, uint64_t j) {
 }
 
 void calc_force(void) {
-#pragma omp parallel for
+// #pragma omp parallel for
   for (uint64_t i = 0; i < Nm; i++) {
     for (int ax = 0; ax < 3; ax++) {
       f0[ax][i] = f1[ax][i];
-      f1[ax][i] = 0;
+      f1[ax][i] = 0.;
     }
   }
   cell_list();
 
-  uint64_t counter{0};
+  // uint64_t counter{0};
 
   for (uint64_t i = 0; i < Nm; i++) {
     for (uint64_t j = i + 1; j < Nm; j++) {
       E_pot += LJ(i, j);
-      counter++;
+      // counter++;
     }
   }
 
@@ -103,11 +103,11 @@ void calc_force(void) {
   // // }
 
   // std::cout << "counter " << counter << std::endl;
-  counter = 0;
+  // counter = 0;
 }
 
 void calc_vel(void) {
-#pragma omp parallel for
+// #pragma omp parallel for
   for (uint64_t i = 0; i < Nm; i++) {
     for (int ax = 0; ax < 3; ax++) {
       v[ax][i] += (f0[ax][i] + f1[ax][i]) * half_dt;
@@ -117,10 +117,8 @@ void calc_vel(void) {
 
 void calc_fluid_vel(void) {
   calc_vel();
-  uint64_t i;
-  int ax;
-  for (i = 0; i < Nm; i++) {
-    for (ax = 0; ax < 3; ax++) {
+  for (uint64_t i = 0; i < Nm; i++) {
+    for (int ax = 0; ax < 3; ax++) {
       v[ax][i] =
           dr[ax][i] * const_v_1 + f0[ax][i] * const_v_2 + f1[ax][i] * const_v_3;
     }
@@ -128,7 +126,7 @@ void calc_fluid_vel(void) {
 }
 
 void calc_pos(void) {
-#pragma omp parallel for
+// #pragma omp parallel for
   for (uint64_t i = 0; i < Nm; i++) {
     for (int ax = 0; ax < 3; ax++) {
       dr[ax][i] = v[ax][i] * dt + f1[ax][i] * half_dt2;
@@ -149,7 +147,7 @@ void calc_fluid_pos(void) {
 
 void calc_E_kin(void) {
   E_kin = 0.;
-#pragma omp for reduction(+ : E_kin)
+// #pragma omp for reduction(+ : E_kin)
   for (uint64_t i = 0; i < Nm; i++) {
     for (int ax = 0; ax < 3; ax++) {
       E_kin += v[ax][i] * v[ax][i];
@@ -171,8 +169,8 @@ void MD_Step(void) {
     calc_vel();
   }
 
+  calc_E_kin();
   if (print_E == 0) {
-    calc_E_kin();
     std::cout << "time\t" << static_cast<double>(step) * dt << "\tE_kin\t"
               << E_kin / static_cast<double>(Nm) << "\tE_pot\t"
               << E_pot / static_cast<double>(Nm) << "\tE\t"

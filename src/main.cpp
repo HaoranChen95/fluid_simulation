@@ -15,9 +15,9 @@ int main(const int argc, const char* argv[]) {
   // Relax_Steps = 100000;
   // MD_Steps = 10000000;
   Relax_Steps = 0;
-  MD_time = 1.e3;
+  MD_time = 1;
   set_dt = 0.001;
-  MD_Steps = static_cast<int64_t> (MD_time/set_dt);
+  MD_Steps = static_cast<int64_t> (MD_time/dt);
 
   int FREQ_CFG_DETA = 1;
 

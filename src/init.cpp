@@ -236,15 +236,15 @@ void init_velocity(void) {
     }
   }
 
-  for (ax = 0; ax < 3; ax++) {
-    v_sum[ax] /= static_cast<double>(Nm);
-  }
+  // for (ax = 0; ax < 3; ax++) {
+  //   v_sum[ax] /= static_cast<double>(Nm);
+  // }
 
-  for (i = 0; i < Nm; i++) {
-    for (ax = 0; ax < 3; ax++) {
-      v[ax][i] -= v_sum[ax];
-    }
-  }
+  // for (i = 0; i < Nm; i++) {
+  //   for (ax = 0; ax < 3; ax++) {
+  //     v[ax][i] -= v_sum[ax];
+  //   }
+  // }
 
   std::cout << "initialization of velocity finished" << std::endl;
 }
@@ -268,6 +268,7 @@ void write_last_cfg(void) {
 
 void init_system(void) {
   init_parameter();
+  // set_Nm = 2;
   dr = new double *[3];
   r1 = new double *[3];
   v = new double *[3];
@@ -300,6 +301,7 @@ void init_system(void) {
       cell[cx][cy] = new int64_t[Cell_N[2] + 2];
     }
   }
+
   list = new int64_t[Nm];
   init_position();
   init_velocity();

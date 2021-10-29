@@ -34,8 +34,8 @@ void print_cfg(void) {
 
   if (cfgs_in_file < cfgs_pro_file) {
     for (uint64_t i = 0; i < Nm; i++) {
-      cfg_data_file << r1[0][i] << " " << r1[1][i] << " " << r1[2][i]
-                    << std::endl;
+      cfg_data_file << r1[0][i] << " " << r1[1][i] << " " << r1[2][i] << " "
+                    << v[0][i] << " " << v[1][i] << " " << v[2][i] << std::endl;
     }
     cfg_time_file << step * dt << std::endl;
     cfgs_in_file++;
@@ -53,8 +53,19 @@ void print_Energy(void) {
     oss << "energy_phi_" << density << "_Nm_" << Nm << ".txt";
     energy_file.open(oss.str(), std::ios::app);
     oss.str("");
+    energy_file.precision(10);
   }
 
-  energy_file << static_cast<double>(step) * MD_time << " " << E_kin << " "
-              << E_pot << " " << E_kin + E_pot << std::endl;
+  double f_sqr = 0;
+
+  for (uint64_t i = 0; i < Nm; i++) {
+    for (int ax = 0; ax < 3; ax++) {
+      f_sqr += f1[ax][i] * f1[ax][i];
+    }
+  }
+
+  energy_file << static_cast<double>(step) * dt << " " << f_sqr << " "
+              << E_kin / static_cast<double>(Nm) << " "
+              << E_pot / static_cast<double>(Nm) << " "
+              << (E_kin + E_pot) / static_cast<double>(Nm) << std::endl;
 }
