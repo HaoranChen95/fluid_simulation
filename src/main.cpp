@@ -12,12 +12,12 @@
 #include "main.hpp"
 
 int main(const int argc, const char* argv[]) {
-  std::cout << "Hello" << std::endl;
   // Relax_Steps = 100000;
   // MD_Steps = 10000000;
   Relax_Steps = 0;
-  MD_Steps = 100000;
+  MD_time = 1.e3;
   set_dt = 0.001;
+  MD_Steps = static_cast<int64_t> (MD_time/set_dt);
 
   int FREQ_CFG_DETA = 1;
 
@@ -35,6 +35,7 @@ int main(const int argc, const char* argv[]) {
   }
   for (step = 0; step < MD_Steps; step++) {
     MD_Step();
+    print_Energy();
 
     if (step == 100) {
       FREQ_CFG_DETA = 10;

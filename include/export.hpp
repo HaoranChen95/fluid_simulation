@@ -14,5 +14,6 @@
 #include "algorithm.hpp"
 
 void print_cfg(void);
+void print_Energy(void);
 
 #endif  // EXPORT_HPP_

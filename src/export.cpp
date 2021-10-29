@@ -16,6 +16,7 @@ int cfgs_in_file = 0;
 int cfg_file_array_Nm = 0;
 std::ofstream cfg_data_file;
 std::ofstream cfg_time_file;
+std::ofstream energy_file;
 std::ostringstream oss;
 
 void print_cfg(void) {
@@ -44,4 +45,16 @@ void print_cfg(void) {
     cfg_data_file.close();
     cfg_time_file.close();
   }
+}
+
+void print_Energy(void) {
+  // std::cout << "writing !" << std::endl;
+  if (!energy_file.is_open()) {
+    oss << "energy_phi_" << density << "_Nm_" << Nm << ".txt";
+    energy_file.open(oss.str(), std::ios::app);
+    oss.str("");
+  }
+
+  energy_file << static_cast<double>(step) * MD_time << " " << E_kin << " "
+              << E_pot << " " << E_kin + E_pot << std::endl;
 }
