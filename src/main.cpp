@@ -15,9 +15,9 @@ int main(const int argc, const char* argv[]) {
   // Relax_Steps = 100000;
   // MD_Steps = 10000000;
   Relax_Steps = 0;
-  MD_time = 1;
+  MD_time = 1.;
   set_dt = 0.0001;
-  MD_Steps = static_cast<int64_t> (MD_time/dt);
+  MD_Steps = static_cast<uint64_t>(MD_time / dt);
 
   int FREQ_CFG_DETA = 1;
 
@@ -27,6 +27,7 @@ int main(const int argc, const char* argv[]) {
 
   std::cout << "half lx = " << half_l_b[0] << std::endl
             << "gamma = " << gam << std::endl;
+
   for (step = 0; step < Relax_Steps; step++) {
     MD_Step();
     if (!open_fluid) {
@@ -35,26 +36,30 @@ int main(const int argc, const char* argv[]) {
   }
   for (step = 0; step < MD_Steps; step++) {
     MD_Step();
+
+    if (step % time_01 == 0) {
     print_Energy();
+    }
+    // if (step == 100) {
+    //   FREQ_CFG_DETA = 10;
+    // }
+    // if (step == 1000) {
+    //   FREQ_CFG_DETA = 100;
+    // }
+    // if (step == 10000) {
+    //   FREQ_CFG_DETA = 1000;
+    // }
+    // if (step == 100000) {
+    //   FREQ_CFG_DETA = 10000;
+    // }
+    // if (step == 1000000) {
+    //   FREQ_CFG_DETA = 100000;
+    // }
 
-    if (step == 100) {
-      FREQ_CFG_DETA = 10;
-    }
-    if (step == 1000) {
-      FREQ_CFG_DETA = 100;
-    }
-    if (step == 10000) {
-      FREQ_CFG_DETA = 1000;
-    }
-    if (step == 100000) {
-      FREQ_CFG_DETA = 10000;
-    }
-    if (step == 1000000) {
-      FREQ_CFG_DETA = 100000;
-    }
-
-    if (step % FREQ_CFG_DETA == 0) {
+    if (step % time_01 == 0) {
       print_cfg();
+
+      std::cout << "there !!! " << step << std::endl;
     }
   }
 

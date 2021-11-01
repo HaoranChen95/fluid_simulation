@@ -60,6 +60,21 @@ int64_t Relax_Steps;
 int64_t step;
 double MD_time;
 
+uint64_t set_time_1;
+const uint64_t &time_1 = set_time_1;
+uint64_t set_time_01;
+const uint64_t &time_01 = set_time_01;
+uint64_t set_time_001;
+const uint64_t &time_001 = set_time_001;
+uint64_t set_time_0001;
+const uint64_t &time_0001 = set_time_0001;
+uint64_t set_time_10;
+const uint64_t &time_10 = set_time_10;
+uint64_t set_time_100;
+const uint64_t &time_100 = set_time_100;
+uint64_t set_time_1000;
+const uint64_t &time_1000 = set_time_1000;
+
 double set_dt;
 const double &dt = set_dt;
 
@@ -181,6 +196,14 @@ void init_parameter(void) {
   set_const_v_1 = gam / (exp(gamh) - 1.);
   set_const_v_2 = (gamh - 1. + exp(-gamh)) / gam / (exp(gamh) - 1.);
   set_const_v_3 = (-gamh - 1. + exp(gamh)) / gam / (exp(gamh) - 1.);
+
+  set_time_1000 = static_cast<uint64_t>(1000. / dt);
+  set_time_100 = static_cast<uint64_t>(100. / dt);
+  set_time_10 = static_cast<uint64_t>(10. / dt);
+  set_time_1 = static_cast<uint64_t>(1. / dt);
+  set_time_01 = static_cast<uint64_t>(0.1 / dt);
+  set_time_001 = static_cast<uint64_t>(0.01 / dt);
+  set_time_0001 = static_cast<uint64_t>(0.001 / dt);
 }
 
 void init_position(void) {
@@ -232,7 +255,7 @@ void init_velocity(void) {
     v[1][i] = n_d(gen);
     v[2][i] = n_d(gen);
   }
-  // #pragma omp for
+#pragma omp parallel for
   for (i = 0; i < Nm; i++) {
     for (ax = 0; ax < 3; ax++) {
       v_sum[ax] += v[ax][i];
@@ -321,5 +344,4 @@ void close_system(void) {
   delete[] f1;
   delete[] g0;
   delete[] g1;
-
 }

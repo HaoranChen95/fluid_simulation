@@ -71,6 +71,23 @@ extern int64_t MD_Steps;
 extern int64_t Relax_Steps;
 extern int64_t step;
 extern double MD_time;
+
+
+extern uint64_t set_time_1;
+extern const uint64_t &time_1;
+extern uint64_t set_time_01;
+extern const uint64_t &time_01;
+extern uint64_t set_time_001;
+extern const uint64_t &time_001;
+extern uint64_t set_time_0001;
+extern const uint64_t &time_0001;
+extern uint64_t set_time_10;
+extern const uint64_t &time_10;
+extern uint64_t set_time_100;
+extern const uint64_t &time_100;
+extern uint64_t set_time_1000;
+extern const uint64_t &time_1000;
+
 extern double set_dt;
 extern const double &dt;
 extern double set_half_dt;

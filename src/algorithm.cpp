@@ -178,7 +178,7 @@ void MD_Step(void) {
               // << " v_all " << calc_f_all()
               << std::endl;
   }
-  if (++print_E == FREQ_print_E) {
+  if (++print_E == time_01) {
     print_E = 0;
   }
 }
