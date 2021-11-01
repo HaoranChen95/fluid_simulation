@@ -65,7 +65,7 @@ double LJ(uint64_t i, uint64_t j) {
 }
 
 void calc_force(void) {
-// #pragma omp parallel for
+#pragma omp parallel for
   for (uint64_t i = 0; i < Nm; i++) {
     for (int ax = 0; ax < 3; ax++) {
       f0[ax][i] = f1[ax][i];
@@ -107,7 +107,7 @@ void calc_force(void) {
 }
 
 void calc_vel(void) {
-// #pragma omp parallel for
+#pragma omp parallel for
   for (uint64_t i = 0; i < Nm; i++) {
     for (int ax = 0; ax < 3; ax++) {
       v[ax][i] += (f0[ax][i] + f1[ax][i]) * half_dt;
@@ -126,7 +126,7 @@ void calc_fluid_vel(void) {
 }
 
 void calc_pos(void) {
-// #pragma omp parallel for
+#pragma omp parallel for
   for (uint64_t i = 0; i < Nm; i++) {
     for (int ax = 0; ax < 3; ax++) {
       dr[ax][i] = v[ax][i] * dt + f1[ax][i] * half_dt2;
@@ -147,7 +147,7 @@ void calc_fluid_pos(void) {
 
 void calc_E_kin(void) {
   E_kin = 0.;
-// #pragma omp for reduction(+ : E_kin)
+#pragma omp for reduction(+ : E_kin)
   for (uint64_t i = 0; i < Nm; i++) {
     for (int ax = 0; ax < 3; ax++) {
       E_kin += v[ax][i] * v[ax][i];
