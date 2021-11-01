@@ -59,10 +59,13 @@ int64_t MD_Steps;
 int64_t Relax_Steps;
 int64_t step;
 double MD_time;
+
 double set_dt;
 const double &dt = set_dt;
+
 double set_half_dt;
 const double &half_dt = set_half_dt;
+
 double set_half_dt2;
 const double &half_dt2 = set_half_dt2;
 
@@ -286,13 +289,6 @@ void init_system(void) {
     g0[ax] = new double[Nm];
     g1[ax] = new double[Nm];
   }
-  // MP_f = new double **[N_THREADS];
-  // for (int th = 0; th < N_THREADS; th++) {
-  //   MP_f[th] = new double *[3];
-  //   for (int ax = 0; ax < 3; ax++) {
-  //     MP_f[th][ax] = new double[Nm];
-  //   }
-  // }
 
   cell = new int64_t **[Cell_N[0] + 2];
   for (int64_t cx = 0; cx < Cell_N[0] + 2; cx++) {
@@ -326,11 +322,4 @@ void close_system(void) {
   delete[] g0;
   delete[] g1;
 
-  // for (int th = 0; th < N_THREADS; th++) {
-  //   for (int ax = 0; ax < 3; ax++) {
-  //     delete[] MP_f[th][ax];
-  //   }
-  //   delete[] MP_f[th];
-  // }
-  // delete[] MP_f;
 }
