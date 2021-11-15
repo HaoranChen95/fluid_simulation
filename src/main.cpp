@@ -16,11 +16,11 @@ int main(const int argc, const char* argv[]) {
   // MD_Steps = 10000000;
   Relax_Steps = 0;
   MD_time = 1.;
-  set_dt = 0.0001;
+  set_dt = 0.001;
   MD_Steps = static_cast<uint64_t>(MD_time / dt);
 
   int FREQ_CFG_DETA = 1;
-
+  read_arg(argc, argv);
   read_config();
   init_system();
   calc_force();
@@ -38,28 +38,12 @@ int main(const int argc, const char* argv[]) {
     MD_Step();
 
     if (step % time_01 == 0) {
-    print_Energy();
+      print_Energy();
     }
-    // if (step == 100) {
-    //   FREQ_CFG_DETA = 10;
-    // }
-    // if (step == 1000) {
-    //   FREQ_CFG_DETA = 100;
-    // }
-    // if (step == 10000) {
-    //   FREQ_CFG_DETA = 1000;
-    // }
-    // if (step == 100000) {
-    //   FREQ_CFG_DETA = 10000;
-    // }
-    // if (step == 1000000) {
-    //   FREQ_CFG_DETA = 100000;
-    // }
-
     if (step % time_01 == 0) {
       print_cfg();
 
-      std::cout << "there !!! " << step << std::endl;
+      // std::cout << "there !!! " << step << std::endl;
     }
   }
 

@@ -4,4 +4,4 @@ temp
 doc/latex
 doc/html
 *.out
-sf_simu
+sf_simu*

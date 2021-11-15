@@ -132,6 +132,7 @@ extern const double &const_g0_1;
 extern const double &const_g1_1;
 extern const double &const_g1_2;
 
+void read_arg(const int argc, const char** argv);
 void read_config(void);
 void init_parameter(void);
 void init_gamma(void);

@@ -118,6 +118,13 @@ const double &const_v_1 = set_const_v_1;
 const double &const_v_2 = set_const_v_2;
 const double &const_v_3 = set_const_v_3;
 
+void read_arg(const int argc, const char **argv) {
+  std::cout << "there" << std::endl;
+  for (int i = 1; i < 4; i++) {
+    std::cout << "argv" << i << ": " << argv[i] << std::endl;
+  }
+}
+
 void read_config() {
   std::cout << "read initial file:" << std::endl;
   std::cout << MD_Steps << std::endl;

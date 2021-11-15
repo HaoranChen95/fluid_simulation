@@ -11,4 +11,4 @@ cp ./config/config.txt ./temp/.
 cd temp 
 rm -rf cfg* read* energy*
 
-./sf_simu
+./sf_simu 1. 2. 3.
