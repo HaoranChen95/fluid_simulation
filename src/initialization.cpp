@@ -11,10 +11,10 @@
 
 #include "initialization.hpp"
 
-std::vector<std::array<double, 3>> vel;
+std::vector<std::array<double, 3>> r;
 
 double **dr; /** @brief difference of position */
-double **r1; /** @brief difference of position */
+// double **r1; /** @brief difference of position */
 double **v;  /** @brief velocity */
 double **f0; /** @brief previos force */
 double **f1; /** @brief new force */
@@ -230,13 +230,16 @@ void init_position(void) {
   row_y = static_cast<int>(l_b[1] / sig);
   row_z = static_cast<int>(l_b[2] / sig);
   int i = 0;
+  std::array<double,3> new_r;
 
   for (int r_z = 0; r_z < row_z; r_z++) {
     for (int r_y = 0; r_y < row_y; r_y++) {
       for (int r_x = 0; r_x < row_x; r_x++) {
-        r1[0][i] = r_x * sig;
-        r1[1][i] = r_y * sig;
-        r1[2][i] = r_z * sig;
+        new_r[0] = r_x * sig;
+        new_r[1] = r_y * sig;
+        new_r[2] = r_z * sig;
+
+        r.push_back(new_r);
         if (++i >= Nm) {
           goto finish;
         }
@@ -301,7 +304,7 @@ void write_last_cfg(void) {
   std::ofstream last_cfg_pos_vel(fn, std::ios::trunc);
   last_cfg_pos_vel.precision(8);
   for (int i = 0; i < Nm; ++i) {
-    last_cfg_pos_vel << r1[0][i] << " " << r1[1][i] << " " << r1[2][i] << " "
+    last_cfg_pos_vel << r[i][0] << " " << r[i][1] << " " << r[i][2] << " "
                      << v[0][i] << " " << v[1][i] << " " << v[2][i]
                      << std::endl;
     //  << " "
@@ -314,7 +317,7 @@ void init_system(void) {
   init_parameter();
   // set_Nm = 2;
   dr = new double *[3];
-  r1 = new double *[3];
+  // r1 = new double *[3];
   v = new double *[3];
   f0 = new double *[3];
   f1 = new double *[3];
@@ -323,7 +326,7 @@ void init_system(void) {
 
   for (int ax = 0; ax < 3; ax++) {
     dr[ax] = new double[Nm];
-    r1[ax] = new double[Nm];
+    // r1[ax] = new double[Nm];
     v[ax] = new double[Nm];
     f0[ax] = new double[Nm];
     f1[ax] = new double[Nm];
@@ -348,7 +351,7 @@ void init_system(void) {
 void close_system(void) {
   for (int ax = 0; ax < 3; ax++) {
     delete[] dr[ax];
-    delete[] r1[ax];
+    // delete[] r1[ax];
     delete[] v[ax];
     delete[] f0[ax];
     delete[] f1[ax];
@@ -356,7 +359,7 @@ void close_system(void) {
     delete[] g1[ax];
   }
   delete[] dr;
-  delete[] r1;
+  // delete[] r1;
   delete[] v;
   delete[] f0;
   delete[] f1;

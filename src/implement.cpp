@@ -26,16 +26,16 @@ void cell_list(void) {
 
   int64_t cx, cy, cz;
   for (uint64_t i = 0; i < Nm; i++) {
-    cx = static_cast<uint64_t>(r1[0][i] / Cell_l[0]);
-    cy = static_cast<uint64_t>(r1[1][i] / Cell_l[1]);
-    cz = static_cast<uint64_t>(r1[2][i] / Cell_l[2]);
+    cx = static_cast<uint64_t>(r[i][0] / Cell_l[0]);
+    cy = static_cast<uint64_t>(r[i][1] / Cell_l[1]);
+    cz = static_cast<uint64_t>(r[i][2] / Cell_l[2]);
     list[i] = cell[cx][cy][cz];
     cell[cx][cy][cz] = i;
   }
 }
 
 double minium_image(const uint64_t &i, const uint64_t &j, const int &ax) {
-  double r_ij_ax = r1[ax][j] - r1[ax][i];
+  double r_ij_ax = r[j][ax] - r[i][ax];
   r_ij_ax -= l_b[ax] * floor((r_ij_ax + half_l_b[ax]) * inv_l_b[ax]);
   return r_ij_ax;
 }
@@ -130,7 +130,7 @@ void calc_pos(void) {
   for (uint64_t i = 0; i < Nm; i++) {
     for (int ax = 0; ax < 3; ax++) {
       dr[ax][i] = v[ax][i] * dt + f1[ax][i] * half_dt2;
-      r1[ax][i] += dr[ax][i];
+      r[i][ax] += dr[ax][i];
     }
   }
 }
@@ -139,7 +139,7 @@ void calc_fluid_pos(void) {
   for (uint64_t i = 0; i < Nm; i++) {
     for (int ax = 0; ax < 3; ax++) {
       dr[ax][i] = v[ax][i] * const_r_1 + f0[ax][i] * const_r_2 + g0[ax][i];
-      r1[ax][i] += dr[ax][i];
+      r[i][ax] += dr[ax][i];
       dr[ax][i] += g1[ax][i];
     }
   }

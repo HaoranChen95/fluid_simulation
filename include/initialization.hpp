@@ -27,10 +27,10 @@
 #include <array>
 #include <vector>
 
-extern std::vector<std::array<double,3>> vel;
+extern std::vector<std::array<double,3>> r;
 
 extern double **dr;
-extern double **r1;
+// extern double **r1;
 extern double **v;
 extern double **f0;
 extern double **f1;
