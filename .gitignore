@@ -1,7 +1,8 @@
+sf_simu
 *.o
 *.optrpt
 temp
 doc/latex
 doc/html
 *.out
-sf_simu*
+.vscode
