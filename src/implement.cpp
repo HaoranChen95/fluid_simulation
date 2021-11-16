@@ -75,7 +75,6 @@ void calc_force(void) {
   // cell_list();
 
   // uint64_t counter{0};
-  std::cout << "!!! there !!!" << std::endl;
 
   for (uint64_t i = 0; i < Nm; i++) {
     for (uint64_t j = i + 1; j < Nm; j++) {
@@ -186,7 +185,7 @@ void MD_Step(void) {
 
 void vel_correcter(void) {
   calc_E_kin();
-  double a = sqrt(1.5 * kT * Nm / E_kin);
+  double a = sqrt(1.5 * sp.kT() * Nm / E_kin);
   for (uint64_t i = 0; i < Nm; i++) {
     for (int ax = 0; ax < 3; ax++) {
       v[ax][i] *= a;

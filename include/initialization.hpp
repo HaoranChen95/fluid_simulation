@@ -24,7 +24,10 @@
 #include <iostream>
 #include <random>
 #include <sstream>
+#include <array>
 #include <vector>
+
+extern std::vector<std::array<double,3>> vel;
 
 extern double **dr;
 extern double **r1;
@@ -35,8 +38,18 @@ extern double **f1;
 extern double **g0;
 extern double **g1;
 
-extern double set_kT;
-extern const double &kT;
+class sys_param
+{
+private:
+	double kT_;
+public:
+	sys_param(/* args */);
+	void kT(const double input);
+	double kT() const;
+	~sys_param();
+};
+
+extern sys_param sp;
 
 
 extern double set_kT_2gamma_over_m;

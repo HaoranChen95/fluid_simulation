@@ -11,6 +11,8 @@
 
 #include "initialization.hpp"
 
+std::vector<std::array<double, 3>> vel;
+
 double **dr; /** @brief difference of position */
 double **r1; /** @brief difference of position */
 double **v;  /** @brief velocity */
@@ -19,8 +21,17 @@ double **f1; /** @brief new force */
 double **g0; /** @brief previos random number */
 double **g1; /** @brief new random number */
 
-double set_kT;
-const double &kT = set_kT;
+sys_param::sys_param(/* args */) {}
+
+sys_param::~sys_param() {}
+
+void sys_param::kT(const double input) { kT_ = input; }
+double sys_param::kT() const {return kT_;}
+
+sys_param sp;
+
+// double set_kT;
+// const double &kT = set_kT;
 
 double set_kT_2gamma_over_m;
 double &kT_2gamma_over_m = set_kT_2gamma_over_m;
@@ -145,7 +156,7 @@ void read_config() {
         const std::string &value = line.substr(split_at + 2);
 
         if (head == "kT") {
-          set_kT = std::stod(value);
+          sp.kT(std::stod(value));
         } else if (head == "gamma") {
           set_gamma = std::stod(value);
         } else if (head == "lx") {
@@ -187,7 +198,7 @@ void init_parameter(void) {
   set_half_dt = 0.5 * dt;
   set_half_dt2 = 0.5 * dt * dt;
 
-  set_kT_2gamma_over_m = 2. * gam * kT / m;
+  set_kT_2gamma_over_m = 2. * gam * sp.kT() / m;
   double gamh = gam * dt;
   C_gamh = 2. * gamh - 3. + 4. * exp(-gamh) - exp(-2. * gamh);
   G_gamh = exp(gamh) - 2. * gamh - exp(-gamh);
@@ -195,8 +206,8 @@ void init_parameter(void) {
            4. * (exp(2. * gamh) + exp(-2. * gamh)) -
            4. * gamh * (exp(gamh) - exp(-gamh)) +
            2. * gamh * (exp(2. * gamh) - exp(-2. * gamh)) - 24.;
-  set_const_g0_1 = sqrt(kT / m / gam / gam * C_gamh);
-  set_const_g1_1 = sqrt(kT / m / gam / gam * E_gamh / C_gamh);
+  set_const_g0_1 = sqrt(sp.kT() / m / gam / gam * C_gamh);
+  set_const_g1_1 = sqrt(sp.kT() / m / gam / gam * E_gamh / C_gamh);
   set_const_g1_2 = G_gamh / C_gamh;
   set_const_r_1 = (1. - exp(-gamh)) / gam;
   set_const_r_2 = (gamh - 1. + exp(-gamh)) / gam / gam;
@@ -252,7 +263,7 @@ void init_gamma(void) {
 void init_velocity(void) {
   std::random_device rd{};
   std::mt19937 gen{rd()};
-  std::normal_distribution<double> n_d(0.0, kT);
+  std::normal_distribution<double> n_d(0.0, sp.kT());
   uint64_t i;
   int ax, th;
   double v_sum[3] = {0, 0, 0};
