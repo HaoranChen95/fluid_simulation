@@ -9,7 +9,7 @@
  *
  */
 
-#include "algorithm.hpp"
+#include "implement.hpp"
 
 void cell_list(void) {
   for (uint64_t i = 0; i < Nm; i++) {
@@ -72,9 +72,10 @@ void calc_force(void) {
       f1[ax][i] = 0.;
     }
   }
-  cell_list();
+  // cell_list();
 
   // uint64_t counter{0};
+  std::cout << "!!! there !!!" << std::endl;
 
   for (uint64_t i = 0; i < Nm; i++) {
     for (uint64_t j = i + 1; j < Nm; j++) {

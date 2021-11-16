@@ -11,7 +11,7 @@
 #ifndef EXPORT_HPP_
 #define EXPORT_HPP_
 
-#include "algorithm.hpp"
+#include "implement.hpp"
 
 void print_cfg(void);
 void print_Energy(void);

@@ -1,4 +1,4 @@
-sf_simu
+simple_fluid_simulation
 *.o
 *.optrpt
 temp

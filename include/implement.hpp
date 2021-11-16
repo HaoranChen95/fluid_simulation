@@ -9,12 +9,12 @@
  *
  */
 
-#ifndef ALGORITHM_HPP_
-#define ALGORITHM_HPP_
+#ifndef IMPLEMENT_HPP_
+#define IMPLEMENT_HPP_
 #include <cmath>  // floor
 // #include <vector>
 // #include <memory>
-#include "init.hpp"
+#include "initialization.hpp"
 
 void cell_list(void);
 
@@ -26,4 +26,4 @@ void calc_force(void);
 void vel_correcter(void);
 
 
-#endif  // ALGORITHM_HPP_
+#endif  // IMPLEMENT_HPP_

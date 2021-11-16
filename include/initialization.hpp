@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef INIT_HPP_
-#define INIT_HPP_
+#ifndef INITIALIZATION_HPP_
+#define INITIALIZATION_HPP_
 
 #ifdef _OPENMP
 #define N_THREADS 4
@@ -142,4 +142,4 @@ void init_system(void);
 void close_system(void);
 void write_last_cfg(void);
 
-#endif  // INIT_HPP_
+#endif  // INITIALIZATION_HPP_

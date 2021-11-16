@@ -9,7 +9,7 @@
  *
  */
 
-#include "init.hpp"
+#include "initialization.hpp"
 
 double **dr; /** @brief difference of position */
 double **r1; /** @brief difference of position */
