@@ -28,15 +28,21 @@
 #include <vector>
 
 extern std::vector<std::array<double,3>> r;
+extern std::vector<std::array<double, 3>> dr;
+extern std::vector<std::array<double, 3>> v;
+extern std::vector<std::array<double, 3>> f0;
+extern std::vector<std::array<double, 3>> f1;
+extern std::vector<std::array<double, 3>> g0;
+extern std::vector<std::array<double, 3>> g1;
 
-extern double **dr;
+// extern double **dr;
 // extern double **r1;
-extern double **v;
-extern double **f0;
-extern double **f1;
+// extern double **v;
+// extern double **f0;
+// extern double **f1;
 // extern double ***MP_f;
-extern double **g0;
-extern double **g1;
+// extern double **g0;
+// extern double **g1;
 
 class sys_param
 {

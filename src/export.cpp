@@ -35,7 +35,7 @@ void print_cfg(void) {
   if (cfgs_in_file < cfgs_pro_file) {
     for (uint64_t i = 0; i < Nm; i++) {
       cfg_data_file << r[i][0] << " " << r[i][1] << " " << r[i][2] << " "
-                    << v[0][i] << " " << v[1][i] << " " << v[2][i] << std::endl;
+                    << v[i][0] << " " << v[i][1] << " " << v[i][2] << std::endl;
     }
     cfg_time_file << step * dt << std::endl;
     cfgs_in_file++;
@@ -60,7 +60,7 @@ void print_Energy(void) {
 
   for (uint64_t i = 0; i < Nm; i++) {
     for (int ax = 0; ax < 3; ax++) {
-      f_sqr += f1[ax][i] * f1[ax][i];
+      f_sqr += f1[i][ax] * f1[i][ax];
     }
   }
 

@@ -56,8 +56,8 @@ double LJ(uint64_t i, uint64_t j) {
     coeffLJ = 24. * eps * r_inv2 * (sr_inv12 + sr_inv12 - sr_inv6);
     for (int ax = 0; ax < 3; ax++) {
       f_LJ[ax] = coeffLJ * r_ij[ax];
-      f1[ax][i] -= f_LJ[ax];
-      f1[ax][j] += f_LJ[ax];
+      f1[i][ax] -= f_LJ[ax];
+      f1[j][ax] += f_LJ[ax];
     }
     return 4. * eps * (sr_inv12 - sr_inv6) + eps;
   }
@@ -68,8 +68,8 @@ void calc_force(void) {
 #pragma omp parallel for
   for (uint64_t i = 0; i < Nm; i++) {
     for (int ax = 0; ax < 3; ax++) {
-      f0[ax][i] = f1[ax][i];
-      f1[ax][i] = 0.;
+      f0[i][ax] = f1[i][ax];
+      f1[i][ax] = 0.;
     }
   }
   // cell_list();
@@ -110,7 +110,7 @@ void calc_vel(void) {
 #pragma omp parallel for
   for (uint64_t i = 0; i < Nm; i++) {
     for (int ax = 0; ax < 3; ax++) {
-      v[ax][i] += (f0[ax][i] + f1[ax][i]) * half_dt;
+      v[i][ax] += (f0[i][ax] + f1[i][ax]) * half_dt;
     }
   }
 }
@@ -119,8 +119,8 @@ void calc_fluid_vel(void) {
   calc_vel();
   for (uint64_t i = 0; i < Nm; i++) {
     for (int ax = 0; ax < 3; ax++) {
-      v[ax][i] =
-          dr[ax][i] * const_v_1 + f0[ax][i] * const_v_2 + f1[ax][i] * const_v_3;
+      v[i][ax] =
+          dr[i][ax] * const_v_1 + f0[i][ax] * const_v_2 + f1[i][ax] * const_v_3;
     }
   }
 }
@@ -129,8 +129,8 @@ void calc_pos(void) {
 #pragma omp parallel for
   for (uint64_t i = 0; i < Nm; i++) {
     for (int ax = 0; ax < 3; ax++) {
-      dr[ax][i] = v[ax][i] * dt + f1[ax][i] * half_dt2;
-      r[i][ax] += dr[ax][i];
+      dr[i][ax] = v[i][ax] * dt + f1[i][ax] * half_dt2;
+      r[i][ax] += dr[i][ax];
     }
   }
 }
@@ -138,9 +138,9 @@ void calc_pos(void) {
 void calc_fluid_pos(void) {
   for (uint64_t i = 0; i < Nm; i++) {
     for (int ax = 0; ax < 3; ax++) {
-      dr[ax][i] = v[ax][i] * const_r_1 + f0[ax][i] * const_r_2 + g0[ax][i];
-      r[i][ax] += dr[ax][i];
-      dr[ax][i] += g1[ax][i];
+      dr[i][ax] = v[i][ax] * const_r_1 + f0[i][ax] * const_r_2 + g0[i][ax];
+      r[i][ax] += dr[i][ax];
+      dr[i][ax] += g1[i][ax];
     }
   }
 }
@@ -150,7 +150,7 @@ void calc_E_kin(void) {
 #pragma omp for reduction(+ : E_kin)
   for (uint64_t i = 0; i < Nm; i++) {
     for (int ax = 0; ax < 3; ax++) {
-      E_kin += v[ax][i] * v[ax][i];
+      E_kin += v[i][ax] * v[i][ax];
     }
   }
   E_kin *= 0.5;
@@ -164,6 +164,7 @@ void MD_Step(void) {
     calc_force();
     calc_fluid_vel();
   } else {
+
     calc_pos();
     calc_force();
     calc_vel();
@@ -188,7 +189,7 @@ void vel_correcter(void) {
   double a = sqrt(1.5 * sp.kT() * Nm / E_kin);
   for (uint64_t i = 0; i < Nm; i++) {
     for (int ax = 0; ax < 3; ax++) {
-      v[ax][i] *= a;
+      v[i][ax] *= a;
     }
   }
 }
