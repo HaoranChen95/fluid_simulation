@@ -18,13 +18,6 @@ std::vector<std::array<double, 3>> f0;
 std::vector<std::array<double, 3>> f1;
 std::vector<std::array<double, 3>> g0;
 std::vector<std::array<double, 3>> g1;
-// double **dr; /** @brief difference of position */
-// double **r1; /** @brief difference of position */
-// double **v;  /** @brief velocity */
-// double **f0; /** @brief previos force */
-// double **f1; /** @brief new force */
-// double **g0; /** @brief previos random number */
-// double **g1; /** @brief new random number */
 
 sys_param::sys_param(/* args */) {}
 
@@ -32,6 +25,40 @@ sys_param::~sys_param() {}
 
 void sys_param::kT(const double input) { kT_ = input; }
 double sys_param::kT() const { return kT_; }
+void sys_param::m(const double input) { m_ = input; }
+double sys_param::m() const { return m_; }
+
+void sys_param::h(const double input) {
+  h_ = input;
+  half_h_ = 0.5 * input;
+  half_h2_ = 0.5 * input * input;
+  time_100_ = static_cast<uint64_t>(100. / input);
+  time_10_ = static_cast<uint64_t>(10. / input);
+  time_1_ = static_cast<uint64_t>(1. / input);
+  time_01_ = static_cast<uint64_t>(0.1 / input);
+  time_001_ = static_cast<uint64_t>(0.01 / input);
+  time_0001_ = static_cast<uint64_t>(0.001 / input);
+}
+double sys_param::h() const { return h_; }
+double sys_param::half_h() const { return half_h_; }
+double sys_param::half_h2() const { return half_h2_; }
+uint64_t sys_param::time_0001() const { return time_0001_; }
+uint64_t sys_param::time_001() const { return time_001_; }
+uint64_t sys_param::time_01() const { return time_01_; }
+uint64_t sys_param::time_1() const { return time_1_; }
+uint64_t sys_param::time_10() const { return time_10_; }
+uint64_t sys_param::time_100() const { return time_100_; }
+
+void sys_param::Nm(const double input) { Nm_ = input; }
+double sys_param::Nm() const { return Nm_; }
+void sys_param::gamma(const double input) { gamma_ = input; }
+double sys_param::gamma() const { return gamma_; }
+void sys_param::sigma(const double input) { sigma_ = input; }
+double sys_param::sigma() const { return sigma_; }
+void sys_param::epsilon(const double input) { epsilon_ = input; }
+double sys_param::epsilon() const { return epsilon_; }
+void sys_param::density(const double input) { density_ = input; }
+double sys_param::density() const { return density_; }
 
 sys_param sp;
 
@@ -40,9 +67,6 @@ sys_param sp;
 
 double set_kT_2gamma_over_m;
 double &kT_2gamma_over_m = set_kT_2gamma_over_m;
-
-double set_m;
-double &m = set_m;
 
 bool open_fluid;
 
@@ -76,30 +100,7 @@ int64_t Relax_Steps;
 int64_t step;
 double MD_time;
 
-uint64_t set_time_1;
-const uint64_t &time_1 = set_time_1;
-uint64_t set_time_01;
-const uint64_t &time_01 = set_time_01;
-uint64_t set_time_001;
-const uint64_t &time_001 = set_time_001;
-uint64_t set_time_0001;
-const uint64_t &time_0001 = set_time_0001;
-uint64_t set_time_10;
-const uint64_t &time_10 = set_time_10;
-uint64_t set_time_100;
-const uint64_t &time_100 = set_time_100;
-uint64_t set_time_1000;
-const uint64_t &time_1000 = set_time_1000;
-
-double set_dt;
-const double &dt = set_dt;
-
-double set_half_dt;
-const double &half_dt = set_half_dt;
-
-double set_half_dt2;
-const double &half_dt2 = set_half_dt2;
-
+// TODO change the interpretation of Cell list
 uint64_t set_Cell_N[3];
 const uint64_t *const Cell_N = set_Cell_N;
 
@@ -154,7 +155,7 @@ void read_config() {
     while (std::getline(config_file, line)) {
       if (line[0] != '#') {
         split_at = line.find('=');
-        std::cout << line.substr(0, split_at - 1) << "-"
+        std::cout << line.substr(0, split_at - 1) << ":\t"
                   << line.substr(split_at + 2) << std::endl;
 
         const std::string &head = line.substr(0, split_at - 1);
@@ -177,13 +178,10 @@ void read_config() {
         } else if (head == "epsilon") {
           set_epsilon = std::stod(value);
         } else if (head == "m") {
-          set_m = std::stod(value);
+          sp.m(std::stod(value));
         } else if (head == "open_fluid") {
           open_fluid = std::stoi(value);
         }
-        // else if (head == "step length") {
-        //   set_dt = std::stod(value);
-        // }
       }
     }
   }
@@ -200,33 +198,23 @@ void init_parameter(void) {
 
   set_r2_cut = sig * sig * pow(2., 1. / 3.);
   set_sig2 = sig * sig;
-  set_half_dt = 0.5 * dt;
-  set_half_dt2 = 0.5 * dt * dt;
 
-  set_kT_2gamma_over_m = 2. * gam * sp.kT() / m;
-  double gamh = gam * dt;
+  set_kT_2gamma_over_m = 2. * gam * sp.kT() / sp.m();
+  double gamh = gam * sp.h();
   C_gamh = 2. * gamh - 3. + 4. * exp(-gamh) - exp(-2. * gamh);
   G_gamh = exp(gamh) - 2. * gamh - exp(-gamh);
   E_gamh = 16. * (exp(gamh) + exp(-gamh)) -
            4. * (exp(2. * gamh) + exp(-2. * gamh)) -
            4. * gamh * (exp(gamh) - exp(-gamh)) +
            2. * gamh * (exp(2. * gamh) - exp(-2. * gamh)) - 24.;
-  set_const_g0_1 = sqrt(sp.kT() / m / gam / gam * C_gamh);
-  set_const_g1_1 = sqrt(sp.kT() / m / gam / gam * E_gamh / C_gamh);
+  set_const_g0_1 = sqrt(sp.kT() / sp.m() / gam / gam * C_gamh);
+  set_const_g1_1 = sqrt(sp.kT() / sp.m() / gam / gam * E_gamh / C_gamh);
   set_const_g1_2 = G_gamh / C_gamh;
   set_const_r_1 = (1. - exp(-gamh)) / gam;
   set_const_r_2 = (gamh - 1. + exp(-gamh)) / gam / gam;
   set_const_v_1 = gam / (exp(gamh) - 1.);
   set_const_v_2 = (gamh - 1. + exp(-gamh)) / gam / (exp(gamh) - 1.);
   set_const_v_3 = (-gamh - 1. + exp(gamh)) / gam / (exp(gamh) - 1.);
-
-  set_time_1000 = static_cast<uint64_t>(1000. / dt);
-  set_time_100 = static_cast<uint64_t>(100. / dt);
-  set_time_10 = static_cast<uint64_t>(10. / dt);
-  set_time_1 = static_cast<uint64_t>(1. / dt);
-  set_time_01 = static_cast<uint64_t>(0.1 / dt);
-  set_time_001 = static_cast<uint64_t>(0.01 / dt);
-  set_time_0001 = static_cast<uint64_t>(0.001 / dt);
 }
 
 void init_position(void) {
@@ -245,7 +233,7 @@ void init_position(void) {
         new_r[2] = r_z * sig;
 
         r.push_back(new_r);
-        dr.push_back({0,0,0});
+        dr.push_back({0, 0, 0});
         if (++i >= Nm) {
           goto finish;
         }
@@ -294,17 +282,6 @@ void init_velocity(void) {
       v_sum[ax] += v[i][ax];
     }
   }
-
-  // for (ax = 0; ax < 3; ax++) {
-  //   v_sum[ax] /= static_cast<double>(Nm);
-  // }
-
-  // for (i = 0; i < Nm; i++) {
-  //   for (ax = 0; ax < 3; ax++) {
-  //     v[ax][i] -= v_sum[ax];
-  //   }
-  // }
-
   std::cout << "initialization of velocity finished" << std::endl;
 }
 
@@ -327,32 +304,12 @@ void write_last_cfg(void) {
     last_cfg_pos_vel << r[i][0] << " " << r[i][1] << " " << r[i][2] << " "
                      << v[i][0] << " " << v[i][1] << " " << v[i][2]
                      << std::endl;
-    //  << " "
-    //  << ex[i] << " " << ey[i] << " " << ez[i] << endl;
   }
   last_cfg_pos_vel.close();
 }
 
 void init_system(void) {
   init_parameter();
-  // set_Nm = 2;
-  // dr = new double *[3];
-  // r1 = new double *[3];
-  // v = new double *[3];
-  // f0 = new double *[3];
-  // f1 = new double *[3];
-  // g0 = new double *[3];
-  // g1 = new double *[3];
-
-  // for (int ax = 0; ax < 3; ax++) {
-  //   dr[ax] = new double[Nm];
-  //   r1[ax] = new double[Nm];
-  //   v[ax] = new double[Nm];
-  //   f0[ax] = new double[Nm];
-  //   f1[ax] = new double[Nm];
-  //   g0[ax] = new double[Nm];
-  //   g1[ax] = new double[Nm];
-  // }
 
   cell = new int64_t **[Cell_N[0] + 2];
   for (int64_t cx = 0; cx < Cell_N[0] + 2; cx++) {
@@ -369,21 +326,4 @@ void init_system(void) {
   write_last_cfg();
 }
 
-void close_system(void) {
-  // for (int ax = 0; ax < 3; ax++) {
-  //   delete[] dr[ax];
-  //   // delete[] r1[ax];
-  //   delete[] v[ax];
-  //   delete[] f0[ax];
-  //   delete[] f1[ax];
-  //   delete[] g0[ax];
-  //   delete[] g1[ax];
-  // }
-  // delete[] dr;
-  // delete[] r1;
-  // delete[] v;
-  // delete[] f0;
-  // delete[] f1;
-  // delete[] g0;
-  // delete[] g1;
-}
+void close_system(void) {}

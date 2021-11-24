@@ -110,7 +110,7 @@ void calc_vel(void) {
 #pragma omp parallel for
   for (uint64_t i = 0; i < Nm; i++) {
     for (int ax = 0; ax < 3; ax++) {
-      v[i][ax] += (f0[i][ax] + f1[i][ax]) * half_dt;
+      v[i][ax] += (f0[i][ax] + f1[i][ax]) * sp.half_h();
     }
   }
 }
@@ -129,7 +129,7 @@ void calc_pos(void) {
 #pragma omp parallel for
   for (uint64_t i = 0; i < Nm; i++) {
     for (int ax = 0; ax < 3; ax++) {
-      dr[i][ax] = v[i][ax] * dt + f1[i][ax] * half_dt2;
+      dr[i][ax] = v[i][ax] * sp.h() + f1[i][ax] * sp.half_h2();
       r[i][ax] += dr[i][ax];
     }
   }
@@ -172,14 +172,14 @@ void MD_Step(void) {
 
   calc_E_kin();
   if (print_E == 0) {
-    std::cout << "time\t" << static_cast<double>(step) * dt << "\tE_kin\t"
+    std::cout << "time\t" << static_cast<double>(step) * sp.h() << "\tE_kin\t"
               << E_kin / static_cast<double>(Nm) << "\tE_pot\t"
               << E_pot / static_cast<double>(Nm) << "\tE\t"
               << (E_kin + E_pot) / static_cast<double>(Nm)
               // << " v_all " << calc_f_all()
               << std::endl;
   }
-  if (++print_E == time_01) {
+  if (++print_E == sp.time_01()) {
     print_E = 0;
   }
 }

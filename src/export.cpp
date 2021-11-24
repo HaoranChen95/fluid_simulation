@@ -37,7 +37,7 @@ void print_cfg(void) {
       cfg_data_file << r[i][0] << " " << r[i][1] << " " << r[i][2] << " "
                     << v[i][0] << " " << v[i][1] << " " << v[i][2] << std::endl;
     }
-    cfg_time_file << step * dt << std::endl;
+    cfg_time_file << step * sp.h() << std::endl;
     cfgs_in_file++;
   } else {
     cfg_file_array_Nm++;
@@ -64,7 +64,7 @@ void print_Energy(void) {
     }
   }
 
-  energy_file << static_cast<double>(step) * dt << " " << f_sqr << " "
+  energy_file << static_cast<double>(step) * sp.h() << " " << f_sqr << " "
               << E_kin / static_cast<double>(Nm) << " "
               << E_pot / static_cast<double>(Nm) << " "
               << (E_kin + E_pot) / static_cast<double>(Nm) << std::endl;
