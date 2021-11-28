@@ -20,8 +20,9 @@
 #endif  // _OPENMP
 
 #include <omp.h>
-#include <cmath>
+
 #include <array>
+#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <random>
@@ -38,8 +39,22 @@ extern std::vector<std::array<double, 3>> g1;
 
 class sys_param {
  private:
+  double MD_time_;
+  double Relax_time_;
+  double h_;
+  double half_h_;
+  double half_h2_;
+  uint64_t MD_Steps_;
+  uint64_t Relax_Steps_;
+  uint64_t step_;
+  uint64_t time_0001_;
+  uint64_t time_001_;
+  uint64_t time_01_;
+  uint64_t time_1_;
+  uint64_t time_10_;
+  uint64_t time_100_;
+
   double kT_;
-  double kT_2gamma_over_m_;
   double m_;
   std::array<double, 3> l_b_;
   std::array<double, 3> half_l_b_;
@@ -52,39 +67,29 @@ class sys_param {
   double r2_cut_;
   double sig2_;
 
-  uint64_t MD_Step_;
-  uint64_t Relax_Steps_;
-  uint64_t step_;
-  double MD_time_;
-  double h_;
-  double half_h_;
-  double half_h2_;
-  uint64_t time_0001_;
-  uint64_t time_001_;
-  uint64_t time_01_;
-  uint64_t time_1_;
-  uint64_t time_10_;
-  uint64_t time_100_;
-
-  double C_gamh_;
-  double G_gamh_;
-  double E_gamh_;
-  double const_g0_1_;
-  double const_g1_1_;
-  double const_g1_2_;
-  double const_r_1_;
-  double const_r_2_;
-  double const_v_1_;
-  double const_v_2_;
-  double const_v_3_;
+  double BD_r_1_;
+  double BD_r_2_;
+  double BD_v_1_;
+  double BD_v_2_;
+  double BD_v_3_;
+  double BD_g0_1_;
+  double BD_g1_1_;
+  double BD_g1_2_;
 
  public:
-  /* finished */
-  sys_param(/* args */);
+  void read_arg(const int argc, const char **argv);
+
+  void MD_Steps(const double input);
+  uint64_t MD_Steps() const;
+  void Relax_Steps(const uint64_t input);
+  uint64_t Relax_Steps() const;
+  void step(const double input);
+  uint64_t step() const;
+  void MD_time(const double input);
+  double MD_time() const;
+
   void kT(const double input);
   double kT() const;
-  void kT_2gamma_over_m(const double input);
-  double kT_2gamma_over_m() const;
   void m(const double input);
   double m() const;
 
@@ -99,15 +104,14 @@ class sys_param {
   uint64_t time_10() const;
   uint64_t time_100() const;
 
-  /*haven't finished */
-
   void l_b(const int ax, const double input);
   std::array<double, 3> l_b() const;
   std::array<double, 3> half_l_b() const;
   std::array<double, 3> inv_l_b() const;
+
   void Nm(const uint64_t input);
   uint64_t Nm() const;
-  void density(const double input);
+  void calc_Nm();
   double density() const;
 
   void gamma(const double input);
@@ -120,43 +124,20 @@ class sys_param {
   double r2_cut() const;
   double sig2() const;
 
-  void MD_Step(const double input);
-  uint64_t MD_Step() const;
-  void Relax_Steps(const double input);
-  uint64_t Relax_Steps() const;
-  void step(const double input);
-  uint64_t step() const;
-  void MD_time(const double input);
-  double MD_time() const;
-  void C_gamh(const double input);
-  double C_gamh() const;
-  void G_gamh(const double input);
-  double G_gamh() const;
-  void E_gamh(const double input);
-  double E_gamh() const;
-  void const_g0_1(const double input);
-  double const_g0_1() const;
-  void const_g1_1(const double input);
-  double const_g1_1() const;
-  void const_g1_2(const double input);
-  double const_g1_2() const;
-  void const_r_1(const double input);
-  double const_r_1() const;
-  void const_r_2(const double input);
-  double const_r_2() const;
-  void const_v_1(const double input);
-  double const_v_1() const;
-  void const_v_2(const double input);
-  double const_v_2() const;
-  void const_v_3(const double input);
-  double const_v_3() const;
-  ~sys_param();
+  void calc_BD_factor();
+  double BD_r_1() const;
+  double BD_r_2() const;
+  double BD_v_1() const;
+  double BD_v_2() const;
+  double BD_v_3() const;
+  double BD_g0_1() const;
+  double BD_g1_1() const;
+  double BD_g1_2() const;
+
+  double random() const;
 };
 
 extern sys_param sp;
-
-extern double set_kT_2gamma_over_m;
-extern double &kT_2gamma_over_m;
 
 extern bool open_fluid;
 
@@ -178,31 +159,12 @@ extern double E_kin, E_pot;
 extern int print_E;
 extern int FREQ_print_E;
 
-extern double set_const_r_1;
-extern double set_const_r_2;
-extern double set_const_v_1;
-extern double set_const_v_2;
-extern double set_const_v_3;
-extern const double &const_r_1;
-extern const double &const_r_2;
-extern const double &const_v_1;
-extern const double &const_v_2;
-extern const double &const_v_3;
-
-extern double set_const_g0_1;
-extern double set_const_g1_1;
-extern double set_const_g1_2;
-extern const double &const_g0_1;
-extern const double &const_g1_1;
-extern const double &const_g1_2;
-
-void read_arg(const int argc, const char **argv);
 void read_config(void);
 void init_parameter(void);
 void init_gamma(void);
 void init_position(void);
 void init_velocity(void);
-void init_system(void);
+void init_system(const int argc, const char **argv);
 void close_system(void);
 void write_last_cfg(void);
 

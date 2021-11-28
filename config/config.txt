@@ -1,7 +1,7 @@
 # k_b T system temperature
 kT = 1
-# gamma friction constant
-gamma = 100
+# mass
+m = 1
 # lx 
 lx = 20
 # ly
@@ -13,8 +13,4 @@ epsilon = 1.5
 # sigma
 sigma = 1
 # density
-density = 0.4
-# mass
-m = 1
-# calculate fluid
-open_fluid = 0
+density = 0.2

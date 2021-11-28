@@ -12,26 +12,22 @@
 #include "main.hpp"
 
 int main(const int argc, const char* argv[]) {
-  // Relax_Steps = 100000;
-  // MD_Steps = 10000000;
-  Relax_Steps = 0;
-  MD_time = 1.;
-  sp.h(0.001);
+
   MD_Steps = static_cast<uint64_t>(MD_time / sp.h());
 
   int FREQ_CFG_DETA = 1;
-  read_arg(argc, argv);
-  read_config();
-  init_system();
+  init_system(argc, argv);
   calc_force();
+  std::cout << "there !!! " << sp.BD_v_1() << " " << sp.BD_v_2() << " " << sp.BD_v_3() << " " << std::endl;
 
-  for (step = 0; step < Relax_Steps; step++) {
+  sp.Relax_Steps(1000);
+  for (step = 0; step < sp.Relax_Steps(); step++) {
     MD_Step();
-    if (!open_fluid) {
+    if (!sp.gamma()) {
       vel_correcter();
     }
   }
-  for (step = 0; step < MD_Steps; step++) {
+  for (step = 0; step < sp.MD_Steps(); step++) {
     MD_Step();
     // std::cout << "there !!! " << step << std::endl;
 

@@ -106,7 +106,7 @@ void calc_force(void) {
   // counter = 0;
 }
 
-void calc_vel(void) {
+void calc_MD_vel(void) {
 #pragma omp parallel for
   for (uint64_t i = 0; i < sp.Nm(); i++) {
     for (int ax = 0; ax < 3; ax++) {
@@ -115,17 +115,17 @@ void calc_vel(void) {
   }
 }
 
-void calc_fluid_vel(void) {
-  calc_vel();
+void calc_BD_vel(void) {
+  // calc_MD_vel();
   for (uint64_t i = 0; i < sp.Nm(); i++) {
     for (int ax = 0; ax < 3; ax++) {
       v[i][ax] =
-          dr[i][ax] * const_v_1 + f0[i][ax] * const_v_2 + f1[i][ax] * const_v_3;
+          dr[i][ax] * sp.BD_v_1() + f0[i][ax] * sp.BD_v_2() + f1[i][ax] * sp.BD_v_3();
     }
   }
 }
 
-void calc_pos(void) {
+void calc_MD_pos(void) {
 #pragma omp parallel for
   for (uint64_t i = 0; i < sp.Nm(); i++) {
     for (int ax = 0; ax < 3; ax++) {
@@ -135,10 +135,10 @@ void calc_pos(void) {
   }
 }
 
-void calc_fluid_pos(void) {
+void calc_BD_pos(void) {
   for (uint64_t i = 0; i < sp.Nm(); i++) {
     for (int ax = 0; ax < 3; ax++) {
-      dr[i][ax] = v[i][ax] * const_r_1 + f0[i][ax] * const_r_2 + g0[i][ax];
+      dr[i][ax] = v[i][ax] * sp.BD_r_1() + f0[i][ax] * sp.BD_r_2() + g0[i][ax];
       r[i][ax] += dr[i][ax];
       dr[i][ax] += g1[i][ax];
     }
@@ -156,18 +156,30 @@ void calc_E_kin(void) {
   E_kin *= 0.5;
 }
 
+void get_gamma(void) {
+  std::random_device rd{};
+  std::mt19937 gen{rd()};
+  std::normal_distribution<double> n_d(0.0, 1.);
+
+  for (uint64_t i = 0; i < sp.Nm(); i++) {
+    for (int ax = 0; ax < 3; ax++) {
+      g0[ax][i] = sp.BD_g0_1() * n_d(gen);
+      g1[ax][i] = sp.BD_g1_1() * n_d(gen) + sp.BD_g1_2() * g0[ax][i];
+    }
+  }
+}
+
 void MD_Step(void) {
   E_pot = 0.;
-  if (open_fluid) {
-    init_gamma();
-    calc_fluid_pos();
+  if (sp.gamma()) {
+    get_gamma();
+    calc_BD_pos();
     calc_force();
-    calc_fluid_vel();
+    calc_BD_vel();
   } else {
-
-    calc_pos();
+    calc_MD_pos();
     calc_force();
-    calc_vel();
+    calc_MD_vel();
   }
 
   calc_E_kin();

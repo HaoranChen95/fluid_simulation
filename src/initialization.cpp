@@ -19,26 +19,27 @@ std::vector<std::array<double, 3>> f1;
 std::vector<std::array<double, 3>> g0;
 std::vector<std::array<double, 3>> g1;
 
-sys_param::sys_param(/* args */) {}
+void sys_param::read_arg(const int argc, const char **argv) {
+  std::cout << "there" << std::endl;
+  MD_time_ = std::stod(argv[1]);
+  h_ = std::stod(argv[2]);
+  density_ = std::stod(argv[3]);
+  gamma_ = std::stod(argv[4]);
 
-sys_param::~sys_param() {}
-
-void sys_param::kT(const double input) { kT_ = input; }
-double sys_param::kT() const { return kT_; }
-void sys_param::m(const double input) { m_ = input; }
-double sys_param::m() const { return m_; }
-
-void sys_param::h(const double input) {
-  h_ = input;
-  half_h_ = 0.5 * input;
-  half_h2_ = 0.5 * input * input;
-  time_100_ = static_cast<uint64_t>(100. / input);
-  time_10_ = static_cast<uint64_t>(10. / input);
-  time_1_ = static_cast<uint64_t>(1. / input);
-  time_01_ = static_cast<uint64_t>(0.1 / input);
-  time_001_ = static_cast<uint64_t>(0.01 / input);
-  time_0001_ = static_cast<uint64_t>(0.001 / input);
+  MD_Steps_ = static_cast<uint64_t>(MD_time_ / h_);
+  half_h_ = 0.5 * h_;
+  half_h2_ = 0.5 * h_ * h_;
+  time_100_ = static_cast<uint64_t>(100. / h_);
+  time_10_ = static_cast<uint64_t>(10. / h_);
+  time_1_ = static_cast<uint64_t>(1. / h_);
+  time_01_ = static_cast<uint64_t>(0.1 / h_);
+  time_001_ = static_cast<uint64_t>(0.01 / h_);
+  time_0001_ = static_cast<uint64_t>(0.001 / h_);
 }
+
+uint64_t sys_param::MD_Steps() const { return MD_Steps_; }
+void sys_param::Relax_Steps(const uint64_t input) {Relax_Steps_ = input;}
+uint64_t sys_param::Relax_Steps() const { return Relax_Steps_; }
 
 /**
  * @brief out put time step h
@@ -60,6 +61,11 @@ uint64_t sys_param::time_1() const { return time_1_; }
 uint64_t sys_param::time_10() const { return time_10_; }
 uint64_t sys_param::time_100() const { return time_100_; }
 
+void sys_param::kT(const double input) { kT_ = input; }
+double sys_param::kT() const { return kT_; }
+void sys_param::m(const double input) { m_ = input; }
+double sys_param::m() const { return m_; }
+
 /**
  * @brief set the periodic boundary condition
  *
@@ -76,7 +82,6 @@ std::array<double, 3> sys_param::l_b() const { return l_b_; }
 std::array<double, 3> sys_param::half_l_b() const { return half_l_b_; }
 std::array<double, 3> sys_param::inv_l_b() const { return inv_l_b_; }
 
-
 void sys_param::sigma(const double input) {
   sigma_ = input;
   sig2_ = input * input;
@@ -86,11 +91,10 @@ double sys_param::sigma() const { return sigma_; }
 double sys_param::r2_cut() const { return r2_cut_; }
 double sys_param::sig2() const { return sig2_; }
 
-void sys_param::epsilon(const double input) { epsilon_ = input; }
+void sys_param::epsilon(const double input) {
+  epsilon_ = input;
+}  // TODO e = kT
 double sys_param::epsilon() const { return epsilon_; }
-
-void sys_param::gamma(const double input) { gamma_ = input; }
-double sys_param::gamma() const { return gamma_; }
 
 void sys_param::Nm(const uint64_t input) {
   Nm_ = input;
@@ -98,23 +102,43 @@ void sys_param::Nm(const uint64_t input) {
       static_cast<double>(input) * M_PI_4 * sig2_ / l_b_[0] / l_b_[1] / l_b_[2];
 }
 
-void sys_param::density(const double input) {
-  density_ = input;
-  Nm_ = static_cast<uint64_t>(l_b_[0] * l_b_[1] * l_b_[2] * input / M_PI_4 /
+void sys_param::calc_Nm() {
+  Nm_ = static_cast<uint64_t>(l_b_[0] * l_b_[1] * l_b_[2] * density_ / M_PI_4 /
                               sig2_);
-
-  std::cout << sig2_ << std::endl;
 }
 uint64_t sys_param::Nm() const { return Nm_; }
 double sys_param::density() const { return density_; }
 
+void sys_param::calc_BD_factor() {
+  double gh = gamma_ * h_;
+  double C_gh = 2. * gh - 3. + 4. * exp(-gh) - exp(-2. * gh);
+  double G_gh = exp(gh) - 2. * gh - exp(-gh);
+  double E_gh = 16. * (exp(gh) + exp(-gh)) -
+                4. * (exp(2. * gh) + exp(-2. * gh)) -
+                4. * gh * (exp(gh) - exp(-gh)) +
+                2. * gh * (exp(2. * gh) - exp(-2. * gh)) - 24.;
+
+  BD_g0_1_ = sqrt(kT_ / m_ / gamma_ / gamma_ * C_gh);
+  BD_g1_1_ = sqrt(kT_ / m_ / gamma_ / gamma_ * E_gh / C_gh);
+  BD_g1_2_ = G_gh / C_gh;
+
+  BD_r_1_ = (1. - exp(-gh)) / gamma_;
+  BD_r_2_ = (gh - 1. + exp(-gh)) / gamma_ / gamma_;
+
+  BD_v_1_ = gamma_ / (exp(gh) - 1.);
+  BD_v_2_ = (gh - 1. + exp(-gh)) / gamma_ / (exp(gh) - 1.);
+  BD_v_3_ = (-gh - 1. + exp(gh)) / gamma_ / (exp(gh) - 1.);
+}
+double sys_param::gamma() const { return gamma_; }
+double sys_param::BD_r_1() const { return BD_r_1_; }
+double sys_param::BD_r_2() const { return BD_r_2_; }
+double sys_param::BD_v_1() const { return BD_v_1_; }
+double sys_param::BD_v_2() const { return BD_v_2_; }
+double sys_param::BD_v_3() const { return BD_v_3_; }
+double sys_param::BD_g0_1() const { return BD_g0_1_; }
+double sys_param::BD_g1_1() const { return BD_g1_1_; }
+double sys_param::BD_g1_2() const { return BD_g1_2_; }
 sys_param sp;
-
-// double set_kT;
-// const double &kT = set_kT;
-
-double set_kT_2gamma_over_m;
-double &kT_2gamma_over_m = set_kT_2gamma_over_m;
 
 bool open_fluid;
 
@@ -137,37 +161,8 @@ double E_kin, E_pot;
 int print_E;
 int FREQ_print_E = 10;
 
-// randem constant part
-double C_gamh;
-double G_gamh;
-double E_gamh;
-double set_const_g0_1;
-double set_const_g1_1;
-double set_const_g1_2;
-const double &const_g0_1 = set_const_g0_1;
-const double &const_g1_1 = set_const_g1_1;
-const double &const_g1_2 = set_const_g1_2;
-double set_const_r_1;
-double set_const_r_2;
-double set_const_v_1;
-double set_const_v_2;
-double set_const_v_3;
-const double &const_r_1 = set_const_r_1;
-const double &const_r_2 = set_const_r_2;
-const double &const_v_1 = set_const_v_1;
-const double &const_v_2 = set_const_v_2;
-const double &const_v_3 = set_const_v_3;
-
-void read_arg(const int argc, const char **argv) {
-  std::cout << "there" << std::endl;
-  for (int i = 1; i < 4; i++) {
-    std::cout << "argv" << i << ": " << argv[i] << std::endl;
-  }
-}
-
 void read_config() {
   std::cout << "read initial file:" << std::endl;
-  std::cout << MD_Steps << std::endl;
 
   std::ifstream config_file;
   std::string line;
@@ -186,52 +181,30 @@ void read_config() {
 
         if (head == "kT") {
           sp.kT(std::stod(value));
-        } else if (head == "gamma") {
-          sp.gamma(std::stod(value));
         } else if (head == "lx") {
           sp.l_b(0, std::stod(value));
         } else if (head == "ly") {
           sp.l_b(1, std::stod(value));
         } else if (head == "lz") {
           sp.l_b(2, std::stod(value));
-        } else if (head == "density") {
-          sp.density(std::stod(value));
         } else if (head == "sigma") {
           sp.sigma(std::stod(value));
         } else if (head == "epsilon") {
           sp.epsilon(std::stod(value));
         } else if (head == "m") {
           sp.m(std::stod(value));
-        } else if (head == "open_fluid") {
-          open_fluid = std::stoi(value);
         }
       }
     }
+    sp.calc_Nm();
   }
 }
 
 void init_parameter(void) {
-
+  sp.calc_BD_factor();
   // for (int ax = 0; ax < 3; ax++) {
   //   set_Cell_N[ax] = static_cast<uint64_t>(sp.l_b()[ax] / sp.sigma());
   // }
-
-  set_kT_2gamma_over_m = 2. * sp.gamma() * sp.kT() / sp.m();
-  double gamh = sp.gamma() * sp.h();
-  C_gamh = 2. * gamh - 3. + 4. * exp(-gamh) - exp(-2. * gamh);
-  G_gamh = exp(gamh) - 2. * gamh - exp(-gamh);
-  E_gamh = 16. * (exp(gamh) + exp(-gamh)) -
-           4. * (exp(2. * gamh) + exp(-2. * gamh)) -
-           4. * gamh * (exp(gamh) - exp(-gamh)) +
-           2. * gamh * (exp(2. * gamh) - exp(-2. * gamh)) - 24.;
-  set_const_g0_1 = sqrt(sp.kT() / sp.m() / sp.gamma() / sp.gamma() * C_gamh);
-  set_const_g1_1 = sqrt(sp.kT() / sp.m() / sp.gamma() / sp.gamma() * E_gamh / C_gamh);
-  set_const_g1_2 = G_gamh / C_gamh;
-  set_const_r_1 = (1. - exp(-gamh)) / sp.gamma();
-  set_const_r_2 = (gamh - 1. + exp(-gamh)) / sp.gamma() / sp.gamma();
-  set_const_v_1 = sp.gamma() / (exp(gamh) - 1.);
-  set_const_v_2 = (gamh - 1. + exp(-gamh)) / sp.gamma() / (exp(gamh) - 1.);
-  set_const_v_3 = (-gamh - 1. + exp(gamh)) / sp.gamma() / (exp(gamh) - 1.);
 }
 
 void init_position(void) {
@@ -241,7 +214,6 @@ void init_position(void) {
   row_z = static_cast<int>(sp.l_b()[2] / sp.sigma());
   int i = 0;
   std::array<double, 3> new_r;
-
 
   for (int r_z = 0; r_z < row_z; r_z++) {
     for (int r_y = 0; r_y < row_y; r_y++) {
@@ -271,8 +243,8 @@ void init_gamma(void) {
 
   for (uint64_t i = 0; i < sp.Nm(); i++) {
     for (int ax = 0; ax < 3; ax++) {
-      new_g0[ax] = const_g0_1 * n_d(gen);
-      new_g1[ax] = const_g1_1 * n_d(gen) + const_g1_2 * new_g0[ax];
+      new_g0[ax] = sp.BD_g0_1() * n_d(gen);
+      new_g1[ax] = sp.BD_g1_1() * n_d(gen) + sp.BD_g1_2() * new_g0[ax];
     }
     g0.push_back(new_g0);
     g1.push_back(new_g1);
@@ -326,8 +298,8 @@ void write_last_cfg(void) {
   last_cfg_pos_vel.close();
 }
 
-void init_system(void) {
-  init_parameter();
+void init_system(const int argc, const char **argv) {
+  // init_parameter();
   // cell = new int64_t **[Cell_N[0] + 2];
   // for (int64_t cx = 0; cx < Cell_N[0] + 2; cx++) {
   //   cell[cx] = new int64_t *[Cell_N[1] + 2];
@@ -337,10 +309,16 @@ void init_system(void) {
   // }
   // list = new int64_t[sp.Nm()];
 
+  sp.read_arg(argc, argv);
+  read_config();
+
   init_position();
-  std::cout << "there !!! " << sp.Nm() << " " << sp.l_b()[0] << " " << sp.l_b()[1] << " "<< sp.l_b()[2] << " " << sp.density() << " "<< std::endl;
   init_velocity();
   init_force();
+  if (sp.gamma()) {
+    sp.calc_BD_factor();
+    init_gamma();
+  }
   write_last_cfg();
 }
 
