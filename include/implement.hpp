@@ -16,7 +16,7 @@
 // #include <memory>
 #include "initialization.hpp"
 
-void cell_list(void);
+// void cell_list(void);
 
 double minium_image(const uint64_t &i, const uint64_t &j, const int &ax);
 

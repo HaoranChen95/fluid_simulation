@@ -21,19 +21,19 @@ std::ostringstream oss;
 
 void print_cfg(void) {
   if (cfgs_in_file == 0) {
-    oss << "cfg_data_pos_aV_" << cfg_file_array_Nm << "_phi_" << density
-        << "_Nm_" << Nm << ".dat";
+    oss << "cfg_data_pos_aV_" << cfg_file_array_Nm << "_phi_" << sp.density()
+        << "_Nm_" << sp.Nm() << ".dat";
     cfg_data_file.open(oss.str(), std::ios::app);
     oss.str("");
 
-    oss << "cfg_time_aV_" << cfg_file_array_Nm << "_phi_" << density << "_Nm_"
-        << Nm << ".dat";
+    oss << "cfg_time_aV_" << cfg_file_array_Nm << "_phi_" << sp.density() << "_Nm_"
+        << sp.Nm() << ".dat";
     cfg_time_file.open(oss.str(), std::ios::app);
     oss.str("");
   }
 
   if (cfgs_in_file < cfgs_pro_file) {
-    for (uint64_t i = 0; i < Nm; i++) {
+    for (uint64_t i = 0; i < sp.Nm(); i++) {
       cfg_data_file << r[i][0] << " " << r[i][1] << " " << r[i][2] << " "
                     << v[i][0] << " " << v[i][1] << " " << v[i][2] << std::endl;
     }
@@ -50,7 +50,7 @@ void print_cfg(void) {
 void print_Energy(void) {
   // std::cout << "writing !" << std::endl;
   if (!energy_file.is_open()) {
-    oss << "energy_phi_" << density << "_Nm_" << Nm << ".txt";
+    oss << "energy_phi_" << sp.density() << "_Nm_" << sp.Nm() << ".txt";
     energy_file.open(oss.str(), std::ios::app);
     oss.str("");
     energy_file.precision(10);
@@ -58,14 +58,14 @@ void print_Energy(void) {
 
   double f_sqr = 0;
 
-  for (uint64_t i = 0; i < Nm; i++) {
+  for (uint64_t i = 0; i < sp.Nm(); i++) {
     for (int ax = 0; ax < 3; ax++) {
       f_sqr += f1[i][ax] * f1[i][ax];
     }
   }
 
   energy_file << static_cast<double>(step) * sp.h() << " " << f_sqr << " "
-              << E_kin / static_cast<double>(Nm) << " "
-              << E_pot / static_cast<double>(Nm) << " "
-              << (E_kin + E_pot) / static_cast<double>(Nm) << std::endl;
+              << E_kin / static_cast<double>(sp.Nm()) << " "
+              << E_pot / static_cast<double>(sp.Nm()) << " "
+              << (E_kin + E_pot) / static_cast<double>(sp.Nm()) << std::endl;
 }

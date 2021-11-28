@@ -20,7 +20,7 @@
 #endif  // _OPENMP
 
 #include <omp.h>
-
+#include <cmath>
 #include <array>
 #include <fstream>
 #include <iostream>
@@ -79,7 +79,6 @@ class sys_param {
   double const_v_3_;
 
  public:
-
   /* finished */
   sys_param(/* args */);
   void kT(const double input);
@@ -88,7 +87,7 @@ class sys_param {
   double kT_2gamma_over_m() const;
   void m(const double input);
   double m() const;
-  
+
   void h(const double input);
   double h() const;
   double half_h() const;
@@ -102,24 +101,25 @@ class sys_param {
 
   /*haven't finished */
 
-  void Nm(const double input);
-  double Nm() const;
+  void l_b(const int ax, const double input);
+  std::array<double, 3> l_b() const;
+  std::array<double, 3> half_l_b() const;
+  std::array<double, 3> inv_l_b() const;
+  void Nm(const uint64_t input);
+  uint64_t Nm() const;
+  void density(const double input);
+  double density() const;
+
   void gamma(const double input);
   double gamma() const;
   void sigma(const double input);
   double sigma() const;
   void epsilon(const double input);
   double epsilon() const;
-  void density(const double input);
-  double density() const;
 
-  std::array<double, 3> l_b() const;
-  std::array<double, 3> half_l_b() const;
-  std::array<double, 3> inv_l_b() const;
-  void r2_cut(const double input);
   double r2_cut() const;
-  void sig2(const double input);
   double sig2() const;
+
   void MD_Step(const double input);
   uint64_t MD_Step() const;
   void Relax_Steps(const double input);
@@ -160,48 +160,23 @@ extern double &kT_2gamma_over_m;
 
 extern bool open_fluid;
 
-extern double set_l_b[3];
-extern const double *const l_b;
-
-extern double set_half_l_b[3];
-extern const double *const half_l_b;
-
-extern double set_inv_l_b[3];
-extern const double *const inv_l_b;
-
-extern uint64_t set_Nm;
-extern const uint64_t &Nm;
-extern double set_gamma;
-extern double set_sigma;
-extern double set_epsilon;
-extern double set_density;
-extern const double &gam;
-extern const double &sig;
-extern const double &eps;
-extern const double &density;
-
 extern int64_t MD_Steps;
 extern int64_t Relax_Steps;
 extern int64_t step;
 extern double MD_time;
 
-extern uint64_t set_Cell_N[3];
-extern const uint64_t *const Cell_N;
+// extern uint64_t set_Cell_N[3];
+// extern const uint64_t *const Cell_N;
 
-extern double set_Cell_l[3];
-extern const double *const Cell_l;
+// extern double set_Cell_l[3];
+// extern const double *const Cell_l;
 
-extern int64_t ***cell;
-extern int64_t *list;
+// extern int64_t ***cell;
+// extern int64_t *list;
 
 extern double E_kin, E_pot;
 extern int print_E;
 extern int FREQ_print_E;
-
-extern double set_r2_cut;
-extern const double &r2_cut;
-extern double set_sig2;
-extern const double &sig2;
 
 extern double set_const_r_1;
 extern double set_const_r_2;

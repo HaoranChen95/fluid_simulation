@@ -25,9 +25,6 @@ int main(const int argc, const char* argv[]) {
   init_system();
   calc_force();
 
-  std::cout << "half lx = " << half_l_b[0] << std::endl
-            << "gamma = " << gam << std::endl;
-
   for (step = 0; step < Relax_Steps; step++) {
     MD_Step();
     if (!open_fluid) {

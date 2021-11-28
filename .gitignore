@@ -1,7 +1,7 @@
 simple_fluid_simulation
 *.o
 *.optrpt
-temp
+temp/*
 doc/latex
 doc/html
 *.out

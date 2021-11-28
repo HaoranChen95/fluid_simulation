@@ -8,12 +8,12 @@ lx = 20
 ly = 20
 # lz
 lz = 20
-# density
-density = 0.4
 # epsilon
 epsilon = 1.5
 # sigma
 sigma = 1
+# density
+density = 0.4
 # mass
 m = 1
 # calculate fluid
