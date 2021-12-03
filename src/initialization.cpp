@@ -38,7 +38,7 @@ void sys_param::read_arg(const int argc, const char **argv) {
 }
 
 uint64_t sys_param::MD_Steps() const { return MD_Steps_; }
-void sys_param::Relax_Steps(const uint64_t input) {Relax_Steps_ = input;}
+void sys_param::Relax_Steps(const uint64_t input) { Relax_Steps_ = input; }
 uint64_t sys_param::Relax_Steps() const { return Relax_Steps_; }
 
 /**
@@ -109,17 +109,21 @@ void sys_param::calc_Nm() {
 uint64_t sys_param::Nm() const { return Nm_; }
 double sys_param::density() const { return density_; }
 
+double sys_param::C(const double x) {
+  return 2. * x - 3. + 4. * exp(-x) - exp(-2. * x);
+}
+double sys_param::G(const double x) { return exp(x) - 2. * x - exp(-x); }
+
 void sys_param::calc_BD_factor() {
   double gh = gamma_ * h_;
-  double C_gh = 2. * gh - 3. + 4. * exp(-gh) - exp(-2. * gh);
-  double G_gh = exp(gh) - 2. * gh - exp(-gh);
-  double E_gh = 16. * (exp(gh) + exp(-gh)) -
-                4. * (exp(2. * gh) + exp(-2. * gh)) -
-                4. * gh * (exp(gh) - exp(-gh)) +
-                2. * gh * (exp(2. * gh) - exp(-2. * gh)) - 24.;
+
+  double C_gh = C(gh);
+  double G_gh = G(gh);
+  double E_gh = -C(gh) * C(-gh) - pow(G(gh), 2);
 
   BD_g0_1_ = sqrt(kT_ / m_ / gamma_ / gamma_ * C_gh);
   BD_g1_1_ = sqrt(kT_ / m_ / gamma_ / gamma_ * E_gh / C_gh);
+  std::cout << "E_gh " << E_gh << std::endl;
   BD_g1_2_ = G_gh / C_gh;
 
   BD_r_1_ = (1. - exp(-gh)) / gamma_;
@@ -140,12 +144,7 @@ double sys_param::BD_g1_1() const { return BD_g1_1_; }
 double sys_param::BD_g1_2() const { return BD_g1_2_; }
 sys_param sp;
 
-bool open_fluid;
-
-int64_t MD_Steps;
-int64_t Relax_Steps;
 int64_t step;
-double MD_time;
 
 // TODO change the interpretation of Cell list
 // uint64_t set_Cell_N[3];

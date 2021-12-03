@@ -13,14 +13,12 @@
 
 int main(const int argc, const char* argv[]) {
 
-  MD_Steps = static_cast<uint64_t>(MD_time / sp.h());
-
   int FREQ_CFG_DETA = 1;
   init_system(argc, argv);
-  calc_force();
-  std::cout << "there !!! " << sp.BD_v_1() << " " << sp.BD_v_2() << " " << sp.BD_v_3() << " " << std::endl;
+  // calc_force();
+  std::cout << "there !!! " << sp.BD_r_1() << " " << sp.BD_r_2() << " "  << sp.BD_v_1() << " " << sp.BD_v_2() << " " << sp.BD_v_3() << " " << sp.BD_g0_1()<< " " << sp.BD_g1_1()<< " " << sp.BD_g1_2()<< " " << std::endl;
 
-  sp.Relax_Steps(1000);
+  sp.Relax_Steps(0);
   for (step = 0; step < sp.Relax_Steps(); step++) {
     MD_Step();
     if (!sp.gamma()) {

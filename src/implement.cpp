@@ -36,7 +36,8 @@
 
 double minium_image(const uint64_t &i, const uint64_t &j, const int &ax) {
   double r_ij_ax = r[j][ax] - r[i][ax];
-  r_ij_ax -= sp.l_b()[ax] * floor((r_ij_ax + sp.half_l_b()[ax]) * sp.inv_l_b()[ax]);
+  r_ij_ax -=
+      sp.l_b()[ax] * floor((r_ij_ax + sp.half_l_b()[ax]) * sp.inv_l_b()[ax]);
   return r_ij_ax;
 }
 
@@ -74,12 +75,9 @@ void calc_force(void) {
   }
   // cell_list();
 
-  // uint64_t counter{0};
-
   for (uint64_t i = 0; i < sp.Nm(); i++) {
     for (uint64_t j = i + 1; j < sp.Nm(); j++) {
       E_pot += LJ(i, j);
-      // counter++;
     }
   }
 
@@ -116,11 +114,12 @@ void calc_MD_vel(void) {
 }
 
 void calc_BD_vel(void) {
-  // calc_MD_vel();
+// calc_MD_vel();
+#pragma omp parallel for
   for (uint64_t i = 0; i < sp.Nm(); i++) {
     for (int ax = 0; ax < 3; ax++) {
-      v[i][ax] =
-          dr[i][ax] * sp.BD_v_1() + f0[i][ax] * sp.BD_v_2() + f1[i][ax] * sp.BD_v_3();
+      v[i][ax] = dr[i][ax] * sp.BD_v_1() + f0[i][ax] * sp.BD_v_2() +
+                 f1[i][ax] * sp.BD_v_3();
     }
   }
 }
@@ -136,6 +135,7 @@ void calc_MD_pos(void) {
 }
 
 void calc_BD_pos(void) {
+#pragma omp parallel for
   for (uint64_t i = 0; i < sp.Nm(); i++) {
     for (int ax = 0; ax < 3; ax++) {
       dr[i][ax] = v[i][ax] * sp.BD_r_1() + f0[i][ax] * sp.BD_r_2() + g0[i][ax];
@@ -147,24 +147,40 @@ void calc_BD_pos(void) {
 
 void calc_E_kin(void) {
   E_kin = 0.;
+// double v2_max = 0;
+// uint64_t i_max = 0;
+// double v2 = 0;
 #pragma omp for reduction(+ : E_kin)
   for (uint64_t i = 0; i < sp.Nm(); i++) {
+    // v2 = 0;
     for (int ax = 0; ax < 3; ax++) {
       E_kin += v[i][ax] * v[i][ax];
     }
+    // if (v2 > v2_max) {
+    //   v2_max = v2;
+    //   i_max = i;
+    // }
   }
+  // std::cout << "i_max " << i_max << " v2_max " << v2_max << " dr "
+  //           << dr[i_max][0] << " " << dr[i_max][1] << " " << dr[i_max][2]
+  //           << " vdt " << v[i_max][0] * sp.h() << " " << v[i_max][1] * sp.h()
+  //           << " " << v[i_max][2] * sp.h() << std::endl
+  //           << " g " << g0[i_max][0] << " " << g0[i_max][1] << " "
+  //           << g0[i_max][2] << " " << g1[i_max][0] << " " << g1[i_max][1] <<
+  //           " "
+  //           << g1[i_max][2] << std::endl;
   E_kin *= 0.5;
 }
 
-void get_gamma(void) {
+void generate_Gamma(void) {
   std::random_device rd{};
   std::mt19937 gen{rd()};
   std::normal_distribution<double> n_d(0.0, 1.);
 
   for (uint64_t i = 0; i < sp.Nm(); i++) {
     for (int ax = 0; ax < 3; ax++) {
-      g0[ax][i] = sp.BD_g0_1() * n_d(gen);
-      g1[ax][i] = sp.BD_g1_1() * n_d(gen) + sp.BD_g1_2() * g0[ax][i];
+      g0[i][ax] = sp.BD_g0_1() * n_d(gen);
+      g1[i][ax] = sp.BD_g1_1() * n_d(gen) + sp.BD_g1_2() * g0[i][ax];
     }
   }
 }
@@ -172,8 +188,9 @@ void get_gamma(void) {
 void MD_Step(void) {
   E_pot = 0.;
   if (sp.gamma()) {
-    get_gamma();
+    generate_Gamma();
     calc_BD_pos();
+    // calc_MD_pos();
     calc_force();
     calc_BD_vel();
   } else {
@@ -188,7 +205,6 @@ void MD_Step(void) {
               << E_kin / static_cast<double>(sp.Nm()) << "\tE_pot\t"
               << E_pot / static_cast<double>(sp.Nm()) << "\tE\t"
               << (E_kin + E_pot) / static_cast<double>(sp.Nm())
-              // << " v_all " << calc_f_all()
               << std::endl;
   }
   if (++print_E == sp.time_01()) {
@@ -199,6 +215,7 @@ void MD_Step(void) {
 void vel_correcter(void) {
   calc_E_kin();
   double a = sqrt(1.5 * sp.kT() * sp.Nm() / E_kin);
+#pragma omp parallel for
   for (uint64_t i = 0; i < sp.Nm(); i++) {
     for (int ax = 0; ax < 3; ax++) {
       v[i][ax] *= a;

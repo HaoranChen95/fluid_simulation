@@ -56,6 +56,7 @@ class sys_param {
 
   double kT_;
   double m_;
+  double density_;
   std::array<double, 3> l_b_;
   std::array<double, 3> half_l_b_;
   std::array<double, 3> inv_l_b_;
@@ -63,7 +64,6 @@ class sys_param {
   double gamma_;
   double sigma_;
   double epsilon_;
-  double density_;
   double r2_cut_;
   double sig2_;
 
@@ -75,6 +75,8 @@ class sys_param {
   double BD_g0_1_;
   double BD_g1_1_;
   double BD_g1_2_;
+  double C(const double x);
+  double G(const double x);
 
  public:
   void read_arg(const int argc, const char **argv);
@@ -139,12 +141,7 @@ class sys_param {
 
 extern sys_param sp;
 
-extern bool open_fluid;
-
-extern int64_t MD_Steps;
-extern int64_t Relax_Steps;
 extern int64_t step;
-extern double MD_time;
 
 // extern uint64_t set_Cell_N[3];
 // extern const uint64_t *const Cell_N;
