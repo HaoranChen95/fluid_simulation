@@ -21,45 +21,12 @@ std::vector<std::array<double, 3>> g1;
 
 void sys_param::read_arg(const int argc, const char **argv) {
   std::cout << "there" << std::endl;
-  MD_time_ = std::stod(argv[1]);
-  h_ = std::stod(argv[2]);
+  MD_time(std::stod(argv[1]));
+  h(std::stod(argv[2]));
+
   density_ = std::stod(argv[3]);
   gamma_ = std::stod(argv[4]);
-
-  MD_Steps_ = static_cast<uint64_t>(MD_time_ / h_);
-  half_h_ = 0.5 * h_;
-  half_h2_ = 0.5 * h_ * h_;
-  time_100_ = static_cast<uint64_t>(100. / h_);
-  time_10_ = static_cast<uint64_t>(10. / h_);
-  time_1_ = static_cast<uint64_t>(1. / h_);
-  time_01_ = static_cast<uint64_t>(0.1 / h_);
-  time_001_ = static_cast<uint64_t>(0.01 / h_);
-  time_0001_ = static_cast<uint64_t>(0.001 / h_);
 }
-
-uint64_t sys_param::MD_Steps() const { return MD_Steps_; }
-void sys_param::Relax_Steps(const uint64_t input) { Relax_Steps_ = input; }
-uint64_t sys_param::Relax_Steps() const { return Relax_Steps_; }
-
-/**
- * @brief out put time step h
- *
- * @return double
- */
-double sys_param::h() const { return h_; }
-/**
- * @brief out put half time step
- *
- * @return double
- */
-double sys_param::half_h() const { return half_h_; }
-double sys_param::half_h2() const { return half_h2_; }
-uint64_t sys_param::time_0001() const { return time_0001_; }
-uint64_t sys_param::time_001() const { return time_001_; }
-uint64_t sys_param::time_01() const { return time_01_; }
-uint64_t sys_param::time_1() const { return time_1_; }
-uint64_t sys_param::time_10() const { return time_10_; }
-uint64_t sys_param::time_100() const { return time_100_; }
 
 void sys_param::kT(const double input) { kT_ = input; }
 double sys_param::kT() const { return kT_; }
@@ -115,7 +82,7 @@ double sys_param::C(const double x) {
 double sys_param::G(const double x) { return exp(x) - 2. * x - exp(-x); }
 
 void sys_param::calc_BD_factor() {
-  double gh = gamma_ * h_;
+  double gh = gamma_ * h();
 
   double C_gh = C(gh);
   double G_gh = G(gh);
