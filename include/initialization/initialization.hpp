@@ -29,6 +29,9 @@
 #include <sstream>
 #include <vector>
 
+#include "box.hpp"
+#include "brown_factor.hpp"
+#include "particle_parameter.hpp"
 #include "time_step.hpp"
 
 extern std::vector<std::array<double, 3>> r;
@@ -39,74 +42,14 @@ extern std::vector<std::array<double, 3>> f1;
 extern std::vector<std::array<double, 3>> g0;
 extern std::vector<std::array<double, 3>> g1;
 
-class sys_param : public time_step {
+class initialization : public brown_factor {
  private:
-  double kT_;
-  double m_;
-  double density_;
-  std::array<double, 3> l_b_;
-  std::array<double, 3> half_l_b_;
-  std::array<double, 3> inv_l_b_;
-  double Nm_;
-  double gamma_;
-  double sigma_;
-  double epsilon_;
-  double r2_cut_;
-  double sig2_;
-
-  double BD_r_1_;
-  double BD_r_2_;
-  double BD_v_1_;
-  double BD_v_2_;
-  double BD_v_3_;
-  double BD_g0_1_;
-  double BD_g1_1_;
-  double BD_g1_2_;
-  double C(const double x);
-  double G(const double x);
-
  public:
   void read_arg(const int argc, const char **argv);
-
-  void kT(const double input);
-  double kT() const;
-  void m(const double input);
-  double m() const;
-
-  void l_b(const int ax, const double input);
-  std::array<double, 3> l_b() const;
-  std::array<double, 3> half_l_b() const;
-  std::array<double, 3> inv_l_b() const;
-
-  void Nm(const uint64_t input);
-  uint64_t Nm() const;
-  void calc_Nm();
-  double density() const;
-
-  void gamma(const double input);
-  double gamma() const;
-  void sigma(const double input);
-  double sigma() const;
-  void epsilon(const double input);
-  double epsilon() const;
-
-  double r2_cut() const;
-  double sig2() const;
-
-  void calc_BD_factor();
-  double BD_r_1() const;
-  double BD_r_2() const;
-  double BD_v_1() const;
-  double BD_v_2() const;
-  double BD_v_3() const;
-  double BD_g0_1() const;
-  double BD_g1_1() const;
-  double BD_g1_2() const;
-
-  double random() const;
+  void read_config();
 };
 
-extern sys_param sp;
+extern initialization sp;
 
 extern int64_t step;
 

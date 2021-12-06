@@ -19,97 +19,14 @@ std::vector<std::array<double, 3>> f1;
 std::vector<std::array<double, 3>> g0;
 std::vector<std::array<double, 3>> g1;
 
-void sys_param::read_arg(const int argc, const char **argv) {
-  std::cout << "there" << std::endl;
+void initialization::read_arg(const int argc, const char **argv) {
   MD_time(std::stod(argv[1]));
   h(std::stod(argv[2]));
-
-  density_ = std::stod(argv[3]);
-  gamma_ = std::stod(argv[4]);
+  density(std::stod(argv[3]));
+  gamma(std::stod(argv[4]));
 }
 
-void sys_param::kT(const double input) { kT_ = input; }
-double sys_param::kT() const { return kT_; }
-void sys_param::m(const double input) { m_ = input; }
-double sys_param::m() const { return m_; }
-
-/**
- * @brief set the periodic boundary condition
- *
- * @param l_b_x
- * @param l_b_y
- * @param l_b_z
- */
-void sys_param::l_b(const int ax, const double input) {
-  l_b_[ax] = input;
-  half_l_b_[ax] = 0.5 * input;
-  inv_l_b_[ax] = 1. / input;
-}
-std::array<double, 3> sys_param::l_b() const { return l_b_; }
-std::array<double, 3> sys_param::half_l_b() const { return half_l_b_; }
-std::array<double, 3> sys_param::inv_l_b() const { return inv_l_b_; }
-
-void sys_param::sigma(const double input) {
-  sigma_ = input;
-  sig2_ = input * input;
-  r2_cut_ = input * input * pow(2., 1. / 3.);
-}
-double sys_param::sigma() const { return sigma_; }
-double sys_param::r2_cut() const { return r2_cut_; }
-double sys_param::sig2() const { return sig2_; }
-
-void sys_param::epsilon(const double input) {
-  epsilon_ = input;
-}  // TODO e = kT
-double sys_param::epsilon() const { return epsilon_; }
-
-void sys_param::Nm(const uint64_t input) {
-  Nm_ = input;
-  density_ =
-      static_cast<double>(input) * M_PI_4 * sig2_ / l_b_[0] / l_b_[1] / l_b_[2];
-}
-
-void sys_param::calc_Nm() {
-  Nm_ = static_cast<uint64_t>(l_b_[0] * l_b_[1] * l_b_[2] * density_ / M_PI_4 /
-                              sig2_);
-}
-uint64_t sys_param::Nm() const { return Nm_; }
-double sys_param::density() const { return density_; }
-
-double sys_param::C(const double x) {
-  return 2. * x - 3. + 4. * exp(-x) - exp(-2. * x);
-}
-double sys_param::G(const double x) { return exp(x) - 2. * x - exp(-x); }
-
-void sys_param::calc_BD_factor() {
-  double gh = gamma_ * h();
-
-  double C_gh = C(gh);
-  double G_gh = G(gh);
-  double E_gh = -C(gh) * C(-gh) - pow(G(gh), 2);
-
-  BD_g0_1_ = sqrt(kT_ / m_ / gamma_ / gamma_ * C_gh);
-  BD_g1_1_ = sqrt(kT_ / m_ / gamma_ / gamma_ * E_gh / C_gh);
-  std::cout << "E_gh " << E_gh << std::endl;
-  BD_g1_2_ = G_gh / C_gh;
-
-  BD_r_1_ = (1. - exp(-gh)) / gamma_;
-  BD_r_2_ = (gh - 1. + exp(-gh)) / gamma_ / gamma_;
-
-  BD_v_1_ = gamma_ / (exp(gh) - 1.);
-  BD_v_2_ = (gh - 1. + exp(-gh)) / gamma_ / (exp(gh) - 1.);
-  BD_v_3_ = (-gh - 1. + exp(gh)) / gamma_ / (exp(gh) - 1.);
-}
-double sys_param::gamma() const { return gamma_; }
-double sys_param::BD_r_1() const { return BD_r_1_; }
-double sys_param::BD_r_2() const { return BD_r_2_; }
-double sys_param::BD_v_1() const { return BD_v_1_; }
-double sys_param::BD_v_2() const { return BD_v_2_; }
-double sys_param::BD_v_3() const { return BD_v_3_; }
-double sys_param::BD_g0_1() const { return BD_g0_1_; }
-double sys_param::BD_g1_1() const { return BD_g1_1_; }
-double sys_param::BD_g1_2() const { return BD_g1_2_; }
-sys_param sp;
+initialization sp;
 
 int64_t step;
 
