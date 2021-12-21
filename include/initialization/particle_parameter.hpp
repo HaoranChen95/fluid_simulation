@@ -13,6 +13,7 @@
 #define PARTICLE_PARAMETER_HPP_
 
 #include <cmath>
+#include <iostream>
 
 class particle_parameter {
  private:

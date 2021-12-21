@@ -12,5 +12,3 @@ lz = 20
 epsilon = 1.5
 # sigma
 sigma = 1
-# density
-density = 0.2

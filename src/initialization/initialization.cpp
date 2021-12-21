@@ -80,6 +80,7 @@ void read_config() {
       }
     }
     sp.calc_Nm();
+    sp.calc_density();
   }
 }
 
@@ -193,8 +194,11 @@ void init_system(const int argc, const char **argv) {
   // list = new int64_t[sp.Nm()];
 
   sp.read_arg(argc, argv);
+  std::cout << "Nm " << sp.Nm() << " Density " << sp.density() << " box "
+            << sp.l_b()[0] << std::endl;
   read_config();
-
+  std::cout << "Nm " << sp.Nm() << " Density " << sp.density() << " box "
+            << sp.l_b()[0] << std::endl;
   init_position();
   init_velocity();
   init_force();

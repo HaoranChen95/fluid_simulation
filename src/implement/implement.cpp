@@ -204,8 +204,7 @@ void MD_Step(void) {
     std::cout << "time\t" << static_cast<double>(step) * sp.h() << "\tE_kin\t"
               << E_kin / static_cast<double>(sp.Nm()) << "\tE_pot\t"
               << E_pot / static_cast<double>(sp.Nm()) << "\tE\t"
-              << (E_kin + E_pot) / static_cast<double>(sp.Nm())
-              << std::endl;
+              << (E_kin + E_pot) / static_cast<double>(sp.Nm()) << std::endl;
   }
   if (++print_E == sp.time_01()) {
     print_E = 0;

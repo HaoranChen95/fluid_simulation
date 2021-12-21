@@ -25,32 +25,22 @@ void box::l_b(const int ax, const double input) {
   l_b_[ax] = input;
   half_l_b_[ax] = 0.5 * input;
   inv_l_b_[ax] = 1. / input;
-  if (density_ > 0) {calc_Nm();}
-  if (Nm_ > 0) {calc_density();}
 }
 std::array<double, 3> box::l_b() const { return l_b_; }
 std::array<double, 3> box::half_l_b() const { return half_l_b_; }
 std::array<double, 3> box::inv_l_b() const { return inv_l_b_; }
 
-void box::Nm(const uint64_t input) {
-  Nm_ = input;
-  calc_density();
-}
-
+void box::Nm(const uint64_t input) { Nm_ = input; }
 void box::density(const double input) { density_ = input; }
 
 void box::calc_Nm() {
-  if (l_b_[0] > 0 & l_b_[1] > 0 & l_b_[2] > 0) {
-    Nm_ = static_cast<uint64_t>(l_b_[0] * l_b_[1] * l_b_[2] * density_ /
-                                M_PI_4 / sig2());
-  }
+  Nm_ = static_cast<uint64_t>(l_b_[0] * l_b_[1] * l_b_[2] * density_ / M_PI_4 /
+                              sig2());
 }
 
 void box::calc_density() {
-  if (l_b_[0] > 0 & l_b_[1] > 0 & l_b_[2] > 0) {
-    density_ = static_cast<double>(Nm_) * M_PI_4 * sig2() / l_b_[0] / l_b_[1] /
-               l_b_[2];
-  }
+  density_ =
+      static_cast<double>(Nm_) * M_PI_4 * sig2() / l_b_[0] / l_b_[1] / l_b_[2];
 }
 uint64_t box::Nm() const { return Nm_; }
 double box::density() const { return density_; }
