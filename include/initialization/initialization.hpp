@@ -45,13 +45,17 @@ extern std::vector<std::array<double, 3>> g1;
 class initialization : public brown_factor {
  private:
  public:
+  initialization(const int argc, const char **argv);
   void read_arg(const int argc, const char **argv);
   void read_config();
 };
 
-extern initialization sp;
+// extern int argc_;
+// extern const char** argv_;
 
-extern int64_t step;
+// extern initialization sp;
+
+// extern int64_t step;
 
 // extern uint64_t set_Cell_N[3];
 // extern const uint64_t *const Cell_N;
@@ -66,13 +70,13 @@ extern double E_kin, E_pot;
 extern int print_E;
 extern int FREQ_print_E;
 
-void read_config(void);
-void init_parameter(void);
-void init_gamma(void);
-void init_position(void);
-void init_velocity(void);
-void init_system(const int argc, const char **argv);
-void close_system(void);
-void write_last_cfg(void);
+// void read_config(void);
+// void init_parameter(void);
+// void init_gamma(void);
+// void init_position(void);
+// void init_velocity(void);
+// void init_system(const int argc, const char **argv);
+// void close_system(void);
+// void write_last_cfg(void);
 
 #endif  // INITIALIZATION_HPP_
