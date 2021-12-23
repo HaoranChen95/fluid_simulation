@@ -16,7 +16,7 @@
 
 class force : protected position {
  private:
-  double E_pot;
+  double E_pot_;
   double LJ(uint64_t i, uint64_t j);
 
  protected:
@@ -26,6 +26,7 @@ class force : protected position {
  public:
   void init_force();
   void calc_force();
+  double E_pot() const;
   ~force();
 };
 

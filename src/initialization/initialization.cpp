@@ -25,6 +25,7 @@ initialization::initialization(const int argc, const char **argv) {
   
   std::cout << "v " << v.size() << std::endl;std::cout << "r " << r.size() << std::endl;
   std::cout << "f " << f0.size() << std::endl;
+  std::cout << "E_pot " << E_pot() << std::endl;
 
 }
 

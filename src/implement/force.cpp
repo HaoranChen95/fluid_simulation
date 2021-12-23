@@ -22,7 +22,7 @@ void force::init_force() {
 }
 
 void force::calc_force() {
-  E_pot = 0;
+  E_pot_ = 0;
 #pragma omp parallel for
   for (uint64_t i = 0; i < Nm(); i++) {
     for (int ax = 0; ax < 3; ax++) {
@@ -34,10 +34,12 @@ void force::calc_force() {
 
   for (uint64_t i = 0; i < Nm(); i++) {
     for (uint64_t j = i + 1; j < Nm(); j++) {
-      E_pot += LJ(i, j);
+      E_pot_ += LJ(i, j);
     }
   }
 }
+
+double force::E_pot() const { return E_pot_; }
 
 double force::LJ(uint64_t i, uint64_t j) {
   double r_ij[3], f_LJ[3];
