@@ -12,4 +12,21 @@
 #ifndef FORCE_HPP_
 #define FORCE_HPP_
 
+#include "position.hpp"
+
+class force : protected position {
+ private:
+  double E_pot;
+  double LJ(uint64_t i, uint64_t j);
+
+ protected:
+  std::vector<std::array<double, 3>> f0;
+  std::vector<std::array<double, 3>> f1;
+
+ public:
+  void init_force();
+  void calc_force();
+  ~force();
+};
+
 #endif  // FORCE_HPP_

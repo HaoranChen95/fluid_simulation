@@ -34,52 +34,6 @@
 //   }
 // }
 
-// double minium_image(const uint64_t &i, const uint64_t &j, const int &ax) {
-//   double r_ij_ax = r[j][ax] - r[i][ax];
-//   r_ij_ax -=
-//       sp.l_b()[ax] * floor((r_ij_ax + sp.half_l_b()[ax]) * sp.inv_l_b()[ax]);
-//   return r_ij_ax;
-// }
-
-// double LJ(uint64_t i, uint64_t j) {
-//   double r_ij[3], f_LJ[3];
-//   double r2, r_inv2, sr_inv2, sr_inv6, sr_inv12, coeffLJ;
-//   for (int ax = 0; ax < 3; ax++) {
-//     r_ij[ax] = minium_image(i, j, ax);
-//     r2 += r_ij[ax] * r_ij[ax];
-//   }
-
-//   if (r2 < sp.r2_cut()) {
-//     r_inv2 = 1. / r2;
-//     sr_inv2 = sp.sig2() * r_inv2;
-//     sr_inv6 = sr_inv2 * sr_inv2 * sr_inv2;
-//     sr_inv12 = sr_inv6 * sr_inv6;
-//     coeffLJ = 24. * sp.epsilon() * r_inv2 * (sr_inv12 + sr_inv12 - sr_inv6);
-//     for (int ax = 0; ax < 3; ax++) {
-//       f_LJ[ax] = coeffLJ * r_ij[ax];
-//       f1[i][ax] -= f_LJ[ax];
-//       f1[j][ax] += f_LJ[ax];
-//     }
-//     return 4. * sp.epsilon() * (sr_inv12 - sr_inv6) + sp.epsilon();
-//   }
-//   return 0.;
-// }
-
-// void calc_force(void) {
-// #pragma omp parallel for
-//   for (uint64_t i = 0; i < sp.Nm(); i++) {
-//     for (int ax = 0; ax < 3; ax++) {
-//       f0[i][ax] = f1[i][ax];
-//       f1[i][ax] = 0.;
-//     }
-//   }
-//   // cell_list();
-
-//   for (uint64_t i = 0; i < sp.Nm(); i++) {
-//     for (uint64_t j = i + 1; j < sp.Nm(); j++) {
-//       E_pot += LJ(i, j);
-//     }
-//   }
 
 //   // std::vector<const ij_paar> ij_list;
 //   // for (uint64_t i = 0; i < Nm; i++) {
@@ -145,45 +99,6 @@
 //   }
 // }
 
-// void calc_E_kin(void) {
-//   E_kin = 0.;
-// // double v2_max = 0;
-// // uint64_t i_max = 0;
-// // double v2 = 0;
-// #pragma omp for reduction(+ : E_kin)
-//   for (uint64_t i = 0; i < sp.Nm(); i++) {
-//     // v2 = 0;
-//     for (int ax = 0; ax < 3; ax++) {
-//       E_kin += v[i][ax] * v[i][ax];
-//     }
-//     // if (v2 > v2_max) {
-//     //   v2_max = v2;
-//     //   i_max = i;
-//     // }
-//   }
-//   // std::cout << "i_max " << i_max << " v2_max " << v2_max << " dr "
-//   //           << dr[i_max][0] << " " << dr[i_max][1] << " " << dr[i_max][2]
-//   //           << " vdt " << v[i_max][0] * sp.h() << " " << v[i_max][1] * sp.h()
-//   //           << " " << v[i_max][2] * sp.h() << std::endl
-//   //           << " g " << g0[i_max][0] << " " << g0[i_max][1] << " "
-//   //           << g0[i_max][2] << " " << g1[i_max][0] << " " << g1[i_max][1] <<
-//   //           " "
-//   //           << g1[i_max][2] << std::endl;
-//   E_kin *= 0.5;
-// }
-
-// void generate_Gamma(void) {
-//   std::random_device rd{};
-//   std::mt19937 gen{rd()};
-//   std::normal_distribution<double> n_d(0.0, 1.);
-
-//   for (uint64_t i = 0; i < sp.Nm(); i++) {
-//     for (int ax = 0; ax < 3; ax++) {
-//       g0[i][ax] = sp.BD_g0_1() * n_d(gen);
-//       g1[i][ax] = sp.BD_g1_1() * n_d(gen) + sp.BD_g1_2() * g0[i][ax];
-//     }
-//   }
-// }
 
 // void MD_Step(void) {
 //   E_pot = 0.;
@@ -211,13 +126,3 @@
 //   }
 // }
 
-// void vel_correcter(void) {
-//   calc_E_kin();
-//   double a = sqrt(1.5 * sp.kT() * sp.Nm() / E_kin);
-// #pragma omp parallel for
-//   for (uint64_t i = 0; i < sp.Nm(); i++) {
-//     for (int ax = 0; ax < 3; ax++) {
-//       v[i][ax] *= a;
-//     }
-//   }
-// }

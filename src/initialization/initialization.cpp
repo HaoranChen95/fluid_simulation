@@ -11,9 +11,6 @@
 
 #include "initialization.hpp"
 
-std::vector<std::array<double, 3>> r;
-std::vector<std::array<double, 3>> dr;
-std::vector<std::array<double, 3>> v;
 std::vector<std::array<double, 3>> f0;
 std::vector<std::array<double, 3>> f1;
 std::vector<std::array<double, 3>> g0;
@@ -22,6 +19,13 @@ std::vector<std::array<double, 3>> g1;
 initialization::initialization(const int argc, const char **argv) {
   read_arg(argc, argv);
   read_config();
+  init_position();
+  init_velocity(Nm(), kT());
+  init_force();
+  
+  std::cout << "v " << v.size() << std::endl;std::cout << "r " << r.size() << std::endl;
+  std::cout << "f " << f0.size() << std::endl;
+
 }
 
 void initialization::read_arg(const int argc, const char **argv) {
@@ -95,82 +99,6 @@ void initialization::read_config() {
 //   // for (int ax = 0; ax < 3; ax++) {
 //   //   set_Cell_N[ax] = static_cast<uint64_t>(sp.l_b()[ax] / sp.sigma());
 //   // }
-// }
-
-// void init_position(void) {
-//   int row_x, row_y, row_z;
-//   row_x = static_cast<int>(sp.l_b()[0] / sp.sigma());
-//   row_y = static_cast<int>(sp.l_b()[1] / sp.sigma());
-//   row_z = static_cast<int>(sp.l_b()[2] / sp.sigma());
-//   int i = 0;
-//   std::array<double, 3> new_r;
-
-//   for (int r_z = 0; r_z < row_z; r_z++) {
-//     for (int r_y = 0; r_y < row_y; r_y++) {
-//       for (int r_x = 0; r_x < row_x; r_x++) {
-//         new_r[0] = r_x * sp.sigma();
-//         new_r[1] = r_y * sp.sigma();
-//         new_r[2] = r_z * sp.sigma();
-
-//         r.push_back(new_r);
-//         dr.push_back({0, 0, 0});
-//         if (++i >= sp.Nm()) {
-//           goto finish;
-//         }
-//       }
-//     }
-//   }
-// finish:
-//   std::cout << "initialization of position finished" << std::endl;
-// }
-
-// void init_gamma(void) {
-//   std::random_device rd{};
-//   std::mt19937 gen{rd()};
-//   std::normal_distribution<double> n_d(0.0, 1.);
-
-//   std::array<double, 3> new_g0, new_g1;
-
-//   for (uint64_t i = 0; i < sp.Nm(); i++) {
-//     for (int ax = 0; ax < 3; ax++) {
-//       new_g0[ax] = sp.BD_g0_1() * n_d(gen);
-//       new_g1[ax] = sp.BD_g1_1() * n_d(gen) + sp.BD_g1_2() * new_g0[ax];
-//     }
-//     g0.push_back(new_g0);
-//     g1.push_back(new_g1);
-//   }
-// }
-
-// void init_velocity(void) {
-//   std::random_device rd{};
-//   std::mt19937 gen{rd()};
-//   std::normal_distribution<double> n_d(0.0, sp.kT());
-//   uint64_t i;
-//   int ax, th;
-//   double v_sum[3] = {0, 0, 0};
-
-//   std::array<double, 3> new_v;
-//   for (i = 0; i < sp.Nm(); i++) {
-//     new_v[0] = n_d(gen);
-//     new_v[1] = n_d(gen);
-//     new_v[2] = n_d(gen);
-//     v.push_back(new_v);
-//   }
-// #pragma omp parallel for
-//   for (i = 0; i < sp.Nm(); i++) {
-//     for (ax = 0; ax < 3; ax++) {
-//       v_sum[ax] += v[i][ax];
-//     }
-//   }
-//   std::cout << "initialization of velocity finished" << std::endl;
-// }
-
-// void init_force(void) {
-//   std::array<double, 3> new_f{0, 0, 0};
-//   for (uint64_t i = 0; i < sp.Nm(); i++) {
-//     f0.push_back(new_f);
-//     f1.push_back(new_f);
-//   }
 // }
 
 // void write_last_cfg(void) {

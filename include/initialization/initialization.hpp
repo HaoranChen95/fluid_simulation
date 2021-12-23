@@ -33,16 +33,13 @@
 #include "brown_factor.hpp"
 #include "particle_parameter.hpp"
 #include "time_step.hpp"
+#include "velocity.hpp"
+#include "force.hpp"
 
-extern std::vector<std::array<double, 3>> r;
-extern std::vector<std::array<double, 3>> dr;
-extern std::vector<std::array<double, 3>> v;
-extern std::vector<std::array<double, 3>> f0;
-extern std::vector<std::array<double, 3>> f1;
 extern std::vector<std::array<double, 3>> g0;
 extern std::vector<std::array<double, 3>> g1;
 
-class initialization : public brown_factor {
+class initialization : public brown_factor, protected velocity, protected force {
  private:
  public:
   initialization(const int argc, const char **argv);

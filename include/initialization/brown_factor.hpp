@@ -19,7 +19,7 @@
 
 #include "time_step.hpp"
 
-class brown_factor : public box, public time_step {
+class brown_factor : virtual public box, public time_step {
  private:
   double BD_r_1_;
   double BD_r_2_;
