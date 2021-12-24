@@ -11,22 +11,19 @@
 
 #include "initialization.hpp"
 
-std::vector<std::array<double, 3>> f0;
-std::vector<std::array<double, 3>> f1;
-std::vector<std::array<double, 3>> g0;
-std::vector<std::array<double, 3>> g1;
-
 initialization::initialization(const int argc, const char **argv) {
   read_arg(argc, argv);
   read_config();
   init_position();
   init_velocity(Nm(), kT());
   init_force();
-  
-  std::cout << "v " << v.size() << std::endl;std::cout << "r " << r.size() << std::endl;
+  if (gamma()) {
+    init_fluctuation();
+  }
+  std::cout << "v " << v.size() << std::endl;
+  std::cout << "r " << r.size() << std::endl;
   std::cout << "f " << f0.size() << std::endl;
   std::cout << "E_pot " << E_pot() << std::endl;
-
 }
 
 void initialization::read_arg(const int argc, const char **argv) {
@@ -75,10 +72,6 @@ void initialization::read_config() {
     calc_density();
   }
 }
-
-// int argc_;
-// const char** argv_;
-// initialization sp(argc_, argv_);
 
 // int64_t step;
 

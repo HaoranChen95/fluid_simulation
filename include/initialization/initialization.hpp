@@ -35,11 +35,9 @@
 #include "time_step.hpp"
 #include "velocity.hpp"
 #include "force.hpp"
+#include "fluctuation.hpp"
 
-extern std::vector<std::array<double, 3>> g0;
-extern std::vector<std::array<double, 3>> g1;
-
-class initialization : public brown_factor, protected velocity, protected force {
+class initialization : protected fluctuation, protected velocity, protected force {
  private:
  public:
   initialization(const int argc, const char **argv);

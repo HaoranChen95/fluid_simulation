@@ -12,6 +12,26 @@
 #ifndef FLUCTUATION_HPP_
 #define FLUCTUATION_HPP_
 
+#include <omp.h>
 
+#include <array>
+#include <iostream>
+#include <random>
+#include <vector>
+
+#include "brown_factor.hpp"
+
+class fluctuation : virtual public brown_factor {
+ private:
+  /* data */
+
+ protected:
+  std::vector<std::array<double, 3>> g0;
+  std::vector<std::array<double, 3>> g1;
+
+ public:
+  void init_fluctuation(/* args */);
+  ~fluctuation();
+};
 
 #endif  // FLUCTUATION_HPP_
