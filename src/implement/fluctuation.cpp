@@ -16,31 +16,27 @@ void fluctuation::init_fluctuation() {
   std::mt19937 gen{rd()};
   std::normal_distribution<double> n_d(0.0, 1.);
 
-  std::array<double, 3> new_g0, new_g1;
+  std::array<double, 3> g{0, 0, 0};
 
   for (uint64_t i = 0; i < Nm(); i++) {
-    for (int ax = 0; ax < 3; ax++) {
-      new_g0[ax] = BD_g0_1() * n_d(gen);
-      new_g1[ax] = BD_g1_1() * n_d(gen) + BD_g1_2() * new_g0[ax];
-    }
-    g0.push_back(new_g0);
-    g1.push_back(new_g1);
+    g0.push_back(g);
+    g1.push_back(g);
   }
-
+  generate_Gamma();
   std::cout << "initialization of fluctuation finished" << std::endl;
 }
 
-// void generate_Gamma(void) {
-//   std::random_device rd{};
-//   std::mt19937 gen{rd()};
-//   std::normal_distribution<double> n_d(0.0, 1.);
+void fluctuation::generate_Gamma(void) {
+  std::random_device rd{};
+  std::mt19937 gen{rd()};
+  std::normal_distribution<double> n_d(0.0, 1.);
 
-//   for (uint64_t i = 0; i < sp.Nm(); i++) {
-//     for (int ax = 0; ax < 3; ax++) {
-//       g0[i][ax] = sp.BD_g0_1() * n_d(gen);
-//       g1[i][ax] = sp.BD_g1_1() * n_d(gen) + sp.BD_g1_2() * g0[i][ax];
-//     }
-//   }
-// }
+  for (uint64_t i = 0; i < Nm(); i++) {
+    for (int ax = 0; ax < 3; ax++) {
+      g0[i][ax] = BD_g0_1() * n_d(gen);
+      g1[i][ax] = BD_g1_1() * n_d(gen) + BD_g1_2() * g0[i][ax];
+    }
+  }
+}
 
 fluctuation::~fluctuation() {}

@@ -31,6 +31,7 @@ class fluctuation : virtual public brown_factor {
 
  public:
   void init_fluctuation(/* args */);
+  void generate_Gamma();
   ~fluctuation();
 };
 
