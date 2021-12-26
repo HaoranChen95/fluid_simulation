@@ -1,5 +1,5 @@
 /**
- * @file BD_step.cpp
+ * @file BD_simulation.cpp
  * @author Haoran Chen (chen950302@live.com)
  * @brief
  * @version 0.1
@@ -9,11 +9,11 @@
  *
  */
 
-#include "BD_step.hpp"
+#include "BD_simulation.hpp"
 
-BD_step::BD_step(/* args */) {}
+BD_simulation::BD_simulation(/* args */) {}
 
-void BD_step::run_BD_step() {
+void BD_simulation::BD_relaxation() {
   std::cout << "in the BD step::run" << std::endl;
   generate_Gamma();
   calc_pos();
@@ -21,9 +21,17 @@ void BD_step::run_BD_step() {
   calc_vel();
 }
 
-BD_step::~BD_step() {}
+void BD_simulation::BD_implementation() {
+  std::cout << "in the BD step::run" << std::endl;
+  generate_Gamma();
+  calc_pos();
+  calc_force();
+  calc_vel();
+}
 
-void BD_step::calc_vel(void) {
+BD_simulation::~BD_simulation() {}
+
+void BD_simulation::calc_vel(void) {
   std::cout << "in the BD step::clac vel" << std::endl;
 // calc_BD_vel();
 #pragma omp parallel for
@@ -35,7 +43,7 @@ void BD_step::calc_vel(void) {
   }
 }
 
-void BD_step::calc_pos(void) {
+void BD_simulation::calc_pos(void) {
   std::cout << "in the BD step::pos" << std::endl;
 #pragma omp parallel for
   for (uint64_t i = 0; i < Nm(); i++) {

@@ -13,7 +13,8 @@
 
 int main(const int argc, const char* argv[]) {
   fluid_simulation fluid(argc, argv);
-  // fluid.relaxation();
+  fluid.relax();
+  fluid.implement();
   // fluid.implementation();
 
   // int FREQ_CFG_DETA = 1;

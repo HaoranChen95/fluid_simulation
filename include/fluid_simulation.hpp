@@ -12,17 +12,17 @@
 #ifndef FLUID_SIMULATION_HPP_
 #define FLUID_SIMULATION_HPP_
 
-#include "implementation.hpp"
-#include "initialization.hpp"
-#include "output.hpp"
+#include "BD_simulation.hpp"
+#include "MD_simulation.hpp"
 
-class fluid_simulation : virtual public initialization,
-                         virtual public implementation,
-                         virtual public output {
+class fluid_simulation : virtual public MD_simulation,
+                         virtual public BD_simulation {
  private:
   /* data */
  public:
   fluid_simulation(const int argc, const char **argv);
+  void relax();
+  void implement();
   ~fluid_simulation();
 };
 

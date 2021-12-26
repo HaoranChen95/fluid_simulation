@@ -12,7 +12,7 @@
 #ifndef OUTPUT_OUTPUT_HPP_
 #define OUTPUT_OUTPUT_HPP_
 
-#include "implementation.hpp"
+#include "initialization.hpp"
 
 class output {
  private:

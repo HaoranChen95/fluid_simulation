@@ -13,7 +13,23 @@
 
 fluid_simulation::fluid_simulation(const int argc, const char **argv) {
   init(argc, argv);
-  
+}
+
+void fluid_simulation::relax() {
+  if (gamma()) {
+    BD_relaxation();
+  } else {
+    MD_relaxation();
+  }
+  std::cout << "finished relation" << std::endl;
+}
+void fluid_simulation::implement() {
+  if (gamma()) {
+    BD_implementation();
+  } else {
+    MD_implementation();
+  }
+  std::cout << "finished implementation" << std::endl;
 }
 
 fluid_simulation::~fluid_simulation() {}

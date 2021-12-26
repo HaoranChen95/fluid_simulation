@@ -1,5 +1,5 @@
 /**
- * @file MD_step.cpp
+ * @file MD_simulation.cpp
  * @author Haoran Chen (chen950302@live.com)
  * @brief
  * @version 0.1
@@ -9,20 +9,27 @@
  *
  */
 
-#include "MD_step.hpp"
+#include "MD_simulation.hpp"
 
-MD_step::MD_step(/* args */) {}
+MD_simulation::MD_simulation(/* args */) {}
 
-MD_step::~MD_step() {}
+MD_simulation::~MD_simulation() {}
 
-void MD_step::run_MD_step() {
+void MD_simulation::MD_relaxation() {
   std::cout << "in the MD step::run" << std::endl;
   calc_pos();
   calc_force();
   calc_vel();
 }
 
-void MD_step::calc_vel(void) {
+void MD_simulation::MD_implementation() {
+  std::cout << "in the MD step::run" << std::endl;
+  calc_pos();
+  calc_force();
+  calc_vel();
+}
+
+void MD_simulation::calc_vel(void) {
   std::cout << "in the MD step::celc vel" << std::endl;
 #pragma omp parallel for
   for (uint64_t i = 0; i < Nm(); i++) {
@@ -32,7 +39,7 @@ void MD_step::calc_vel(void) {
   }
 }
 
-void MD_step::calc_pos(void) {
+void MD_simulation::calc_pos(void) {
   std::cout << "in the MD step::calc pos" << std::endl;
 #pragma omp parallel for
   for (uint64_t i = 0; i < Nm(); i++) {
@@ -43,7 +50,7 @@ void MD_step::calc_pos(void) {
   }
 }
 
-// void MD_Step(void) {
+// void MD_simulation(void) {
 //   E_pot = 0.;
 //   if (sp.gamma()) {
 //     generate_Gamma();
