@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef VELOCITY_HPP_
-#define VELOCITY_HPP_
+#ifndef IMPLEMENTATION_VELOCITY_HPP_
+#define IMPLEMENTATION_VELOCITY_HPP_
 
 #include <omp.h>
 
@@ -30,4 +30,4 @@ class velocity {
   ~velocity();
 };
 
-#endif  // VELOCITY_HPP_
+#endif  // IMPLEMENTATION_VELOCITY_HPP_

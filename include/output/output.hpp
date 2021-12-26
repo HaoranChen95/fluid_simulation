@@ -1,19 +1,20 @@
 /**
- * @file export.hpp
+ * @file output.hpp
  * @author Haoran Chen (chen950302@live.com)
- * @brief
+ * @brief 
  * @version 0.1
- * @date 2021-09-24
- *
+ * @date 2021-12-26
+ * 
  * @copyright Copyright (c) 2021
- *
+ * 
  */
-#ifndef EXPORT_HPP_
-#define EXPORT_HPP_
 
-#include "implement.hpp"
+#ifndef OUTPUT_OUTPUT_HPP_
+#define OUTPUT_OUTPUT_HPP_
 
-void print_cfg(void);
-void print_Energy(void);
+#include "implementation.hpp"
 
-#endif  // EXPORT_HPP_
+// void print_cfg(void);
+// void print_Energy(void);
+
+#endif  // OUTPUT_OUTPUT_HPP_

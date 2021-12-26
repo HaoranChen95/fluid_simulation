@@ -9,14 +9,13 @@
  *
  */
 
-#ifndef BROWN_FACTOR_HPP_
-#define BROWN_FACTOR_HPP_
+#ifndef INITIALIZATION_BROWN_FACTOR_HPP_
+#define INITIALIZATION_BROWN_FACTOR_HPP_
 
 #include <cmath>
 
-#include "particle_parameter.hpp"
 #include "box.hpp"
-
+#include "particle_parameter.hpp"
 #include "time_step.hpp"
 
 class brown_factor : virtual public box, public time_step {
@@ -44,4 +43,4 @@ class brown_factor : virtual public box, public time_step {
   double BD_g1_2() const;
 };
 
-#endif  // BROWN_FACTOR_HPP_
+#endif  // INITIALIZATION_BROWN_FACTOR_HPP_

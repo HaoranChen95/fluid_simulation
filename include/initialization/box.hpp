@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef BOX_HPP_
-#define BOX_HPP_
+#ifndef INITIALIZATION_BOX_HPP_
+#define INITIALIZATION_BOX_HPP_
 
 #include <array>
 #include <cstdint>
@@ -43,4 +43,4 @@ class box : public particle_parameter {
   double density() const;
 };
 
-#endif  // BOX_HPP_
+#endif  // INITIALIZATION_BOX_HPP_

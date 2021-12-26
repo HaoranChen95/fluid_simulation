@@ -9,8 +9,15 @@
  *
  */
 
-#ifndef FORCE_HPP_
-#define FORCE_HPP_
+#ifndef IMPLEMENTATION_FORCE_HPP_
+#define IMPLEMENTATION_FORCE_HPP_
+
+#include <omp.h>
+
+#include <array>
+#include <iostream>
+#include <random>
+#include <vector>
 
 #include "position.hpp"
 
@@ -30,4 +37,4 @@ class force : protected position {
   ~force();
 };
 
-#endif  // FORCE_HPP_
+#endif  // IMPLEMENTATION_FORCE_HPP_

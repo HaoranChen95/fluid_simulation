@@ -13,6 +13,7 @@
 
 int main(const int argc, const char* argv[]) {
   initialization system(argc, argv);
+  implementation fluid(system);
   // int FREQ_CFG_DETA = 1;
   // init_system(argc, argv);
   // calc_force();

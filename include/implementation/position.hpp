@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef POSITION_HPP_
-#define POSITION_HPP_
+#ifndef IMPLEMENTATION_POSITION_HPP_
+#define IMPLEMENTATION_POSITION_HPP_
 
 #include <omp.h>
 
@@ -33,4 +33,4 @@ class position : virtual public box {
   ~position();
 };
 
-#endif  // POSITION_HPP_
+#endif  // IMPLEMENTATION_POSITION_HPP_

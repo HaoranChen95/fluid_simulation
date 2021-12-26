@@ -18,7 +18,7 @@ FILE(GLOB_RECURSE SRC_FILES "src/*.cpp")
 include_directories(
 	"${CMAKE_SOURCE_DIR}/include"
 	"${CMAKE_SOURCE_DIR}/include/initialization"
-	"${CMAKE_SOURCE_DIR}/include/implement"
+	"${CMAKE_SOURCE_DIR}/include/implementation"
 	"${CMAKE_SOURCE_DIR}/include/output"
 )
 

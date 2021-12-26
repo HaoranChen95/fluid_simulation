@@ -73,42 +73,6 @@ void initialization::read_config() {
   }
 }
 
-// int64_t step;
-
-// uint64_t set_Cell_N[3];
-// const uint64_t *const Cell_N = set_Cell_N;
-
-// double set_Cell_l[3];
-// const double *const Cell_l = set_Cell_l;
-
-// int64_t ***cell;
-// int64_t *list;
-
-// double E_kin, E_pot;
-// int print_E;
-// int FREQ_print_E = 10;
-
-// void init_parameter(void) {
-//   sp.calc_BD_factor();
-//   // for (int ax = 0; ax < 3; ax++) {
-//   //   set_Cell_N[ax] = static_cast<uint64_t>(sp.l_b()[ax] / sp.sigma());
-//   // }
-// }
-
-// void write_last_cfg(void) {
-//   std::string fn;
-//   std::ostringstream oStrStream;
-//   oStrStream << "read_init_cfg_pos_vel_Nm_" << sp.Nm() << ".xyz";
-//   fn = oStrStream.str();
-//   std::ofstream last_cfg_pos_vel(fn, std::ios::trunc);
-//   last_cfg_pos_vel.precision(8);
-//   for (int i = 0; i < sp.Nm(); ++i) {
-//     last_cfg_pos_vel << r[i][0] << " " << r[i][1] << " " << r[i][2] << " "
-//                      << v[i][0] << " " << v[i][1] << " " << v[i][2]
-//                      << std::endl;
-//   }
-//   last_cfg_pos_vel.close();
-// }
 
 // void init_system(const int argc, const char **argv) {
 //   // init_parameter();

@@ -11,6 +11,21 @@
 
 #include "output.hpp"
 
+// void write_last_cfg(void) {
+//   std::string fn;
+//   std::ostringstream oStrStream;
+//   oStrStream << "read_init_cfg_pos_vel_Nm_" << sp.Nm() << ".xyz";
+//   fn = oStrStream.str();
+//   std::ofstream last_cfg_pos_vel(fn, std::ios::trunc);
+//   last_cfg_pos_vel.precision(8);
+//   for (int i = 0; i < sp.Nm(); ++i) {
+//     last_cfg_pos_vel << r[i][0] << " " << r[i][1] << " " << r[i][2] << " "
+//                      << v[i][0] << " " << v[i][1] << " " << v[i][2]
+//                      << std::endl;
+//   }
+//   last_cfg_pos_vel.close();
+// }
+
 // int cfgs_pro_file = 500;
 // int cfgs_in_file = 0;
 // int cfg_file_array_Nm = 0;

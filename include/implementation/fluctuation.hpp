@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef FLUCTUATION_HPP_
-#define FLUCTUATION_HPP_
+#ifndef IMPLEMENTATION_FLUCTUATION_HPP_
+#define IMPLEMENTATION_FLUCTUATION_HPP_
 
 #include <omp.h>
 
@@ -35,4 +35,4 @@ class fluctuation : virtual public brown_factor {
   ~fluctuation();
 };
 
-#endif  // FLUCTUATION_HPP_
+#endif  // IMPLEMENTATION_FLUCTUATION_HPP_
