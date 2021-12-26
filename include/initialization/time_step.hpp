@@ -1,15 +1,15 @@
 /**
  * @file time_step.hpp
  * @author Haoran Chen (chen950302@live.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-05
- * 
+ *
  * @copyright Copyright (c) 2021
- * 
+ *
  */
-#ifndef TIME_STEP_HPP_
-#define TIME_STEP_HPP_
+#ifndef INITIALIZATION_TIME_STEP_HPP_
+#define INITIALIZATION_TIME_STEP_HPP_
 
 #include <cstdint>
 
@@ -22,7 +22,6 @@ class time_step {
   double half_h2_;
   uint64_t MD_Steps_;
   uint64_t Relax_Steps_;
-  uint64_t step_;
   uint64_t time_0001_;
   uint64_t time_001_;
   uint64_t time_01_;
@@ -31,16 +30,17 @@ class time_step {
   uint64_t time_100_;
 
  public:
+  uint64_t step;
+
   void MD_Steps(const double input);
-  void Relax_Steps(const uint64_t input);
+  void Relax_time(const uint64_t input);
   void MD_time(const double input);
-  void step(const double input);
   void h(const double input);
 
   uint64_t MD_Steps() const;
   uint64_t Relax_Steps() const;
-  uint64_t step() const;
   double MD_time() const;
+  double step_time() const;
   double h() const;
   double half_h() const;
   double half_h2() const;
@@ -52,4 +52,4 @@ class time_step {
   uint64_t time_100() const;
 };
 
-#endif  // TIME_STEP_HPP_
+#endif  // INITIALIZATION_TIME_STEP_HPP_

@@ -11,25 +11,29 @@
 
 #include "output.hpp"
 
-
 output::output(/* args */) {}
 
 output::~output() {}
 
-// void write_last_cfg(void) {
-//   std::string fn;
-//   std::ostringstream oStrStream;
-//   oStrStream << "read_init_cfg_pos_vel_Nm_" << sp.Nm() << ".xyz";
-//   fn = oStrStream.str();
-//   std::ofstream last_cfg_pos_vel(fn, std::ios::trunc);
-//   last_cfg_pos_vel.precision(8);
-//   for (int i = 0; i < sp.Nm(); ++i) {
-//     last_cfg_pos_vel << r[i][0] << " " << r[i][1] << " " << r[i][2] << " "
-//                      << v[i][0] << " " << v[i][1] << " " << v[i][2]
-//                      << std::endl;
-//   }
-//   last_cfg_pos_vel.close();
-// }
+void output::print_energy() {
+  if (step % time_01() == 0) {
+    std::cout << "time " << step_time() << " E_pot " << E_pot() << " E_kin " << E_kin()
+              << " E_sum " << E_kin() + E_pot() << std::endl;
+  }
+}
+
+void output::write_last_cfg(void) {
+  oStrStream << "read_init_cfg_pos_vel_Nm_" << Nm() << ".xyz";
+  fn = oStrStream.str();
+  std::ofstream last_cfg_pos_vel(fn, std::ios::trunc);
+  last_cfg_pos_vel.precision(8);
+  for (int i = 0; i < Nm(); ++i) {
+    last_cfg_pos_vel << r[i][0] << " " << r[i][1] << " " << r[i][2] << " "
+                     << v[i][0] << " " << v[i][1] << " " << v[i][2]
+                     << std::endl;
+  }
+  last_cfg_pos_vel.close();
+}
 
 // int cfgs_pro_file = 500;
 // int cfgs_in_file = 0;
@@ -46,7 +50,8 @@ output::~output() {}
 //     cfg_data_file.open(oss.str(), std::ios::app);
 //     oss.str("");
 
-//     oss << "cfg_time_aV_" << cfg_file_array_Nm << "_phi_" << sp.density() << "_Nm_"
+//     oss << "cfg_time_aV_" << cfg_file_array_Nm << "_phi_" << sp.density() <<
+//     "_Nm_"
 //         << sp.Nm() << ".dat";
 //     cfg_time_file.open(oss.str(), std::ios::app);
 //     oss.str("");
@@ -55,7 +60,8 @@ output::~output() {}
 //   if (cfgs_in_file < cfgs_pro_file) {
 //     for (uint64_t i = 0; i < sp.Nm(); i++) {
 //       cfg_data_file << r[i][0] << " " << r[i][1] << " " << r[i][2] << " "
-//                     << v[i][0] << " " << v[i][1] << " " << v[i][2] << std::endl;
+//                     << v[i][0] << " " << v[i][1] << " " << v[i][2] <<
+//                     std::endl;
 //     }
 //     cfg_time_file << step * sp.h() << std::endl;
 //     cfgs_in_file++;

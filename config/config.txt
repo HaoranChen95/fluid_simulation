@@ -12,3 +12,5 @@ lz = 20
 epsilon = 1.5
 # sigma
 sigma = 1
+# relax time
+relax_time = 0.1

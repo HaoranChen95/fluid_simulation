@@ -32,11 +32,13 @@ void force::calc_force() {
   }
   // cell_list();
 
+#pragma omp for reduction(+ : E_pot_)
   for (uint64_t i = 0; i < Nm(); i++) {
     for (uint64_t j = i + 1; j < Nm(); j++) {
       E_pot_ += LJ(i, j);
     }
   }
+  E_pot_ /= static_cast<double>(Nm());
 }
 
 double force::E_pot() const { return E_pot_; }

@@ -1,17 +1,21 @@
 /**
  * @file time_step.cpp
  * @author Haoran Chen (chen950302@live.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-05
- * 
+ *
  * @copyright Copyright (c) 2021
- * 
+ *
  */
 #include "time_step.hpp"
 
-
-void time_step::Relax_Steps(const uint64_t input) { Relax_Steps_ = input; }
+void time_step::Relax_time(const uint64_t input) {
+  Relax_time_ = input;
+  if (h_ > 0) {
+    Relax_Steps_ = static_cast<uint64_t>(input / h_);
+  }
+}
 
 void time_step::MD_time(const double input) {
   MD_time_ = input;
@@ -34,6 +38,7 @@ void time_step::h(const double input) {
 }
 uint64_t time_step::MD_Steps() const { return MD_Steps_; }
 uint64_t time_step::Relax_Steps() const { return Relax_Steps_; }
+double time_step::step_time() const { return static_cast<double>(step) * h_; }
 
 /**
  * @brief out put time step h

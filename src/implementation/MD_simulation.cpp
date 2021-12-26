@@ -16,21 +16,28 @@ MD_simulation::MD_simulation(/* args */) {}
 MD_simulation::~MD_simulation() {}
 
 void MD_simulation::MD_relaxation() {
-  std::cout << "in the MD step::run" << std::endl;
-  calc_pos();
-  calc_force();
-  calc_vel();
+  std::cout << "in the MD step::MD_relaxation " << half_h() << std::endl;
+
+  for (step = 0; step <= Relax_Steps(); step++) {
+    calc_pos();
+    calc_force();
+    calc_vel();
+    vel_correcter();
+    print_energy();
+  }
 }
 
 void MD_simulation::MD_implementation() {
-  std::cout << "in the MD step::run" << std::endl;
-  calc_pos();
-  calc_force();
-  calc_vel();
+  for (step = 0; step <= MD_Steps(); step++) {
+    calc_pos();
+    calc_force();
+    calc_vel();
+    calc_E_kin();
+    print_energy();
+  }
 }
 
 void MD_simulation::calc_vel(void) {
-  std::cout << "in the MD step::celc vel" << std::endl;
 #pragma omp parallel for
   for (uint64_t i = 0; i < Nm(); i++) {
     for (int ax = 0; ax < 3; ax++) {
@@ -40,7 +47,6 @@ void MD_simulation::calc_vel(void) {
 }
 
 void MD_simulation::calc_pos(void) {
-  std::cout << "in the MD step::calc pos" << std::endl;
 #pragma omp parallel for
   for (uint64_t i = 0; i < Nm(); i++) {
     for (int ax = 0; ax < 3; ax++) {
@@ -51,15 +57,6 @@ void MD_simulation::calc_pos(void) {
 }
 
 // void MD_simulation(void) {
-//   E_pot = 0.;
-//   if (sp.gamma()) {
-//     generate_Gamma();
-//     calc_BD_pos();
-//     // calc_MD_pos();
-//     calc_force();
-//     calc_BD_vel();
-//   } else {
-//   }
 
 //   calc_E_kin();
 //   if (print_E == 0) {

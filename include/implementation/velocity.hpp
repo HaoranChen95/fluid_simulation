@@ -19,14 +19,23 @@
 #include <random>
 #include <vector>
 
-class velocity {
+#include "box.hpp"
+
+class velocity : virtual public box {
  private:
-  /* data */
+  double E_kin_;
+  double mean_E_kin_ = 0;
+  uint64_t step_ = 0;
+  void calc_mean_E_kin();
+
  protected:
   std::vector<std::array<double, 3>> v;
 
  public:
-  void init_velocity(const uint64_t Nm, const double kT);
+  void init_velocity();
+  void vel_correcter();
+  void calc_E_kin();
+  double E_kin() const;
   ~velocity();
 };
 

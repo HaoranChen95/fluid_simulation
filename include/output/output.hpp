@@ -12,18 +12,25 @@
 #ifndef OUTPUT_OUTPUT_HPP_
 #define OUTPUT_OUTPUT_HPP_
 
+#include <string>
+#include <iostream>
+
 #include "initialization.hpp"
 
-class output {
+class output : virtual public initialization{
  private:
-  /* data */
+  std::string fn;
+  std::ostringstream oStrStream;
  public:
   output(/* args */);
+  void print_energy();
+  void write_cfg();
+  void write_energy();
+  void write_last_cfg();
   ~output();
 };
 
 
-// void print_cfg(void);
 // void print_Energy(void);
 
 #endif  // OUTPUT_OUTPUT_HPP_

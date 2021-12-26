@@ -16,7 +16,7 @@ void initialization::init(const int argc, const char **argv) {
   read_arg(argc, argv);
   read_config();
   init_position();
-  init_velocity(Nm(), kT());
+  init_velocity();
   init_force();
   if (gamma()) {
     init_fluctuation();
@@ -66,6 +66,8 @@ void initialization::read_config() {
           epsilon(std::stod(value));
         } else if (head == "m") {
           m(std::stod(value));
+        } else if (head == "relax_time") {
+          Relax_time(std::stod(value));
         }
       }
     }
