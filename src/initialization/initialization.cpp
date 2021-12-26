@@ -10,8 +10,9 @@
  */
 
 #include "initialization.hpp"
+// initialization::initialization() {}
 
-initialization::initialization(const int argc, const char **argv) {
+void initialization::init(const int argc, const char **argv) {
   read_arg(argc, argv);
   read_config();
   init_position();
@@ -72,33 +73,3 @@ void initialization::read_config() {
     calc_density();
   }
 }
-
-
-// void init_system(const int argc, const char **argv) {
-//   // init_parameter();
-//   // cell = new int64_t **[Cell_N[0] + 2];
-//   // for (int64_t cx = 0; cx < Cell_N[0] + 2; cx++) {
-//   //   cell[cx] = new int64_t *[Cell_N[1] + 2];
-//   //   for (int64_t cy = 0; cy < Cell_N[1] + 2; cy++) {
-//   //     cell[cx][cy] = new int64_t[Cell_N[2] + 2];
-//   //   }
-//   // }
-//   // list = new int64_t[sp.Nm()];
-
-//   // sp.read_arg(argc, argv);
-//   std::cout << "Nm " << sp.Nm() << " Density " << sp.density() << " box "
-//             << sp.l_b()[0] << std::endl;
-//   // read_config();
-//   std::cout << "Nm " << sp.Nm() << " Density " << sp.density() << " box "
-//             << sp.l_b()[0] << std::endl;
-//   init_position();
-//   init_velocity();
-//   init_force();
-//   if (sp.gamma()) {
-//     sp.calc_BD_factor();
-//     init_gamma();
-//   }
-//   write_last_cfg();
-// }
-
-// void close_system(void) {}

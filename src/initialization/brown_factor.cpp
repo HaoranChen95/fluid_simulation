@@ -1,12 +1,12 @@
 /**
  * @file brown_factor.cpp
  * @author Haoran Chen (chen950302@live.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-05
- * 
+ *
  * @copyright Copyright (c) 2021
- * 
+ *
  */
 
 #include "brown_factor.hpp"
@@ -34,6 +34,7 @@ void brown_factor::calc_BD_factor() {
   BD_v_2_ = (gh - 1. + exp(-gh)) / gamma() / (exp(gh) - 1.);
   BD_v_3_ = (-gh - 1. + exp(gh)) / gamma() / (exp(gh) - 1.);
 }
+
 double brown_factor::BD_r_1() const { return BD_r_1_; }
 double brown_factor::BD_r_2() const { return BD_r_2_; }
 double brown_factor::BD_v_1() const { return BD_v_1_; }

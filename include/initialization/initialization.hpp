@@ -30,11 +30,8 @@
 #include <vector>
 
 #include "box.hpp"
-#include "brown_factor.hpp"
 #include "fluctuation.hpp"
 #include "force.hpp"
-#include "particle_parameter.hpp"
-#include "time_step.hpp"
 #include "velocity.hpp"
 
 class initialization : protected fluctuation,
@@ -42,7 +39,8 @@ class initialization : protected fluctuation,
                        protected force {
  private:
  public:
-  initialization(const int argc, const char **argv);
+  // initialization();
+  void init(const int argc, const char **argv);
   void read_arg(const int argc, const char **argv);
   void read_config();
 };
