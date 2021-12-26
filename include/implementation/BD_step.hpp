@@ -12,4 +12,18 @@
 #ifndef IMPLEMENTATION_BD_STEP_HPP_
 #define IMPLEMENTATION_BD_STEP_HPP_
 
+#include "initialization.hpp"
+
+class BD_step : virtual protected initialization{
+ private:
+  /* data */
+  void calc_vel();
+  void calc_pos();
+
+ public:
+  BD_step();
+  void run_BD_step();
+  ~BD_step();
+};
+
 #endif  // IMPLEMENTATION_BD_STEP_HPP_

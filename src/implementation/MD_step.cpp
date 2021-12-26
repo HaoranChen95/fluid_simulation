@@ -15,24 +15,33 @@ MD_step::MD_step(/* args */) {}
 
 MD_step::~MD_step() {}
 
-// void calc_MD_vel(void) {
-// #pragma omp parallel for
-//   for (uint64_t i = 0; i < sp.Nm(); i++) {
-//     for (int ax = 0; ax < 3; ax++) {
-//       v[i][ax] += (f0[i][ax] + f1[i][ax]) * sp.half_h();
-//     }
-//   }
-// }
+void MD_step::run_MD_step() {
+  std::cout << "in the MD step::run" << std::endl;
+  calc_pos();
+  calc_force();
+  calc_vel();
+}
 
-// void calc_MD_pos(void) {
-// #pragma omp parallel for
-//   for (uint64_t i = 0; i < sp.Nm(); i++) {
-//     for (int ax = 0; ax < 3; ax++) {
-//       dr[i][ax] = v[i][ax] * sp.h() + f1[i][ax] * sp.half_h2();
-//       r[i][ax] += dr[i][ax];
-//     }
-//   }
-// }
+void MD_step::calc_vel(void) {
+  std::cout << "in the MD step::celc vel" << std::endl;
+#pragma omp parallel for
+  for (uint64_t i = 0; i < Nm(); i++) {
+    for (int ax = 0; ax < 3; ax++) {
+      v[i][ax] += (f0[i][ax] + f1[i][ax]) * half_h();
+    }
+  }
+}
+
+void MD_step::calc_pos(void) {
+  std::cout << "in the MD step::calc pos" << std::endl;
+#pragma omp parallel for
+  for (uint64_t i = 0; i < Nm(); i++) {
+    for (int ax = 0; ax < 3; ax++) {
+      dr[i][ax] = v[i][ax] * h() + f1[i][ax] * half_h2();
+      r[i][ax] += dr[i][ax];
+    }
+  }
+}
 
 // void MD_Step(void) {
 //   E_pot = 0.;
@@ -43,9 +52,6 @@ MD_step::~MD_step() {}
 //     calc_force();
 //     calc_BD_vel();
 //   } else {
-//     calc_MD_pos();
-//     calc_force();
-//     calc_MD_vel();
 //   }
 
 //   calc_E_kin();

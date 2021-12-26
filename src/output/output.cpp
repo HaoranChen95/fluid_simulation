@@ -11,6 +11,11 @@
 
 #include "output.hpp"
 
+
+output::output(/* args */) {}
+
+output::~output() {}
+
 // void write_last_cfg(void) {
 //   std::string fn;
 //   std::ostringstream oStrStream;

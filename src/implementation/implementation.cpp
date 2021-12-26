@@ -11,10 +11,17 @@
 
 #include "implementation.hpp"
 
-implementation::implementation(const int argc, const char **argv) {
-  init(argc, argv);
-}
+implementation::implementation() {}
 
-void implementation::relaxation() {}
+void implementation::relaxation() {
+  std::cout << "finished init" << std::endl;
+  if (gamma()) {
+    std::cout << "BD" << std::endl;
+    run_BD_step();
+  } else {
+    std::cout << "MD" << std::endl;
+    run_MD_step();
+  }
+}
 
 implementation::~implementation() {}

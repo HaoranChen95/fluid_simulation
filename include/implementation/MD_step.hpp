@@ -17,8 +17,12 @@
 class MD_step : virtual protected initialization{
  private:
   /* data */
+  void calc_vel();
+  void calc_pos();
+
  public:
   MD_step();
+  void run_MD_step();
   ~MD_step();
 };
 

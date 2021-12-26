@@ -12,8 +12,10 @@
 #include "main.hpp"
 
 int main(const int argc, const char* argv[]) {
-  implementation fluid(argc, argv);
-  // fluid.init;
+  fluid_simulation fluid(argc, argv);
+  // fluid.relaxation();
+  // fluid.implementation();
+
   // int FREQ_CFG_DETA = 1;
   // init_system(argc, argv);
   // calc_force();
@@ -30,8 +32,6 @@ int main(const int argc, const char* argv[]) {
   // }
   // for (step = 0; step < sp.MD_Steps(); step++) {
   //   MD_Step();
-  //   // std::cout << "there !!! " << step << std::endl;
-
   //   if (step % sp.time_01() == 0) {
   //     print_Energy();
   //   }

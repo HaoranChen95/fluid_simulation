@@ -13,7 +13,7 @@
 #define MAIN_HPP_
 
 #include "output.hpp"
-
+#include "fluid_simulation.hpp"
 
 // extern int64_t MD_Steps;
 

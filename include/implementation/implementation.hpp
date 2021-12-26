@@ -14,14 +14,15 @@
 #include <cmath>  // floor
 // #include <vector>
 // #include <memory>
+#include "BD_step.hpp"
 #include "MD_step.hpp"
 
 // void cell_list(void);
-class implementation : protected MD_step {
+class implementation : protected MD_step, protected BD_step {
  private:
   /* data */
  public:
-  implementation(const int argc, const char **argv);
+  implementation();
   // void init(const int argc, const char **argv);
   void relaxation();
   ~implementation();
