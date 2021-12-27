@@ -16,9 +16,8 @@ void position::init_position() {
   row_x = static_cast<int>(l_b()[0] / sigma());
   row_y = static_cast<int>(l_b()[1] / sigma());
   row_z = static_cast<int>(l_b()[2] / sigma());
-  int i = 0;
+  uint64_t i = 0;
   std::array<double, 3> new_r;
-
   for (int r_z = 0; r_z < row_z; r_z++) {
     for (int r_y = 0; r_y < row_y; r_y++) {
       for (int r_x = 0; r_x < row_x; r_x++) {
@@ -34,6 +33,8 @@ void position::init_position() {
       }
     }
   }
+  Nm(r.size());
+  calc_density();
 finish:
   std::cout << "initialization of position finished" << std::endl;
 }
