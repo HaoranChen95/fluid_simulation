@@ -10,7 +10,8 @@
  */
 
 #include "initialization.hpp"
-// initialization::initialization() {}
+
+initialization::initialization() {}
 
 void initialization::init(const int argc, const char **argv) {
   read_arg(argc, argv);
@@ -19,6 +20,7 @@ void initialization::init(const int argc, const char **argv) {
   init_velocity();
   init_force();
   if (gamma()) {
+    calc_BD_factor();
     init_fluctuation();
   }
   std::cout << "v " << v.size() << std::endl;

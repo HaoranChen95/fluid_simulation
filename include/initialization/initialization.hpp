@@ -13,7 +13,7 @@
 #define INITIALIZATION_INITIALIZATION_HPP_
 
 #ifdef _OPENMP
-#define N_THREADS 4
+#define N_THREADS 2
 
 #else
 #define N_THREADS 1
@@ -26,7 +26,6 @@
 #include <fstream>
 #include <iostream>
 #include <random>
-#include <sstream>
 #include <vector>
 
 #include "box.hpp"
@@ -39,7 +38,7 @@ class initialization : protected fluctuation,
                        protected force {
  private:
  public:
-  // initialization();
+  initialization();
   void init(const int argc, const char **argv);
   void read_arg(const int argc, const char **argv);
   void read_config();

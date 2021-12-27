@@ -12,15 +12,27 @@
 #ifndef OUTPUT_OUTPUT_HPP_
 #define OUTPUT_OUTPUT_HPP_
 
-#include <string>
+#include <fstream>
 #include <iostream>
+#include <sstream>
+#include <string>
 
 #include "initialization.hpp"
 
-class output : virtual public initialization{
+class output : virtual public initialization {
  private:
   std::string fn;
-  std::ostringstream oStrStream;
+  std::ostringstream oss;
+  int cfgs_pro_file = 500;
+  int cfgs_in_file = 0;
+  std::ofstream last_cfg_pos_vel;
+  std::ofstream cfg_data_file;
+  std::ofstream cfg_time_file;
+  std::ofstream energy_file;
+  int cfg_file_array_Nm = 0;
+  uint64_t cfg_freq_;
+  uint64_t cfg_freq();
+
  public:
   output(/* args */);
   void print_energy();
@@ -29,7 +41,6 @@ class output : virtual public initialization{
   void write_last_cfg();
   ~output();
 };
-
 
 // void print_Energy(void);
 

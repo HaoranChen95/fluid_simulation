@@ -28,6 +28,7 @@ class time_step {
   uint64_t time_1_;
   uint64_t time_10_;
   uint64_t time_100_;
+  uint64_t time_1000_;
 
  public:
   uint64_t step;
@@ -50,6 +51,7 @@ class time_step {
   uint64_t time_1() const;
   uint64_t time_10() const;
   uint64_t time_100() const;
+  uint64_t time_1000() const;
 };
 
 #endif  // INITIALIZATION_TIME_STEP_HPP_

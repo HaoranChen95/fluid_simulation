@@ -28,6 +28,7 @@ void time_step::h(const double input) {
   h_ = input;
   half_h_ = 0.5 * h_;
   half_h2_ = 0.5 * h_ * h_;
+  time_1000_ = static_cast<uint64_t>(1000. / h_);
   time_100_ = static_cast<uint64_t>(100. / h_);
   time_10_ = static_cast<uint64_t>(10. / h_);
   time_1_ = static_cast<uint64_t>(1. / h_);
@@ -59,3 +60,4 @@ uint64_t time_step::time_01() const { return time_01_; }
 uint64_t time_step::time_1() const { return time_1_; }
 uint64_t time_step::time_10() const { return time_10_; }
 uint64_t time_step::time_100() const { return time_100_; }
+uint64_t time_step::time_1000() const { return time_1000_; }

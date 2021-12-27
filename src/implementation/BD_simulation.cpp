@@ -11,29 +11,39 @@
 
 #include "BD_simulation.hpp"
 
-BD_simulation::BD_simulation(/* args */) {}
+BD_simulation::BD_simulation() {}
 
 void BD_simulation::BD_relaxation() {
-  std::cout << "in the BD step::run" << std::endl;
-  generate_Gamma();
-  calc_pos();
-  calc_force();
-  calc_vel();
+  std::cout << "in the BD step::MD_relaxation " << std::endl;
+
+  for (step = 0; step < Relax_Steps(); step++) {
+    generate_Gamma();
+    calc_pos();
+    calc_force();
+    calc_vel();
+    calc_E_kin();
+    print_energy();
+    write_last_cfg();
+  }
 }
 
 void BD_simulation::BD_implementation() {
-  std::cout << "in the BD step::run" << std::endl;
-  generate_Gamma();
-  calc_pos();
-  calc_force();
-  calc_vel();
+  for (step = 0; step <= MD_Steps(); step++) {
+    generate_Gamma();
+    calc_pos();
+    calc_force();
+    calc_vel();
+    calc_E_kin();
+    print_energy();
+    write_last_cfg();
+    write_cfg();
+    write_energy();
+  }
 }
 
 BD_simulation::~BD_simulation() {}
 
 void BD_simulation::calc_vel(void) {
-  std::cout << "in the BD step::clac vel" << std::endl;
-// calc_BD_vel();
 #pragma omp parallel for
   for (uint64_t i = 0; i < Nm(); i++) {
     for (int ax = 0; ax < 3; ax++) {
@@ -44,7 +54,6 @@ void BD_simulation::calc_vel(void) {
 }
 
 void BD_simulation::calc_pos(void) {
-  std::cout << "in the BD step::pos" << std::endl;
 #pragma omp parallel for
   for (uint64_t i = 0; i < Nm(); i++) {
     for (int ax = 0; ax < 3; ax++) {

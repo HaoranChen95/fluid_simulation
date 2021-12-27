@@ -17,7 +17,6 @@
 
 class BD_simulation : virtual protected initialization, virtual public output {
  private:
-  /* data */
   void calc_vel();
   void calc_pos();
 

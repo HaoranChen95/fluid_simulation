@@ -18,12 +18,13 @@ MD_simulation::~MD_simulation() {}
 void MD_simulation::MD_relaxation() {
   std::cout << "in the MD step::MD_relaxation " << half_h() << std::endl;
 
-  for (step = 0; step <= Relax_Steps(); step++) {
+  for (step = 0; step < Relax_Steps(); step++) {
     calc_pos();
     calc_force();
     calc_vel();
     vel_correcter();
     print_energy();
+    write_last_cfg();
   }
 }
 
@@ -34,6 +35,9 @@ void MD_simulation::MD_implementation() {
     calc_vel();
     calc_E_kin();
     print_energy();
+    write_last_cfg();
+    write_cfg();
+    write_energy();
   }
 }
 
@@ -55,18 +59,3 @@ void MD_simulation::calc_pos(void) {
     }
   }
 }
-
-// void MD_simulation(void) {
-
-//   calc_E_kin();
-//   if (print_E == 0) {
-//     std::cout << "time\t" << static_cast<double>(step) * sp.h() <<
-//     "\tE_kin\t"
-//               << E_kin / static_cast<double>(sp.Nm()) << "\tE_pot\t"
-//               << E_pot / static_cast<double>(sp.Nm()) << "\tE\t"
-//               << (E_kin + E_pot) / static_cast<double>(sp.Nm()) << std::endl;
-//   }
-//   if (++print_E == sp.time_01()) {
-//     print_E = 0;
-//   }
-// }

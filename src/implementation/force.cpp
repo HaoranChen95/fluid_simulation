@@ -30,8 +30,6 @@ void force::calc_force() {
       f1[i][ax] = 0.;
     }
   }
-  // cell_list();
-
 #pragma omp for reduction(+ : E_pot_)
   for (uint64_t i = 0; i < Nm(); i++) {
     for (uint64_t j = i + 1; j < Nm(); j++) {

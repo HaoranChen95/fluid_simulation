@@ -3,7 +3,9 @@ build
 *.o
 *.optrpt
 temp/*
+temp_/*
 doc/latex
 doc/html
 *.out
 .vscode
+out*
