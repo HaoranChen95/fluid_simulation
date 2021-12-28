@@ -20,10 +20,13 @@
 #include <vector>
 
 #include "position.hpp"
+#include "cell_list.hpp"
 
-class force : protected position {
+class force : virtual protected position , public cell_list {
  private:
   double E_pot_;
+  uint64_t paar_counter;
+  uint64_t f_counter;
   double LJ(uint64_t i, uint64_t j);
 
  protected:

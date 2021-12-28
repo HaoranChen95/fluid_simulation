@@ -11,6 +11,10 @@
 
 #include "position.hpp"
 
+double position::r_in_box(const uint64_t &i, const int &ax) {
+  return r[i][ax] - l_b()[ax] * floor(r[i][ax] * inv_l_b()[ax]);
+}
+
 void position::init_position() {
   int row_x, row_y, row_z;
   row_x = static_cast<int>(l_b()[0] / sigma());

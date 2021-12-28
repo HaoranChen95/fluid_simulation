@@ -1,10 +1,10 @@
 #!/usr/bin/bash
 
 export OMP_NUM_THREADS=4
-MD_time=100
+MD_time=1
 time_step=1e-4
 density=0.1
-gamma=1 # 0 MD >0 BD Simulation
+gamma=0 # 0 MD >0 BD Simulation
 
 cd build
 

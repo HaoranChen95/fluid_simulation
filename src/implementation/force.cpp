@@ -23,6 +23,7 @@ void force::init_force() {
 
 void force::calc_force() {
   E_pot_ = 0;
+  refresh_cell_list();
 #pragma omp parallel for
   for (uint64_t i = 0; i < Nm(); i++) {
     for (int ax = 0; ax < 3; ax++) {
@@ -32,7 +33,7 @@ void force::calc_force() {
   }
 #pragma omp for reduction(+ : E_pot_)
   for (uint64_t i = 0; i < Nm(); i++) {
-    for (uint64_t j = i + 1; j < Nm(); j++) {
+    for (uint64_t j : cell_list_ij[i]) {
       E_pot_ += LJ(i, j);
     }
   }
@@ -60,6 +61,7 @@ double force::LJ(uint64_t i, uint64_t j) {
       f1[i][ax] -= f_LJ[ax];
       f1[j][ax] += f_LJ[ax];
     }
+    paar_counter++;
     return 4. * epsilon() * (sr_inv12 - sr_inv6) + epsilon();
   }
   return 0.;

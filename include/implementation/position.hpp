@@ -28,7 +28,8 @@ class position : virtual public box {
   std::vector<std::array<double, 3>> dr;
 
  public:
-  void init_position(/* args */);
+  void init_position();
+  double r_in_box(const uint64_t &i, const int &ax);
   double minium_image(const uint64_t &i, const uint64_t &j, const int &ax);
   ~position();
 };

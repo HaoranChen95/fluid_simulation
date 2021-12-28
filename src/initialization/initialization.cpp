@@ -17,6 +17,7 @@ void initialization::init(const int argc, const char **argv) {
   read_arg(argc, argv);
   read_config();
   init_position();
+  init_cell_list(sqrt(r2_cut()));
   init_velocity();
   init_force();
   if (gamma()) {
