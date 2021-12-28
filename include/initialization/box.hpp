@@ -21,6 +21,7 @@ class box : public particle_parameter {
  private:
   double kT_;
   double density_;
+  double real_density_;
   std::array<double, 3> l_b_;
   std::array<double, 3> half_l_b_;
   std::array<double, 3> inv_l_b_;
@@ -41,6 +42,7 @@ class box : public particle_parameter {
   void calc_Nm();
   void calc_density();
   double density() const;
+  double real_density() const;
 };
 
 #endif  // INITIALIZATION_BOX_HPP_

@@ -11,7 +11,10 @@
 
 #include "box.hpp"
 
-void box::kT(const double input) { kT_ = input; }
+void box::kT(const double input) {
+  kT_ = input;
+  epsilon(1.5 * input);
+}
 double box::kT() const { return kT_; }
 
 /**
@@ -39,8 +42,9 @@ void box::calc_Nm() {
 }
 
 void box::calc_density() {
-  density_ =
+  real_density_ =
       static_cast<double>(Nm_) * M_PI_4 * sig2() / l_b_[0] / l_b_[1] / l_b_[2];
 }
 uint64_t box::Nm() const { return Nm_; }
 double box::density() const { return density_; }
+double box::real_density() const { return real_density_; }

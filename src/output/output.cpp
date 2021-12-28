@@ -46,7 +46,7 @@ void output::print_energy() {
 
 void output::write_last_cfg(void) {
   if (step % time_1() == 0) {
-    oss << "read_init_cfg_vel_Nm_" << Nm() << ".txt";
+    oss << "read_init_cfg_vel_Nm_" << Nm() << "_kT_" << kT() << ".txt";
     fn = oss.str();
     last_cfg_pos_vel.open(fn, std::ios::trunc);
     oss.str("");
@@ -63,13 +63,13 @@ void output::write_last_cfg(void) {
 void output::write_cfg(void) {
   if (step % cfg_freq() == 0) {
     if (cfgs_in_file == 0) {
-      oss << "cfg_data_pos_aV_" << cfg_file_array_Nm << "_phi_" << density()
-          << "_Nm_" << Nm() << "_gam_" << gamma() << ".txt";
+      oss << "cfg_data_aV_" << cfg_file_array_Nm << "_phi_" << density()
+          << "_Nm_" << Nm() << "_kT_" << kT() << "_gam_" << gamma() << ".txt";
       cfg_data_file.open(oss.str(), std::ios::app);
       oss.str("");
 
       oss << "cfg_time_aV_" << cfg_file_array_Nm << "_phi_" << density()
-          << "_Nm_" << Nm() << "_gam_" << gamma() << ".txt";
+          << "_Nm_" << Nm() << "_kT_" << kT() << "_gam_" << gamma() << ".txt";
       cfg_time_file.open(oss.str(), std::ios::app);
       oss.str("");
     }
@@ -94,7 +94,8 @@ void output::write_cfg(void) {
 void output::write_energy(void) {
   if (step % time_01() == 0) {
     if (!energy_file.is_open()) {
-      oss << "energy_phi_" << density() << "_Nm_" << Nm() << ".txt";
+      oss << "energy_phi_" << density() << "_Nm_" << Nm() << "_kT_" << kT()
+          << "_gam_" << gamma() << ".txt";
       energy_file.open(oss.str(), std::ios::app);
       oss.str("");
       energy_file.precision(10);

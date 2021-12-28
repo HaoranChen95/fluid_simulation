@@ -20,13 +20,14 @@ email=ha.chen@fz-juelich.de
 exe_suffix="th2_${core}_core"
 # setting the system parameters of simulation
 
-array_phi=(0.10 0.80)
-dt=1e-3
-MDt=1.1e4
-array_gamma=(1)
+array_phi=(0.40)
+dt=1e-4
+MDt=1.1e3
+array_kT=(1.0 2.0 3.0)
+array_gamma=(0)
 
 # setting the data series name
-snum=1
+snum=0
 
 # go to simulation dir and comile the code
 cd $HOME/fluid_simulation/build/
@@ -40,41 +41,42 @@ cp ./main ../fluid_simulation_$exe_suffix
 
 # send the implement file to the running dir
 for phi in "${array_phi[@]}"; do
-	for gamma in "${array_gamma[@]}"; do
-		fname="s_${snum}_phi_${phi}_gamma_${gamma}"
+	for kT in "${array_kT[@]}"; do
+		for gamma in "${array_gamma[@]}"; do
+			fname="s_${snum}_phi_${phi}_kT_${kT}_gamma_${gamma}"
 
-		mkdir $RunDir$fname
+			mkdir $RunDir$fname
 
-		echo "start copy at"
-		pwd
+			echo "start copy at"
+			pwd
 
-		cp ../fluid_simulation_$exe_suffix $RunDir$fname
-		cp ../config/config.txt $RunDir$fname
+			cp ../fluid_simulation_$exe_suffix $RunDir$fname
+			cp ../config/config.txt $RunDir$fname
 
-		cd $RunDir$fname
-		echo "[Running] the simulation in"
-		pwd
+			cd $RunDir$fname
+			echo "[Running] the simulation in"
+			pwd
 
-		mv fluid_simulation_$exe_suffix $fname
-		# srun --partition=th2 --account=chen --out=out_%j.txt \
-		nohup ./$fname $MDt $dt $phi $gamma >> out_simulation.txt &&
-			mv $RunDir$fname ${StoreDir}/. &
-		sleep 2s
+			mv fluid_simulation_$exe_suffix $fname
+			# srun --partition=th2 --account=chen --out=out_%j.txt \
+			nohup ./$fname $MDt $dt $phi $kT $gamma >> out_simulation.txt &&
+				mv $RunDir$fname ${StoreDir}/. &
+			sleep 2s
 
-		cd -
+			cd -
 
-		while :; do
-			ps_num=$(($(ps | grep ic_ | wc -l)))
-			echo "Process Num: $ps_num"
-			if (($ps_num < $CPU_NUM / ${core})); then
-				sleep 2
-				break
-			else
-				echo "sleeping"
-				sleep 30m
-			fi
+			while :; do
+				ps_num=$(($(ps | grep ic_ | wc -l)))
+				echo "Process Num: $ps_num"
+				if (($ps_num < $CPU_NUM / ${core})); then
+					sleep 2
+					break
+				else
+					echo "sleeping"
+					sleep 30m
+				fi
+			done
 		done
-
 	done
 done
 

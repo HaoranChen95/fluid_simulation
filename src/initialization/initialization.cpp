@@ -34,7 +34,8 @@ void initialization::read_arg(const int argc, const char **argv) {
   MD_time(std::stod(argv[1]));
   h(std::stod(argv[2]));
   density(std::stod(argv[3]));
-  gamma(std::stod(argv[4]));
+  kT(std::stod(argv[4]));
+  gamma(std::stod(argv[5]));
 }
 
 void initialization::read_config() {
@@ -55,9 +56,7 @@ void initialization::read_config() {
         const std::string &head = line.substr(0, split_at - 1);
         const std::string &value = line.substr(split_at + 2);
 
-        if (head == "kT") {
-          kT(std::stod(value));
-        } else if (head == "lx") {
+        if (head == "lx") {
           l_b(0, std::stod(value));
         } else if (head == "ly") {
           l_b(1, std::stod(value));
@@ -65,8 +64,6 @@ void initialization::read_config() {
           l_b(2, std::stod(value));
         } else if (head == "sigma") {
           sigma(std::stod(value));
-        } else if (head == "epsilon") {
-          epsilon(std::stod(value));
         } else if (head == "m") {
           m(std::stod(value));
         } else if (head == "relax_time") {
