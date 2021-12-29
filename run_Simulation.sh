@@ -20,14 +20,15 @@ email=ha.chen@fz-juelich.de
 exe_suffix="th2_${core}_core"
 # setting the system parameters of simulation
 
-array_phi=(0.40)
+array_phi=(0.05 0.50 0.55 0.60 0.65 0.70)
+#  0.05 0.10 0.15 0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70
 dt=1e-4
-MDt=1.1e3
-array_kT=(1.0 2.0 3.0)
+MDt=1.1e4
+array_kT=(1.0)
 array_gamma=(0)
 
 # setting the data series name
-snum=0
+snum=1
 
 # go to simulation dir and comile the code
 cd $HOME/fluid_simulation/build/
@@ -66,7 +67,7 @@ for phi in "${array_phi[@]}"; do
 			cd -
 
 			while :; do
-				ps_num=$(($(ps | grep ic_ | wc -l)))
+				ps_num=$(($(ps | grep s_ | wc -l)))
 				echo "Process Num: $ps_num"
 				if (($ps_num < $CPU_NUM / ${core})); then
 					sleep 2

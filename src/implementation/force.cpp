@@ -33,9 +33,9 @@ void force::calc_force() {
   }
 #pragma omp for reduction(+ : E_pot_)
   for (uint64_t i = 0; i < Nm(); i++) {
-    for (uint64_t j : cell_list_ij[i]) {
-    // for (uint64_t j = i + 1; j < Nm(); j++) {
-      LJ(i, j);
+    for (uint64_t j = 0; j < cell_list_ij[i].size(); j++) {
+      // for (uint64_t j = i + 1; j < Nm(); j++) {
+      LJ(i, cell_list_ij[i][j]);
     }
   }
   E_pot_ /= static_cast<double>(Nm());
