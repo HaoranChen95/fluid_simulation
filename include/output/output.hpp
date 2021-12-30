@@ -23,7 +23,7 @@ class output : virtual public initialization {
  private:
   std::string fn;
   std::ostringstream oss;
-  int cfgs_pro_file = 500;
+  int cfgs_pro_file = 1000;
   int cfgs_in_file = 0;
   std::ofstream last_cfg_pos_vel;
   std::ofstream cfg_data_file;

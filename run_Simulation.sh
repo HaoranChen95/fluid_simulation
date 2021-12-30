@@ -15,20 +15,21 @@ InitDir=$HOME"/InitCfg/"
 # StoreDir=$HOME"/Data/TempData/"
 # InitDir=$HOME"/InitCfg/"
 # set the email to send
-email=ha.chen@fz-juelich.de
 
 exe_suffix="th2_${core}_core"
 # setting the system parameters of simulation
 
-array_phi=(0.05 0.50 0.55 0.60 0.65 0.70)
+array_phi=(0.40)
 #  0.05 0.10 0.15 0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70
-dt=1e-4
+dt=1e-3
 MDt=1.1e4
 array_kT=(1.0)
-array_gamma=(0)
+# 1.0 2.0 3.0
+array_gamma=(0 0.1 0.2 0.5 1 2 5 10)
+# 0 0.1 0.5 1 2 5 10
 
 # setting the data series name
-snum=1
+snum="diff_gam"
 
 # go to simulation dir and comile the code
 cd $HOME/fluid_simulation/build/
@@ -60,7 +61,7 @@ for phi in "${array_phi[@]}"; do
 
 			mv fluid_simulation_$exe_suffix $fname
 			# srun --partition=th2 --account=chen --out=out_%j.txt \
-			nohup ./$fname $MDt $dt $phi $kT $gamma >> out_simulation.txt &&
+			nohup ./$fname $MDt $dt $phi $kT $gamma >>out_simulation.txt &&
 				mv $RunDir$fname ${StoreDir}/. &
 			sleep 2s
 
