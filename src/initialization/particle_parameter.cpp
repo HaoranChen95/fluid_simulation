@@ -30,3 +30,10 @@ void particle_parameter::sigma(const double input) {
 double particle_parameter::sigma() const { return sigma_; }
 double particle_parameter::r2_cut() const { return r2_cut_; }
 double particle_parameter::sig2() const { return sig2_; }
+
+void particle_parameter::print_particle() {
+  std::cout << "====== particle parameter ======" << std::endl;
+  std::cout << "m\t" << m_ << "\tgamma\t" << gamma_ << "\tsigma\t" << sigma_
+            << "\tepsilon\t" << epsilon_ << "\tr2_cut\t" << r2_cut_
+            << std::endl;
+}

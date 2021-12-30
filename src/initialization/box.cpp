@@ -48,3 +48,10 @@ void box::calc_density() {
 uint64_t box::Nm() const { return Nm_; }
 double box::density() const { return density_; }
 double box::real_density() const { return real_density_; }
+
+void box::print_box() {
+  std::cout << "====== box parameter ======" << std::endl;
+  std::cout << "kT\t" << kT_ << "\tdensity\t" << density_ << "\treal density\t"
+            << real_density_ << "\tNm\t" << Nm_ << "\tbox length\t" << l_b_[0]
+            << "\t" << l_b_[1] << "\t" << l_b_[2] << "\t" << std::endl;
+}

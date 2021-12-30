@@ -12,6 +12,7 @@
 #define INITIALIZATION_TIME_STEP_HPP_
 
 #include <cstdint>
+#include <iostream>
 
 class time_step {
  private:
@@ -52,6 +53,7 @@ class time_step {
   uint64_t time_10() const;
   uint64_t time_100() const;
   uint64_t time_1000() const;
+  void print_time();
 };
 
 #endif  // INITIALIZATION_TIME_STEP_HPP_

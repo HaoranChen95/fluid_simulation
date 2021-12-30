@@ -43,3 +43,12 @@ double brown_factor::BD_v_3() const { return BD_v_3_; }
 double brown_factor::BD_g0_1() const { return BD_g0_1_; }
 double brown_factor::BD_g1_1() const { return BD_g1_1_; }
 double brown_factor::BD_g1_2() const { return BD_g1_2_; }
+
+void brown_factor::print_brown_factor() {
+  std::cout << "====== brown factor ======" << std::endl;
+  std::cout << "BD_r_1_\t" << BD_r_1_ << "\tBD_r_2_\t" << BD_r_2_
+            << "\tBD_v_1_\t" << BD_v_1_ << "\tBD_v_2_\t" << BD_v_2_
+            << "\tBD_v_3_\t" << BD_v_3_ << "\tBD_g0_1_\t" << BD_g0_1_
+            << "\tBD_g1_1_\t" << BD_g1_1_ << "\tBD_g1_2_\t" << BD_g1_2_
+            << std::endl;
+}
