@@ -41,6 +41,7 @@ class brown_factor : virtual public box, public time_step {
   double BD_g0_1() const;
   double BD_g1_1() const;
   double BD_g1_2() const;
+  void print_brown_factor();
 };
 
 #endif  // INITIALIZATION_BROWN_FACTOR_HPP_

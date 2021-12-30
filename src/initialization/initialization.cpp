@@ -13,6 +13,15 @@
 
 initialization::initialization() {}
 
+void initialization::print_init() {
+  print_time();
+  print_particle();
+  print_box();
+  if (gamma()) {
+    print_brown_factor();
+  }
+}
+
 void initialization::init(const int argc, const char **argv) {
   read_arg(argc, argv);
   read_config();
@@ -24,10 +33,7 @@ void initialization::init(const int argc, const char **argv) {
     calc_BD_factor();
     init_fluctuation();
   }
-  std::cout << "v " << v.size() << std::endl;
-  std::cout << "r " << r.size() << std::endl;
-  std::cout << "f " << f0.size() << std::endl;
-  std::cout << "E_pot " << E_pot() << std::endl;
+  print_init();
 }
 
 void initialization::read_arg(const int argc, const char **argv) {

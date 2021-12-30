@@ -43,6 +43,7 @@ class box : public particle_parameter {
   void calc_density();
   double density() const;
   double real_density() const;
+  void print_box();
 };
 
 #endif  // INITIALIZATION_BOX_HPP_

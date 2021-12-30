@@ -37,6 +37,7 @@ class particle_parameter {
   double sigma() const;
   double r2_cut() const;
   double sig2() const;
+  void print_particle();
 };
 
 #endif  // PARTICLE_PARAMETER_HPP_
