@@ -37,15 +37,13 @@ void brown_factor::calc_BD_factor() {
   BD_r_2_ = (gh - 1. + exp(-gh)) / gamma() / gamma();
 
   BD_v_1_ = gamma() / (exp(gh) - 1.);
-  BD_v_2_ = (gh - 1. + exp(-gh)) / gamma() / (exp(gh) - 1.);
-  BD_v_3_ = (-gh - 1. + exp(gh)) / gamma() / (exp(gh) - 1.);
+  BD_v_2_ = (-gh - 1. + exp(gh)) / gamma() / (exp(gh) - 1.);
 }
 
 double brown_factor::BD_r_1() const { return BD_r_1_; }
 double brown_factor::BD_r_2() const { return BD_r_2_; }
 double brown_factor::BD_v_1() const { return BD_v_1_; }
 double brown_factor::BD_v_2() const { return BD_v_2_; }
-double brown_factor::BD_v_3() const { return BD_v_3_; }
 double brown_factor::BD_g0_1() const { return BD_g0_1_; }
 double brown_factor::BD_g1_1() const { return BD_g1_1_; }
 double brown_factor::BD_g1_2() const { return BD_g1_2_; }
@@ -53,8 +51,7 @@ double brown_factor::BD_g1_2() const { return BD_g1_2_; }
 void brown_factor::print_brown_factor() {
   std::cout << "====== brown factor ======" << std::endl;
   std::cout << "BD_r_1\t" << BD_r_1_ << "\tBD_r_2\t" << BD_r_2_ << std::endl
-            << "BD_v_1\t" << BD_v_1_ << "\tBD_v_2\t" << BD_v_2_ << "\tBD_v_3\t"
-            << BD_v_3_ << std::endl
+            << "BD_v_1\t" << BD_v_1_ << "\tBD_v_2\t" << BD_v_2_ << std::endl
             << "BD_g0_1\t" << BD_g0_1_ << std::endl
             << "BD_g1_1\t" << BD_g1_1_ << "\tBD_g1_2\t" << BD_g1_2_
             << std::endl;

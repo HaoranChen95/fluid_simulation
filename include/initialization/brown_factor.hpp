@@ -24,7 +24,6 @@ class brown_factor : virtual public box, public time_step {
   double BD_r_2_;
   double BD_v_1_;
   double BD_v_2_;
-  double BD_v_3_;
   double BD_g0_1_;
   double BD_g1_1_;
   double BD_g1_2_;
@@ -37,7 +36,6 @@ class brown_factor : virtual public box, public time_step {
   double BD_r_2() const;
   double BD_v_1() const;
   double BD_v_2() const;
-  double BD_v_3() const;
   double BD_g0_1() const;
   double BD_g1_1() const;
   double BD_g1_2() const;
