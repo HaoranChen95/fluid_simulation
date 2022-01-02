@@ -64,5 +64,6 @@ uint64_t time_step::time_1000() const { return time_1000_; }
 
 void time_step::print_time() {
   std::cout << "====== time parameter ======" << std::endl;
-  std::cout << "time length\t" << h_ << "\trelax time\t" << Relax_time_ << "\trun time\t" << MD_Steps_ << std::endl;
+  std::cout << "time length\t" << h_ << "\trelax time\t" << Relax_time_
+            << "\trun time\t" << MD_time_ << std::endl;
 }

@@ -47,8 +47,9 @@ void BD_simulation::calc_vel(void) {
 #pragma omp parallel for
   for (uint64_t i = 0; i < Nm(); i++) {
     for (int ax = 0; ax < 3; ax++) {
-      v[i][ax] =
-          dr[i][ax] * BD_v_1() + f0[i][ax] * BD_v_2() + f1[i][ax] * BD_v_3();
+      v[i][ax] = dr[i][ax] * BD_v_1()
+                //  + f0[i][ax] * BD_v_2()
+                 + f1[i][ax] * BD_v_3();
     }
   }
 }
@@ -57,7 +58,7 @@ void BD_simulation::calc_pos(void) {
 #pragma omp parallel for
   for (uint64_t i = 0; i < Nm(); i++) {
     for (int ax = 0; ax < 3; ax++) {
-      dr[i][ax] = v[i][ax] * BD_r_1() + f0[i][ax] * BD_r_2() + g0[i][ax];
+      dr[i][ax] = v[i][ax] * BD_r_1() + f1[i][ax] * BD_r_2() + g0[i][ax];
       r[i][ax] += dr[i][ax];
       dr[i][ax] += g1[i][ax];
     }

@@ -9,8 +9,17 @@
  *
  */
 
-#ifndef PARTICLE_PARAMETER_HPP_
-#define PARTICLE_PARAMETER_HPP_
+#ifndef INITIALIZATION_PARTICLE_PARAMETER_HPP_
+#define INITIALIZATION_PARTICLE_PARAMETER_HPP_
+
+#ifdef _OPENMP
+#define N_THREADS 2
+
+#else
+#define N_THREADS 1
+#endif  // _OPENMP
+
+#include <omp.h>
 
 #include <cmath>
 #include <iostream>
@@ -40,4 +49,4 @@ class particle_parameter {
   void print_particle();
 };
 
-#endif  // PARTICLE_PARAMETER_HPP_
+#endif  // INITIALIZATION_PARTICLE_PARAMETER_HPP_

@@ -17,9 +17,7 @@ double particle_parameter::m() const { return m_; }
 void particle_parameter::gamma(const double input) { gamma_ = input; }
 double particle_parameter::gamma() const { return gamma_; }
 
-void particle_parameter::epsilon(const double input) {
-  epsilon_ = input;
-}  // TODO e = kT
+void particle_parameter::epsilon(const double input) { epsilon_ = input; }
 double particle_parameter::epsilon() const { return epsilon_; }
 
 void particle_parameter::sigma(const double input) {

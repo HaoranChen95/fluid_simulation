@@ -14,10 +14,10 @@ cmake --version
 
 export OMP_NUM_THREADS=2
 MD_time=1
-time_step=1e-4
-density=0.4
+time_step=1e-3
+density=0.5
 kT=1.0
-gamma=0 # 0 MD >0 BD Simulation
+gamma=0.1 # 0 MD >0 BD Simulation
 
 cd $HOME/fluid_simulation
 

@@ -12,15 +12,6 @@
 #ifndef INITIALIZATION_INITIALIZATION_HPP_
 #define INITIALIZATION_INITIALIZATION_HPP_
 
-#ifdef _OPENMP
-#define N_THREADS 2
-
-#else
-#define N_THREADS 1
-#endif  // _OPENMP
-
-#include <omp.h>
-
 #include <array>
 #include <cmath>
 #include <fstream>
@@ -44,7 +35,6 @@ class initialization : protected fluctuation,
   void init(const int argc, const char **argv);
   void read_arg(const int argc, const char **argv);
   void read_config();
-  
 };
 
 // void init_system(const int argc, const char **argv);
