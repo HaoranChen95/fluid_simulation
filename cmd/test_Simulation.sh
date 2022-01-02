@@ -19,11 +19,13 @@ density=0.5
 kT=1.0
 gamma=0.1 # 0 MD >0 BD Simulation
 
-cd $HOME/fluid_simulation
+cd ..
+pwd
 
 mkdir build
 cd build
 cmake ..
+# cmake -DCMAKE_C_COMPILER=/home/opt/intel/oneapi/compiler/2021.1.1/linux/bin/intel64/icc -DCMAKE_CXX_COMPILER=/home/opt/intel/oneapi/compiler/2021.1.1/linux/bin/intel64/icpc ..
 make
 
 pwd

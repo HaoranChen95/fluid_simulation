@@ -1,8 +1,8 @@
 #!/usr/bin/bash
 
-doxygen doc/documentation.dox
+doxygen ../doc/documentation.dox
 
-cd doc/latex/
+cd ../doc/latex/
 
 make
 

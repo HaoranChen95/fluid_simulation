@@ -19,8 +19,8 @@ InitDir=$HOME"/InitCfg/"
 exe_suffix="th2_${core}_core"
 # setting the system parameters of simulation
 
-array_phi=(0.05 0.10 0.15 0.20 0.25 0.30)
-#  0.35 0.45 0.50 0.55 0.60 0.65 0.70
+array_phi=(0.35 0.45 0.50 0.55 0.60 0.65 0.70)
+#  
 #  0.05 0.10 0.15 0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70
 dt=1e-3
 MDt=2000
@@ -33,7 +33,7 @@ array_gamma=(0)
 snum="diff_density"
 
 # go to simulation dir and comile the code
-cd $HOME/fluid_simulation/build/
+cd ../build/
 
 source compiler-select intel-fi
 export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/tmp_mnt/el7/impi/include/
