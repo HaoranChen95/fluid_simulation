@@ -22,7 +22,7 @@ class data_file:
         self.file = h5py.File(fn.str, "r")
         self.cfg = self.file["cfg"]
         self.vel = self.file["vel"]
-        self.time = self.file["time"]
+        self.time = np.array(self.file["time"])
 
     def convert_txt_to_hdf5(self):
         print("calling convert_txt_to_hdf5")
@@ -95,12 +95,12 @@ class data_file:
         start_indexes = np.searchsorted(
             self.time, list(range(0, periodic * amount, periodic))
         )
-        print(start_indexes)
         print(self.time[start_indexes])
 
         t_intersection = self.time
         half_dt = 0.5 * t_intersection[1] - t_intersection[0]
         for start in start_indexes[1:]:
+            print(len(t_intersection))
             t_intersection_index = np.searchsorted(
                 t_intersection,
                 self.time[start:]
@@ -108,6 +108,11 @@ class data_file:
                 - half_dt,
             )
             t_intersection = t_intersection[t_intersection_index]
+            increase = t_intersection[1:] > t_intersection[:-1]
+            while np.all(increase):
+                t_intersection = np.append(t_intersection[:-1][increase], t_intersection[-1])
+                increase = t_intersection[1:] > t_intersection[:-1]
+        print(len(t_intersection))
 
         for start_index in start_indexes:
             time = self.time[start_index] + t_intersection - half_dt

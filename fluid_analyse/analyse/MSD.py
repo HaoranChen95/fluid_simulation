@@ -1,55 +1,62 @@
-from DataAnalyse import _global
-from ..file_stream import *
-from ..plot import *
-from ..algorithm import *
 import numpy as np
-from .data_processing import *
-
-def MSD_segment(index_list):
-    time_list = _global.cfg_data_file["time"][index_list[1:]] - _global.cfg_data_file["time"][index_list[0]]
-    r_sq = np.sum((_global.cfg_dset[index_list[1:], :, :] -
-                   _global.cfg_dset[index_list[0], :, :][np.newaxis, :, :]
-                   )**2,
-                  axis=2)
-    MSD = np.mean(r_sq, axis=1)
-    if _global.Nm1p == 1:
-        return time_list, MSD
-    MSD_cm = np.mean(
-        np.sum((
-            _global.cfg_cm_dset[index_list[1:], :, :] -
-            _global.cfg_cm_dset[index_list[0], :, :][np.newaxis, :, :])**2,
-            axis=2),
-        axis=1)
-
-    return time_list, MSD, MSD_cm
+import matplotlib.pyplot as plt
+from ..file_stream import *
 
 
-def total_MSD_segment():
-    # _global.MSD_dt = 1
-    # _global.MSD_t_end = 500
-    print("=" * 80 +
-          "\n============== Analysing MSD segment ==============\n" + "=" * 80)
-    if _global.not_load_h5:
-        load_h5_cfg_data()
+def MSD(df: "data_file"):
+    resalt = mean_counter()
+    time_list = (
+        df.time[df.frames_index_list[0][1:]] - df.time[df.frames_index_list[0][0]]
+    )
+    for i_list in df.frames_index_list:
+        data = []
+        i_0 = i_list[0]
+        for i in i_list[1:]:
+            data.append(np.mean(
+                np.sum(
+                    (df.cfg[i, :, :] - df.cfg[i_0, :, :]) ** 2, axis=1
+                ))
+            )
+        resalt += np.array(data)
+    
+    return time_list, resalt.data
 
-    if _global.Nm1p != 1:
-        get_center_of_mass()
-    # print(np.mean(_global.cfg_cm_dset[:,:,:50],axis=0))
 
-    print("[calculate] MSD segment")
-    indexes_list = get_cfg_dt_list()
-    MSD_segment_data = mean_counter()
-    for index_list in indexes_list:
-        MSD_segment_data += np.array(MSD_segment(index_list)).T
-    print(MSD_segment_data.data.shape)
-    write_data(f"MSD_segment_{_global.fn_pattern}.txt", MSD_segment_data.data)
+def plot_MSD(fn_pattern:"str", MSD_data):
+    ds = data_stream()
+    fn = file_name(fn_pattern)
 
-    r_g_square = 0
-    if _global.Nm1p != 1:
-        r_g_square = read_header(
-            file_list_generator("r_gyration", ".txt", "./analyse/")[0]
-        )
-        if r_g_square:
-            r_g_square = r_g_square[1][0]
+    columns = [r"$t$", r"$\langle \vec{r}(t)^2 \rangle$"]
+    label_str = f"""
+                Density = {fn.phi} 
+                $\gamma$ = {fn.gamma} 
+                """.replace("        ", "")
 
-    plot_MSD_segment(MSD_segment_data.data, r_g_square)
+    fig, ax = plt.subplots(dpi=200)
+
+    ax.set_xlabel(columns[0])
+    ax.set_ylabel(columns[1])
+    time = MSD_data[:, 0]
+    ax.plot(time, MSD_data[:, 1])
+    
+    ax.legend([label_str], handlelength=0)
+    ax.set_xscale("log")
+    ax.set_yscale("log")
+    ax.tick_params(axis="both", which="both", direction="in")
+    fig.savefig(ds.dir + f"MSD_{fn.pattern}.jpg")
+
+    ax.grid()
+    fig.savefig(ds.dir + f"MSD_{fn.pattern}_grid.jpg")
+    plt.close("all")
+
+def total_MSD(df: "data_file"):
+    print(
+        "=" * 80 + "\n============== Analysing MSD segment ==============\n" + "=" * 80
+    )
+    df.set_cfg_dt_list()
+    MSD_data = np.array(MSD(df)).T
+    print(MSD_data.shape)
+    ds = data_stream()
+    ds.write_data(f"MSD_{df.fn_pattern}.txt", MSD_data.data)
+
+    plot_MSD(MSD_data)

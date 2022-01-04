@@ -19,7 +19,7 @@ for fn in $(find $DataFile -type d -name "s_*"); do
 	cp $HOME/fluid_simulation/cmd/script/$AnalyseCode ${fn}/$AnalyseCode
 	rm -rf ./$AnalyseData $AnalyseOut
 	nohup python ${fn}/$AnalyseCode >>$AnalyseOut &&
-		cp ./$OutputFile $HOME/Data/TempData/. && 
+		# cp ./$OutputFile $HOME/Data/TempData/. && 
 		mv ./$AnalyseFile/cfg*.xyz $HOME/Data/TempData/. &
 
 	while :; do
