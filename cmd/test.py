@@ -1,3 +1,5 @@
 import fluid_analyse as fa
 
-print("success")
+fl = fa.file_list("cfg_data", ".txt")
+
+fl.print()
