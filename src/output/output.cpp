@@ -80,13 +80,14 @@ void output::write_cfg(void) {
                       << v[i][0] << " " << v[i][1] << " " << v[i][2]
                       << std::endl;
       }
-      cfg_time_file << step * h() << std::endl;
+      cfg_time_file << static_cast<double>(step) * h() << std::endl;
       cfgs_in_file++;
-    } else {
-      cfg_file_array_Nm++;
-      cfgs_in_file = 0;
-      cfg_data_file.close();
-      cfg_time_file.close();
+      if (cfgs_in_file >= cfgs_pro_file) {
+        cfg_file_array_Nm++;
+        cfgs_in_file = 0;
+        cfg_data_file.close();
+        cfg_time_file.close();
+      }
     }
   }
 }

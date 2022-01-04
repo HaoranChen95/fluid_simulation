@@ -8,9 +8,14 @@ class file_name:
         self.phi = None
         self.gamma = None
         self.aV = None
-        self.set_file_param(fn)
+        self.str = fn
+        self.__set_file_param(fn)
+        self.pattern = self.__pattern()
 
-    def set_file_param(self, fn: "str"):
+    def __str__(self) -> str:
+        return self.str
+
+    def __set_file_param(self, fn: "str"):
         print("[setting] global parameter from file name")
         print(fn)
         if fn.find("aV") != -1:
@@ -24,8 +29,8 @@ class file_name:
         if fn.find("gam") != -1:
             self.gamma = find_param_float("gam", fn)
 
-    def pattern(self) -> "str":
-        return f"_phi_{self.phi}_Nm_{self.Nm}_kT_{self.kT}_gam_{self.gamma}"
+    def __pattern(self) -> "str":
+        return f"phi_{self.phi}_Nm_{self.Nm}_kT_{self.kT}_gam_{self.gamma}"
 
 
 def find_param_int(ps, s):

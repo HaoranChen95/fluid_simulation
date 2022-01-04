@@ -1,5 +1,10 @@
 import fluid_analyse as fa
+import numpy as np
 
-fl = fa.file_list("cfg_data", ".txt")
+df = fa.data_file(lxyz=(40, 40, 40))
+# fa.write_xyz(df, 1, 100)
 
-fl.print()
+print(df.time[-10:])
+print(len(df.time))
+df.set_cfg_dt(1)
+print(df.time[df.frames_index][-10:])
