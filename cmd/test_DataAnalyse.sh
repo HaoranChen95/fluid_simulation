@@ -11,7 +11,7 @@ if [ -z `echo $PYTHONPATH | grep $(pwd)`]; then
 fi
 
 echo $PYTHONPATH
-cp cmd/test.py $DataDir.
+cp cmd/script/test.py $DataDir.
 
 cd $DataDir
 pwd
