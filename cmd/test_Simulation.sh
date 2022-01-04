@@ -11,6 +11,7 @@ whereis cmake
 which cmake
 cmake --version
 
+source compiler-select intel-fi
 
 export OMP_NUM_THREADS=2
 MD_time=1

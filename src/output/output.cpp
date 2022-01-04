@@ -30,8 +30,8 @@ uint64_t output::cfg_freq() {
     // if (step_remain == time_10()) {
     //   cfg_freq_ = time_1();
     // }
-  // } else if (step == time_1000()) {
-  //   cfg_freq_ = time_01();
+  } else if (step == time_1000()) {
+    cfg_freq_ = time_1();
   }
   return cfg_freq_;
 }

@@ -1,11 +1,11 @@
 # mass
 m = 1
 # lx 
-lx = 40
+lx = 30
 # ly
-ly = 40
+ly = 30
 # lz
-lz = 40
+lz = 30
 # sigma
 sigma = 1
 # relax time
