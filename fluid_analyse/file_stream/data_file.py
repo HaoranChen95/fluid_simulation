@@ -109,7 +109,7 @@ class data_file:
             )
             t_intersection = t_intersection[t_intersection_index]
             increase = t_intersection[1:] > t_intersection[:-1]
-            while np.all(increase):
+            while not np.any(increase):
                 t_intersection = np.append(t_intersection[:-1][increase], t_intersection[-1])
                 increase = t_intersection[1:] > t_intersection[:-1]
         print(len(t_intersection))

@@ -1,15 +1,15 @@
 #! /usr/bin/bash
 
-AnalyseCode="write_xyz.py"
-AnalyseOut="out_write_xyz.txt"
+AnalyseCode="RDF.py"
+AnalyseOut="out_RDF.txt"
 AnalyseData="cfg_*.xyz"
 DataFile="$HOME/FS_Data/"
-OutputFile="analyse/*"
+OutputFile="analyse/RDF*"
 
 cd ..
-if [ -z `echo $PYTHONPATH | grep $(pwd)`]; then
-	echo `pwd`
-	export PYTHONPATH=$PYTHONPATH:`pwd`
+if [ -z $(echo $PYTHONPATH | grep $(pwd))]; then
+	echo $(pwd)
+	export PYTHONPATH=$PYTHONPATH:$(pwd)
 fi
 
 for fn in $(find $DataFile -type d -name "s_*"); do
@@ -19,7 +19,7 @@ for fn in $(find $DataFile -type d -name "s_*"); do
 	cp $HOME/fluid_simulation/cmd/script/$AnalyseCode ${fn}/$AnalyseCode
 	rm -rf ./$AnalyseData $AnalyseOut
 	nohup python ${fn}/$AnalyseCode >>$AnalyseOut &&
-		# cp ./$OutputFile $HOME/Data/TempData/. && 
+		cp ./$OutputFile $HOME/Data/TempData/. &&
 		mv ./$AnalyseFile/cfg*.xyz $HOME/Data/TempData/. &
 
 	while :; do
