@@ -17,7 +17,7 @@ output::~output() {}
 
 uint64_t output::cfg_freq() {
   if (step < time_1000()) {
-    int step_remain = step % time_100();
+    int step_remain = step % time_10();
     if (step_remain == 0) {
       cfg_freq_ = time_0001();
     }
@@ -27,9 +27,9 @@ uint64_t output::cfg_freq() {
     if (step_remain == time_1()) {
       cfg_freq_ = time_01();
     }
-    if (step_remain == time_10()) {
-      cfg_freq_ = time_1();
-    }
+    // if (step_remain == time_10()) {
+    //   cfg_freq_ = time_1();
+    // }
   } else if (step == time_1000()) {
     cfg_freq_ = time_1();
   }

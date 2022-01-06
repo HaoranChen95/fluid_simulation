@@ -1,10 +1,11 @@
 #! /usr/bin/bash
 
-AnalyseCode="RDF.py"
-AnalyseOut="out_RDF.txt"
+AnalyseCode="v_corr.py"
+AnalyseOut="out_v_corr.txt"
 AnalyseData="cfg_*.xyz"
 DataFile="$HOME/FS_Data/"
-OutputFile="analyse/RDF*"
+# DataFile="$HOME/TempData/"
+OutputFile="analyse/v_corr*"
 
 cd ..
 if [ -z $(echo $PYTHONPATH | grep $(pwd))]; then

@@ -3,4 +3,4 @@ import numpy as np
 
 df = fa.data_file()
 # fa.write_xyz(df, 1, 100)
-fa.total_RDF(df)
+fa.total_v_corr(df)

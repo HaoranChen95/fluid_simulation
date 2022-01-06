@@ -19,18 +19,18 @@ InitDir=$HOME"/InitCfg/"
 exe_suffix="th2_${core}_core"
 # setting the system parameters of simulation
 
-array_phi=(0.40)
+array_phi=(0.10 0.40)
 #  0.10 0.20 0.40 0.70
 dt=1e-3
-MDt=1000
+MDt=2000
 # 0.4 : 2000, 0.1 : 8000
-array_kT=(0.5 1.0 2.0)
+array_kT=(1.0)
 # 0.5 1.0 2.0
-array_gamma=(0 1)
+array_gamma=(0.1 10)
 # 0 0.1 0.2 0.5 1 2 5 10
 
 # setting the data series name
-snum="dt_$dt"
+snum="v_corr"
 
 # go to simulation dir and comile the code
 cd ../build/

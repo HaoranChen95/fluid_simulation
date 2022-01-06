@@ -74,7 +74,7 @@ class data_file:
             for fn_str in file_list("cfg_data", ".txt", sort_by="aV").list:
                 os.remove(fn_str)
     
-    def set_cfg_dt(self, dt=10):
+    def set_cfg_dt(self, dt=1):
         print("[setting] cfg_dt with frames at time: ")
         time = 0
         self.frames_index = []
