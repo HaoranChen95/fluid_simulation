@@ -3,7 +3,7 @@
 AnalyseCode="v_corr.py"
 AnalyseOut="out_v_corr.txt"
 AnalyseData="cfg_*.xyz"
-DataFile="$HOME/FS_Data/"
+DataFile="$HOME/FS_Data_3/"
 # DataFile="$HOME/TempData/"
 OutputFile="analyse/v_corr*"
 
