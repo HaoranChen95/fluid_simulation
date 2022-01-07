@@ -23,6 +23,7 @@ void fluid_simulation::relax() {
   }
   std::cout << "finished relation" << std::endl;
 }
+
 void fluid_simulation::implement() {
   if (gamma()) {
     BD_implementation();
