@@ -12,7 +12,7 @@
 #include "fluid_simulation.hpp"
 
 fluid_simulation::fluid_simulation(const int argc, const char **argv) {
-  init(argc, argv);
+  initialize(argc, argv);
 }
 
 void fluid_simulation::relax() {

@@ -18,7 +18,8 @@ void force::init_force() {
     f1.push_back(new_f);
   }
   calc_force();
-  std::cout << "initialization of force finished" << std::endl;
+  std::cout << "initialization of force finished: size " << f0.size() << ", "
+            << f1.size() << std::endl;
 }
 
 void force::calc_force() {

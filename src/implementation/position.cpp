@@ -37,10 +37,11 @@ void position::init_position() {
       }
     }
   }
-  Nm(r.size());
-  calc_density();
+  // Nm(r.size());
+  // calc_density();
 finish:
-  std::cout << "initialization of position finished" << std::endl;
+  std::cout << "initialization of position finished: size " << r.size()
+            << std::endl;
 }
 
 double position::minium_image(const uint64_t &i, const uint64_t &j,

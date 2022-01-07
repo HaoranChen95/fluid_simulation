@@ -22,7 +22,7 @@ void initialization::print_init() {
   }
 }
 
-void initialization::init(const int argc, const char **argv) {
+void initialization::initialize(const int argc, const char **argv) {
   read_arg(argc, argv);
   read_config();
   init_position();

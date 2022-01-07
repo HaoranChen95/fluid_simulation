@@ -42,7 +42,8 @@ void velocity::init_velocity() {
     }
   }
 
-  std::cout << "initialization of velocity finished" << std::endl;
+  std::cout << "initialization of velocity finished: size " << v.size()
+            << std::endl;
 }
 
 void velocity::calc_E_kin() {

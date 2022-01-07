@@ -23,7 +23,8 @@ void fluctuation::init_fluctuation() {
     g1.push_back(g);
   }
   generate_Gamma();
-  std::cout << "initialization of fluctuation finished" << std::endl;
+  std::cout << "initialization of fluctuation finished: size " << g0.size()
+            << ", " << g1.size() << std::endl;
 }
 
 void fluctuation::generate_Gamma(void) {

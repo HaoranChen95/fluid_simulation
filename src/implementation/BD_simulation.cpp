@@ -14,8 +14,7 @@
 BD_simulation::BD_simulation() {}
 
 void BD_simulation::BD_relaxation() {
-  std::cout << "in the BD step::MD_relaxation " << std::endl;
-
+  std::cout << "in the BD_simulation::BD_relaxation " << std::endl;
   for (step = 0; step < Relax_Steps(); step++) {
     generate_Gamma();
     calc_pos();

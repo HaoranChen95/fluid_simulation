@@ -34,7 +34,7 @@ class initialization : protected fluctuation,
 
  public:
   initialization();
-  void init(const int argc, const char **argv);
+  void initialize(const int argc, const char **argv);
 };
 
 // void init_system(const int argc, const char **argv);
