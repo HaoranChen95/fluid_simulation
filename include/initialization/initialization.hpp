@@ -29,12 +29,12 @@ class initialization : protected fluctuation,
                        protected force {
  private:
   void print_init();
+  void read_arg(const int argc, const char **argv);
+  void read_config();
 
  public:
   initialization();
   void init(const int argc, const char **argv);
-  void read_arg(const int argc, const char **argv);
-  void read_config();
 };
 
 // void init_system(const int argc, const char **argv);
