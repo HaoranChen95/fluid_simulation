@@ -34,7 +34,7 @@ uint64_t output::cfg_freq() {
     cfg_freq_ = time_1();
   }
   // return cfg_freq_;
-  return time_1000() + 1;
+  return time_1();
 }
 
 void output::print_energy() {

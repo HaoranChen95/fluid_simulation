@@ -17,18 +17,48 @@ double position::r_in_box(const uint64_t &i, const int &ax) {
 
 void position::init_position() {
   int row_x, row_y, row_z;
-  row_x = static_cast<int>(l_b()[0] / sigma());
-  row_y = static_cast<int>(l_b()[1] / sigma());
-  row_z = static_cast<int>(l_b()[2] / sigma());
+  double root2 = sqrt(2.);
+  double half_root2 = sqrt(0.5);
+
+  row_x = static_cast<int>(l_b()[0] / root2 / sigma());
+  row_y = static_cast<int>(l_b()[1] / root2 / sigma());
+  row_z = static_cast<int>(l_b()[2] / root2 / sigma());
+
   uint64_t i = 0;
   std::array<double, 3> new_r;
   for (int r_z = 0; r_z < row_z; r_z++) {
     for (int r_y = 0; r_y < row_y; r_y++) {
       for (int r_x = 0; r_x < row_x; r_x++) {
-        new_r[0] = r_x * sigma();
-        new_r[1] = r_y * sigma();
-        new_r[2] = r_z * sigma();
+        new_r[0] = r_x * sigma() * root2;
+        new_r[1] = r_y * sigma() * root2;
+        new_r[2] = r_z * sigma() * root2;
+        r.push_back(new_r);
+        dr.push_back({0, 0, 0});
+        if (++i >= Nm()) {
+          goto finish;
+        }
 
+        new_r[0] = r_x * sigma() * root2 + half_root2;
+        new_r[1] = r_y * sigma() * root2 + half_root2;
+        new_r[2] = r_z * sigma() * root2;
+        r.push_back(new_r);
+        dr.push_back({0, 0, 0});
+        if (++i >= Nm()) {
+          goto finish;
+        }
+
+        new_r[0] = r_x * sigma() * root2 + half_root2;
+        new_r[1] = r_y * sigma() * root2;
+        new_r[2] = r_z * sigma() * root2 + half_root2;
+        r.push_back(new_r);
+        dr.push_back({0, 0, 0});
+        if (++i >= Nm()) {
+          goto finish;
+        }
+
+        new_r[0] = r_x * sigma() * root2;
+        new_r[1] = r_y * sigma() * root2 + half_root2;
+        new_r[2] = r_z * sigma() * root2 + half_root2;
         r.push_back(new_r);
         dr.push_back({0, 0, 0});
         if (++i >= Nm()) {
@@ -37,8 +67,8 @@ void position::init_position() {
       }
     }
   }
-  // Nm(r.size());
-  // calc_density();
+  Nm(r.size());
+  calc_density();
 finish:
   std::cout << "initialization of position finished: size " << r.size()
             << std::endl;
