@@ -14,7 +14,7 @@
 void velocity::init_velocity() {
   std::random_device rd{};
   std::mt19937 gen{rd()};
-  std::normal_distribution<double> n_d(0.0, kT());
+  std::normal_distribution<double> n_d(0.0, 1.);
 
   std::array<double, 3> v_sum = {0, 0, 0};
 
@@ -41,6 +41,9 @@ void velocity::init_velocity() {
       v[i][ax] -= v_sum[ax];
     }
   }
+
+  vel_correcter();
+  step_ = 0;
 
   std::cout << "initialization of velocity finished: size " << v.size()
             << std::endl;

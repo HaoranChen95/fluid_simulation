@@ -1,12 +1,12 @@
 # mass
 m = 1
 # lx 
-lx = 30
+lx = 20
 # ly
-ly = 30
+ly = 20
 # lz
-lz = 30
+lz = 20
 # sigma
 sigma = 1
 # relax time
-relax_time = 1000
+relax_time = 0

@@ -14,11 +14,11 @@ cmake --version
 source compiler-select intel-fi
 
 export OMP_NUM_THREADS=2
-MD_time=1
+MD_time=5
 time_step=1e-3
-density=0.5
-kT=1.0
-gamma=0.1 # 0 MD >0 BD Simulation
+density=0.4
+kT=0.5
+gamma=1 # 0 MD >0 BD Simulation
 
 cd ..
 pwd

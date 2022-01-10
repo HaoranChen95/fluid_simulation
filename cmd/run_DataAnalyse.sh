@@ -3,7 +3,7 @@
 AnalyseCode="v_corr.py"
 AnalyseOut="out_v_corr.txt"
 AnalyseData="cfg_*.xyz"
-DataFile="$HOME/FS_Data_3/"
+DataFile="$HOME/FS_Data_1/"
 # DataFile="$HOME/TempData/"
 OutputFile="analyse/v_corr*"
 
@@ -26,7 +26,7 @@ for fn in $(find $DataFile -type d -name "s_*"); do
 	while :; do
 		ps_num=$(($(ps | grep python | wc -l)))
 		echo ${ps_num}
-		if ((${ps_num} < 30)); then
+		if ((${ps_num} < 2)); then
 			sleep 2
 			break
 		else

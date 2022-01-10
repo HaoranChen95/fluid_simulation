@@ -10,7 +10,7 @@ def v_corr(df: "data_file"):
         print(df.time[i_list[0]])
 
         resalt += np.mean(
-            np.sum((df.vel[i_list, :, :] * df.cfg[i_list[0], :, :]), axis=2),
+            np.sum((df.vel[i_list, :, :] * df.vel[i_list[0], :, :]), axis=2),
             axis=1,
         )
 
