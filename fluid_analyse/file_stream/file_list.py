@@ -10,7 +10,10 @@ class file_list:
             if (x.find(head) == 0 and x.find(suffix) > 0)
         ]
         if len(self.list) > 1:
-            self.list.sort(key=lambda x: find_param_float(sort_by, x))
+            self.sort(sort_by)
+
+    def sort(self, sort_by: "str"):
+        self.list.sort(key=lambda x: find_param_float(sort_by, x))
 
     def print(self):
         for fn in self.list:

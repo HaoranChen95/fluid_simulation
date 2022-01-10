@@ -32,6 +32,7 @@ class particle_parameter {
   double epsilon_;
   double r2_cut_;
   double sig2_;
+  double sig3_;
 
  public:
   void m(const double input);
@@ -46,6 +47,7 @@ class particle_parameter {
   double sigma() const;
   double r2_cut() const;
   double sig2() const;
+  double sig3() const;
   void print_particle();
 };
 

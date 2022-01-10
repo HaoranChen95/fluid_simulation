@@ -25,7 +25,7 @@ class file_name:
         if fn.find("Nm") != -1:
             self.Nm = find_param_int("Nm", fn)
         if fn.find("kT") != -1:
-            self.kT = find_param_int("kT", fn)
+            self.kT = find_param_float("kT", fn)
         if fn.find("gam") != -1:
             self.gamma = find_param_float("gam", fn)
 
@@ -57,7 +57,7 @@ def find_param_float(ps, s):
     Returns:
         float: the first value after pattern
     """
-    match = re.search(ps + "_(-?\d+.\d+)", s)
+    match = re.search(ps + "_(-?\d+.?\d*[e]?-?\d+)", s)
     res = 0
     try:
         res = float(match.group(1))

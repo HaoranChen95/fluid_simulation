@@ -16,12 +16,12 @@ class color_map:
         if x < 0.5:
             return self.line(
                 (0, 0x06 / 255, 0x9A / 255, 0xF3 / 255),
-                (0.5, 0xDF / 255, 0xDF / 255, 0xDF / 255),
+                (0.5, 0xD8 / 255, 0xD8 / 255, 0xD8 / 255),
                 x,
             )
         else:
             return self.line(
-                (0.5, 0xDF / 255, 0xDF / 255, 0xDF / 255),
+                (0.5, 0xD8 / 255, 0xD8 / 255, 0xD8 / 255),
                 (1, 0xFB / 255, 0x29 / 255, 0x43 / 255),
                 x,
             )

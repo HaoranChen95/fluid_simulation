@@ -22,12 +22,14 @@ double particle_parameter::epsilon() const { return epsilon_; }
 
 void particle_parameter::sigma(const double input) {
   sigma_ = input;
-  sig2_ = input * input;
+  sig2_ = sigma_ * input;
+  sig3_ = sig2_ * input;
   r2_cut_ = input * input * pow(2., 1. / 3.);
 }
 double particle_parameter::sigma() const { return sigma_; }
 double particle_parameter::r2_cut() const { return r2_cut_; }
 double particle_parameter::sig2() const { return sig2_; }
+double particle_parameter::sig3() const { return sig3_; }
 
 void particle_parameter::print_particle() {
   std::cout << "====== particle parameter ======" << std::endl;

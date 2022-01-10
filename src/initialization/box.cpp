@@ -37,13 +37,13 @@ void box::Nm(const uint64_t input) { Nm_ = input; }
 void box::density(const double input) { density_ = input; }
 
 void box::calc_Nm() {
-  Nm_ = static_cast<uint64_t>(l_b_[0] * l_b_[1] * l_b_[2] * density_ / M_PI_4 /
-                              sig2());
+  Nm_ = static_cast<uint64_t>(l_b_[0] * l_b_[1] * l_b_[2] * density_ * 6. /
+                              M_PI / sig3());
 }
 
 void box::calc_density() {
-  real_density_ =
-      static_cast<double>(Nm_) * M_PI_4 * sig2() / l_b_[0] / l_b_[1] / l_b_[2];
+  real_density_ = static_cast<double>(Nm_) * M_PI * sig3() / 6. / l_b_[0] /
+                  l_b_[1] / l_b_[2];
 }
 uint64_t box::Nm() const { return Nm_; }
 double box::density() const { return density_; }
