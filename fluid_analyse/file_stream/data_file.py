@@ -7,7 +7,7 @@ from .file_list import *
 
 
 class data_file:
-    def __init__(self, dir="./", lxyz=(30, 30, 30)) -> None:
+    def __init__(self, dir="./", lxyz=(20, 20, 20)) -> None:
         fl = file_list("cfg_data_", ".txt", dir)
         if fl.list:
             self.convert_txt_to_hdf5()

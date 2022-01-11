@@ -36,15 +36,15 @@ class particle_parameter {
 
  public:
   void m(const double input);
-  double m() const;
-
   void gamma(const double input);
-  double gamma() const;
   void epsilon(const double input);
-  double epsilon() const;
-
   void sigma(const double input);
+
+  double m() const;
+  double gamma() const;
+  double epsilon() const;
   double sigma() const;
+
   double r2_cut() const;
   double sig2() const;
   double sig3() const;

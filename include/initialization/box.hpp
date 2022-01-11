@@ -29,20 +29,20 @@ class box : public particle_parameter {
 
  public:
   void kT(const double input);
-  double kT() const;
-
   void l_b(const int ax, const double input);
+  void Nm(const uint64_t input);
+  void density(const double input);
+
+  double kT() const;
   std::array<double, 3> l_b() const;
   std::array<double, 3> half_l_b() const;
   std::array<double, 3> inv_l_b() const;
-
-  void Nm(const uint64_t input);
-  void density(const double input);
   uint64_t Nm() const;
-  void calc_Nm();
-  void calc_density();
   double density() const;
   double real_density() const;
+
+  void calc_Nm();
+  void calc_density();
   void print_box();
 };
 

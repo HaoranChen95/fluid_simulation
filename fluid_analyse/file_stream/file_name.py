@@ -41,7 +41,7 @@ def find_param_int(ps, s):
         s (string): string to analyse
 
     Returns:
-        int: the first value afer pattern
+        int: the first value after pattern
     """
     match = re.search(ps + "_(-?\d+)", s)
     return int(match.group(1))

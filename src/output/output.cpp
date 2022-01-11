@@ -27,14 +27,11 @@ uint64_t output::cfg_freq() {
     if (step_remain == time_1()) {
       cfg_freq_ = time_01();
     }
-    // if (step_remain == time_10()) {
-    //   cfg_freq_ = time_1();
-    // }
   } else if (step == time_1000()) {
     cfg_freq_ = time_1();
   }
-  // return cfg_freq_;
-  return time_1();
+  return cfg_freq_;
+  // return time_001();
 }
 
 void output::print_energy() {

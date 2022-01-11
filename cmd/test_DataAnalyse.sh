@@ -1,7 +1,8 @@
 #!/usr/bin/bash
 
 # DataDir="${HOME}/Data/s*"
-DataDir=$HOME/FS_Data/s_gamma_density_phi_0.10_kT_1.0_gamma_0/
+# DataDir=$HOME/FS_Data/s_gamma_density_phi_0.10_kT_1.0_gamma_0/
+DataDir=$HOME/TempData/temp/
 # "${HOME}/Archive/s_diff_density_phi_0.05_kT_1.0_gamma_0/"
 
 cd ..

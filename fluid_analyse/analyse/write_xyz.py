@@ -6,20 +6,20 @@ def write_xyz(df: "data_file", dt=1, frames=500):
     print("\n ====================== writing cfg xyz ======================")
 
     df.set_cfg_dt(dt)
-    shift_vector = np.array((0.5, 0.5, 0.5))
+    shift_vector = np.array((0.2, 0.2, 0.2))
 
     cm = color_map()
     with open(f"cfg_{df.fn_pattern}_dt_{dt}.xyz", "a") as f_xzy:
         for frame_i, frame in enumerate(df.frames_index):
+            print("[writing] cfg frame", df.time[frame])
+            cfg_data = df.cfg[frame, :, :] + shift_vector
             if frame_i == 0:
                 color_list = []
-                for y in df.cfg[frame, :, 1]:
+                for y in cfg_data[:, 1]:
                     y = round((y % df.lxyz[1]) / df.lxyz[1], 1)
                     color_list.append(cm.blue_grey_red(y))
 
             f_xzy.write(f"{df.Nm}\n\n")
-            print("[writing] cfg frame", df.time[frame])
-            cfg_data = df.cfg[frame, :, :] + shift_vector
             cfg_data = cfg_data - (cfg_data // df.lxyz) * df.lxyz
 
             for i in range(df.Nm):

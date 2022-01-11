@@ -14,7 +14,7 @@ cmake --version
 source compiler-select intel-fi
 
 export OMP_NUM_THREADS=2
-MD_time=500
+MD_time=5
 time_step=1e-3
 density=0.4
 kT=1
