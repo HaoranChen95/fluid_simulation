@@ -1,7 +1,7 @@
 #!/bin/bash
 
 bash
-core=2
+core=1
 export OMP_NUM_THREADS=$core
 
 CPU_NUM=$(cat /proc/cpuinfo | grep 'processor' | wc -l)
@@ -19,18 +19,18 @@ InitDir=$HOME"/InitCfg/"
 exe_suffix="th2_${core}_core"
 # setting the system parameters of simulation
 
-array_phi=(0.10)
+array_phi=(0.40)
 #  0.10 0.20 0.40 0.70
 dt=1e-3
-MDt=2000
+MDt=1000
 # 0.4 : 2000, 0.1 : 8000
-array_kT=(1.0)
+array_kT=(0.5 1.0 2.0)
 # 0.5 1.0 2.0
-array_gamma=(0 0.1 1 10)
+array_gamma=(0 1)
 # 0 0.1 0.2 0.5 1 2 5 10
 
 # setting the data series name
-snum="main_3"
+snum="v_dist"
 
 # go to simulation dir and comile the code
 cd ../build/

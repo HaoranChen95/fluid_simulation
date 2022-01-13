@@ -11,8 +11,6 @@
 
 #include "BD_simulation.hpp"
 
-BD_simulation::BD_simulation() {}
-
 void BD_simulation::BD_relaxation() {
   std::cout << "in the BD_simulation::BD_relaxation " << std::endl;
   for (step = 0; step < Relax_Steps(); step++) {
@@ -39,8 +37,6 @@ void BD_simulation::BD_implementation() {
     write_energy();
   }
 }
-
-BD_simulation::~BD_simulation() {}
 
 void BD_simulation::calc_vel(void) {
 #pragma omp parallel for

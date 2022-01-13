@@ -11,10 +11,6 @@
 
 #include "output.hpp"
 
-output::output(/* args */) {}
-
-output::~output() {}
-
 uint64_t output::cfg_freq() {
   if (step < time_1000()) {
     int step_remain = step % time_10();
@@ -30,8 +26,8 @@ uint64_t output::cfg_freq() {
   } else if (step == time_1000()) {
     cfg_freq_ = time_1();
   }
-  return cfg_freq_;
-  // return time_001();
+  // return cfg_freq_;
+  return time_1();
 }
 
 void output::print_energy() {

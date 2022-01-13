@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef IMPLEMENTATION_VELOCITY_HPP_
-#define IMPLEMENTATION_VELOCITY_HPP_
+#ifndef INITIALIZATION_VELOCITY_HPP_
+#define INITIALIZATION_VELOCITY_HPP_
 
 #include <omp.h>
 
@@ -39,4 +39,4 @@ class velocity : virtual public box {
   ~velocity();
 };
 
-#endif  // IMPLEMENTATION_VELOCITY_HPP_
+#endif  // INITIALIZATION_VELOCITY_HPP_

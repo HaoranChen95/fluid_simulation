@@ -11,8 +11,6 @@
 
 #include "initialization.hpp"
 
-initialization::initialization() {}
-
 void initialization::print_init() {
   print_time();
   print_particle();

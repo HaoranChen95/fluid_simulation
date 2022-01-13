@@ -33,7 +33,6 @@ class initialization : protected fluctuation,
   void read_config();
 
  public:
-  initialization();
   void initialize(const int argc, const char **argv);
 };
 

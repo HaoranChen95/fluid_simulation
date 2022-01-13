@@ -21,10 +21,8 @@ class BD_simulation : virtual protected initialization, virtual public output {
   void calc_pos();
 
  public:
-  BD_simulation();
   void BD_relaxation();
   void BD_implementation();
-  ~BD_simulation();
 };
 
 #endif  // IMPLEMENTATION_BD_SIMULATION_HPP_

@@ -1,12 +1,12 @@
 #! /usr/bin/bash
 
-AnalyseCode="v_corr.py"
-AnalyseOut="out_v_corr.txt"
+AnalyseCode="RDF.py"
+AnalyseOut="out_RDF.txt"
 AnalyseData="cfg_*.xyz"
-DataFile="$HOME/FS_Data_2/"
+DataFile="$HOME/FS_Data_4/"
 # DataFile="$HOME/TempData/"
 OutputDir="analyse/"
-OutputFile="v_corr*"
+OutputFile="RDF*"
 
 cd ..
 if [ -z $(echo $PYTHONPATH | grep $(pwd))]; then
@@ -34,7 +34,7 @@ for fn in $(find $DataFile -type d -name "s_*"); do
 	while :; do
 		ps_num=$(($(ps | grep python | wc -l)))
 		echo ${ps_num}
-		if ((${ps_num} < 20)); then
+		if ((${ps_num} < 10)); then
 			sleep 2
 			break
 		else

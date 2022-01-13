@@ -42,7 +42,6 @@ def plot_MSD(fn_pattern: "str", MSD_data):
     ax.set_xscale("log")
     ax.set_yscale("log")
     ax.tick_params(axis="both", which="both", direction="in")
-    fig.savefig(ds.dir + f"MSD_{fn.pattern}.jpg")
 
     ax.grid()
     fig.savefig(ds.dir + f"MSD_{fn.pattern}_grid.jpg")

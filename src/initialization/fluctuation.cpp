@@ -39,5 +39,3 @@ void fluctuation::generate_Gamma(void) {
     }
   }
 }
-
-fluctuation::~fluctuation() {}

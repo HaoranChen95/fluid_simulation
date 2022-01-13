@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef IMPLEMENTATION_FLUCTUATION_HPP_
-#define IMPLEMENTATION_FLUCTUATION_HPP_
+#ifndef INITIALIZATION_FLUCTUATION_HPP_
+#define INITIALIZATION_FLUCTUATION_HPP_
 
 #include <omp.h>
 
@@ -30,9 +30,8 @@ class fluctuation : virtual public brown_factor {
   std::vector<std::array<double, 3>> g1;
 
  public:
-  void init_fluctuation(/* args */);
+  void init_fluctuation();
   void generate_Gamma();
-  ~fluctuation();
 };
 
-#endif  // IMPLEMENTATION_FLUCTUATION_HPP_
+#endif  // INITIALIZATION_FLUCTUATION_HPP_

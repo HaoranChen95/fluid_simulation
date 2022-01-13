@@ -21,10 +21,8 @@ class MD_simulation : virtual protected initialization, virtual public output {
   void calc_pos();
 
  public:
-  MD_simulation();
   void MD_relaxation();
   void MD_implementation();
-  ~MD_simulation();
 };
 
 #endif  // IMPLEMENTATION_MD_SIMULATION_HPP_

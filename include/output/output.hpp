@@ -34,12 +34,10 @@ class output : virtual public initialization {
   uint64_t cfg_freq();
 
  public:
-  output(/* args */);
   void print_energy();
   void write_cfg();
   void write_energy();
   void write_last_cfg();
-  ~output();
 };
 
 // void print_Energy(void);

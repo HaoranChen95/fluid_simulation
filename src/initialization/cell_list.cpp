@@ -11,10 +11,6 @@
 
 #include "cell_list.hpp"
 
-cell_list::cell_list(/* args */) {}
-
-cell_list::~cell_list() {}
-
 void cell_list::init_cell_list(const double &cell_size) {
   /**
    * @brief calculate the number and lengeth of cell

@@ -11,10 +11,6 @@
 
 #include "MD_simulation.hpp"
 
-MD_simulation::MD_simulation(/* args */) {}
-
-MD_simulation::~MD_simulation() {}
-
 void MD_simulation::MD_relaxation() {
   std::cout << "in the MD step::MD_relaxation " << half_h() << std::endl;
 

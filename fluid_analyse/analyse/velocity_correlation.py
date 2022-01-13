@@ -49,8 +49,7 @@ def plot_v_corr(fn_pattern: "str", v_corr_data):
 
     ax.legend([label_str], handlelength=0)
     ax.tick_params(axis="both", which="both", direction="in")
-    fig.savefig(ds.dir + f"v_corr_{fn.pattern}.jpg")
-
+    
     ax.grid()
     fig.savefig(ds.dir + f"v_corr_{fn.pattern}_grid.jpg")
     plt.close("all")

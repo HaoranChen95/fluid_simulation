@@ -66,5 +66,3 @@ void force::LJ(uint64_t i, uint64_t j) {
     E_pot_ += 4. * epsilon() * (sr_inv12 - sr_inv6) + epsilon();
   }
 }
-
-force::~force() {}

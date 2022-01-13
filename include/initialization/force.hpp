@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef IMPLEMENTATION_FORCE_HPP_
-#define IMPLEMENTATION_FORCE_HPP_
+#ifndef INITIALIZATION_FORCE_HPP_
+#define INITIALIZATION_FORCE_HPP_
 
 #include <omp.h>
 
@@ -35,7 +35,6 @@ class force : virtual protected position , public cell_list {
   void init_force();
   void calc_force();
   double E_pot() const;
-  ~force();
 };
 
-#endif  // IMPLEMENTATION_FORCE_HPP_
+#endif  // INITIALIZATION_FORCE_HPP_

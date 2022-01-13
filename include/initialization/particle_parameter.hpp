@@ -13,7 +13,7 @@
 #define INITIALIZATION_PARTICLE_PARAMETER_HPP_
 
 #ifdef _OPENMP
-#define N_THREADS 2
+#define N_THREADS 1
 
 #else
 #define N_THREADS 1
