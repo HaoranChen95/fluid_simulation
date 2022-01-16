@@ -32,5 +32,3 @@ void fluid_simulation::implement() {
   }
   std::cout << "finished implementation" << std::endl;
 }
-
-fluid_simulation::~fluid_simulation() {}

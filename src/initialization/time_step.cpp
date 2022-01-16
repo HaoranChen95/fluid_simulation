@@ -37,6 +37,7 @@ void time_step::h(const double input) {
   time_0001_ = static_cast<uint64_t>(0.001 / h_);
   MD_Steps_ = static_cast<uint64_t>(MD_time_ / h_);
 }
+
 uint64_t time_step::MD_Steps() const { return MD_Steps_; }
 uint64_t time_step::Relax_Steps() const { return Relax_Steps_; }
 double time_step::step_time() const { return static_cast<double>(step) * h_; }

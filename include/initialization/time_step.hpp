@@ -34,7 +34,6 @@ class time_step {
  public:
   uint64_t step;
 
-  void MD_Steps(const double input);
   void Relax_time(const uint64_t input);
   void MD_time(const double input);
   void h(const double input);

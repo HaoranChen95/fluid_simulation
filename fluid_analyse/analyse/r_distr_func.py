@@ -31,7 +31,6 @@ def RDF(df: "data_file"):
     hist = mean_counter()
     br = binrange(0.5, 6, 0.001)
     for frame in df.frames_index:
-        r_ij = []
         r_norm = []
 
         c_list = cell_list(df, frame, br.end)

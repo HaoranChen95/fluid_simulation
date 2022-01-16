@@ -23,7 +23,6 @@ class fluid_simulation : virtual public MD_simulation,
   fluid_simulation(const int argc, const char **argv);
   void relax();
   void implement();
-  ~fluid_simulation();
 };
 
 #endif  // FLUID_SIMULATION_HPP_
