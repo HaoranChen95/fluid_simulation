@@ -29,9 +29,8 @@ class position : virtual public box {
 
  public:
   void init_position();
-  double r_in_box(const uint64_t &i, const int &ax);
+  // double r_in_box(const uint64_t &i, const int &ax);
   double minium_image(const uint64_t &i, const uint64_t &j, const int &ax);
-  ~position();
 };
 
 #endif  // INITIALIZATION_POSITION_HPP_
