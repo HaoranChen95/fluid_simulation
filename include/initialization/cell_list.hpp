@@ -25,11 +25,13 @@ class cell_list : virtual protected position {
   uint64_t cell_of(const uint64_t &i, const int &ax);
   std::array<uint64_t, 3> neighbor_i(const uint64_t &i, const int &ax);
 
+ protected:
+  std::vector<std::vector<uint64_t>> cell_list_ij;
+
  public:
   void init_cell_list(const double &cell_size);
   void refresh_cell_list();
-  std::vector<std::vector<uint64_t>> cell_list_ij;
-//   std::vector<uint64_t> &neighbor_cell(const uint64_t &i);
+  //   std::vector<uint64_t> &neighbor_cell(const uint64_t &i);
 };
 
 #endif  // INITIALIZATION_CELL_LIST_HPP_

@@ -22,7 +22,7 @@
 #include "position.hpp"
 #include "cell_list.hpp"
 
-class force : virtual protected position , public cell_list {
+class force : virtual protected position , protected cell_list {
  private:
   double E_pot_;
   void LJ(uint64_t i, uint64_t j);
