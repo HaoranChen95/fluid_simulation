@@ -77,8 +77,6 @@ finish:
 double position::minium_image(const uint64_t &i, const uint64_t &j,
                               const int &ax) {
   double r_ij_ax = r[j][ax] - r[i][ax];
-  r_ij_ax -= l_b()[ax] * floor((r_ij_ax + half_l_b()[ax]) * inv_l_b()[ax]);
+  r_ij_ax -= l_b()[ax] * floor((r_ij_ax)*inv_l_b()[ax] + 0.5);
   return r_ij_ax;
 }
-
-position::~position() {}
